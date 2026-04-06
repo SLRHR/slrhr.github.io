@@ -28,6 +28,38 @@
         }
         .mono { font-family: 'JetBrains Mono', monospace; }
         
+        /* Cyber Background & Grid */
+        .bg-glow {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: 
+                radial-gradient(circle at 10% 20%, rgba(0, 255, 65, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 90% 80%, rgba(52, 152, 219, 0.08) 0%, transparent 50%);
+            z-index: -2;
+        }
+        .cyber-grid {
+            position: fixed;
+            inset: 0;
+            background-image: 
+                linear-gradient(rgba(0, 255, 65, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 65, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: -1;
+            pointer-events: none;
+        }
+        .mouse-glow {
+            position: fixed;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(0, 255, 65, 0.07) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: -1;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+
         .elegant-title {
             font-family: 'Pretendard Variable', Pretendard, sans-serif;
             font-weight: 700;
@@ -37,27 +69,13 @@
             -webkit-text-fill-color: transparent;
         }
 
-        .elegant-text {
-            font-family: 'Pretendard Variable', Pretendard, sans-serif;
-            font-weight: 300;
-            letter-spacing: -0.01em;
-        }
-
-        /* Modern Background */
-        .bg-glow {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: 
-                radial-gradient(circle at 10% 20%, rgba(0, 255, 65, 0.08) 0%, transparent 50%),
-                radial-gradient(circle at 90% 80%, rgba(52, 152, 219, 0.08) 0%, transparent 50%);
-            z-index: -1;
-        }
-
         .glass-card {
             background: var(--card-bg);
             backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.08);
             transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+            position: relative;
+            overflow: hidden;
         }
         .glass-card:hover {
             transform: translateY(-10px);
@@ -85,7 +103,7 @@
         }
 
         .nav-blur {
-            background: rgba(3, 3, 3, 0.9);
+            background: rgba(3, 3, 3, 0.8);
             backdrop-filter: blur(20px);
         }
 
@@ -95,8 +113,9 @@
             font-weight: 900;
             letter-spacing: -0.06em;
             color: #ffffff;
+            min-height: 1.8em;
         }
-        
+
         .btn-primary {
             background: var(--accent);
             color: black;
@@ -109,7 +128,6 @@
             letter-spacing: 0.05em;
         }
 
-        /* Photo - Remove Green Tint & Bleeding */
         .profile-container {
             position: relative;
             width: 100%;
@@ -127,18 +145,24 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            filter: contrast(1.05) brightness(1.05); /* Enhance clarity */
         }
         .profile-glow {
             position: absolute;
             inset: -20px;
-            background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(0,255,65,0.1) 0%, transparent 70%);
             z-index: -1;
+            animation: pulse 4s infinite alternate;
+        }
+        @keyframes pulse {
+            from { transform: scale(0.95); opacity: 0.5; }
+            to { transform: scale(1.05); opacity: 1; }
         }
     </style>
 </head>
 <body class="antialiased">
     <div class="bg-glow"></div>
+    <div class="cyber-grid"></div>
+    <div class="mouse-glow" id="mouse-glow"></div>
 
     <!-- Navigation -->
     <nav class="fixed w-full z-50 nav-blur border-b border-white/5 px-8 py-5">
@@ -148,8 +172,9 @@
             </a>
             <div class="hidden md:flex space-x-12 text-[10px] font-black uppercase tracking-[0.3em] text-dim">
                 <a href="#about" class="hover:text-white transition-colors">About</a>
+                <a href="#quals" class="hover:text-white transition-colors">Qualifications</a>
+                <a href="#programs" class="hover:text-white transition-colors">Programs</a>
                 <a href="#awards" class="hover:text-white transition-colors">Awards</a>
-                <a href="#experience" class="hover:text-white transition-colors">Experience</a>
                 <a href="#projects" class="hover:text-white transition-colors">Projects</a>
             </div>
         </div>
@@ -166,9 +191,7 @@
                     </span>
                     <span>SYSTEMS ONLINE // SECURITY RESEARCHER</span>
                 </div>
-                <h1 class="hero-title mb-8">
-                    SONG<br><span class="text-white/10">HYEONGROK</span>
-                </h1>
+                <h1 id="typewriter-name" class="hero-title mb-8"></h1>
                 <p class="text-xl md:text-2xl text-gray-400 mb-10 max-w-2xl leading-relaxed font-normal">
                     세명컴퓨터고등학교 보안과 3학년. 
                     <span class="text-white font-bold underline decoration-green-500 underline-offset-4">현대오토에버 화이트해커 양성교육</span> 수료 및 장학생. 
@@ -190,13 +213,15 @@
         </div>
     </section>
 
-    <!-- Certifications Section -->
-    <section id="certs" class="pt-40 pb-10 px-8">
+    <!-- Qualifications Section -->
+    <section id="quals" class="pt-40 pb-10 px-8">
         <div class="max-w-7xl mx-auto">
             <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-8">
                 <div>
                     <h2 class="text-xs font-black text-blue-500 uppercase tracking-[0.4em] mb-4 mono">/ Technical Licenses</h2>
-                    <h3 class="text-4xl md:text-5xl font-black tracking-tight text-white">Certifications</h3>
+                    <h3 class="text-4xl md:text-5xl font-black tracking-tight text-white">Qualifications</h3>
+                </div>
+            </div>
 
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <!-- ITQ OA Master -->
@@ -242,6 +267,52 @@
         </div>
     </section>
 
+    <!-- Programs Section -->
+    <section id="programs" class="py-20 px-8">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-8">
+                <div>
+                    <h2 class="text-xs font-black text-purple-500 uppercase tracking-[0.4em] mb-4 mono">/ Education & Programs</h2>
+                    <h3 class="text-4xl md:text-5xl font-black tracking-tight text-white">Training Programs</h3>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Hyundai AutoEver -->
+                <div class="glass-card p-8 rounded-[2rem] border-t-4 border-green-500 group">
+                    <div class="flex items-center space-x-4 mb-6">
+                        <div class="w-12 h-12 bg-green-500/10 rounded-xl flex items-center justify-center group-hover:bg-green-500 transition-colors duration-500">
+                            <i class="fas fa-user-shield text-green-500 text-xl group-hover:text-black transition-colors duration-500"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-xl elegant-title">현대오토에버 화이트해커 양성교육</h4>
+                            <p class="text-[10px] mono text-green-500/70 font-bold uppercase tracking-wider">2025.06 ~ 2025.11 (수료)</p>
+                        </div>
+                    </div>
+                    <p class="text-sm text-gray-400 elegant-text leading-relaxed">
+                        화이트해커 양성을 위한 차세대 보안 전문가 교육 과정 이수 및 실전 프로젝트 수행. (우수 교육생 선정 및 장학금 수여)
+                    </p>
+                </div>
+
+                <!-- Seoul Women's University -->
+                <div class="glass-card p-8 rounded-[2rem] border-t-4 border-purple-500 group">
+                    <div class="flex items-center space-x-4 mb-6">
+                        <div class="w-12 h-12 bg-purple-500/10 rounded-xl flex items-center justify-center group-hover:bg-purple-500 transition-colors duration-500">
+                            <i class="fas fa-graduation-cap text-purple-500 text-xl group-hover:text-black transition-colors duration-500"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-xl elegant-title">서울여대 AI정보보호 영재 교육원</h4>
+                            <p class="text-[10px] mono text-purple-500/70 font-bold uppercase tracking-wider">2026.04 ~ 현재 진행 중</p>
+                        </div>
+                    </div>
+                    <p class="text-sm text-gray-400 elegant-text leading-relaxed">
+                        인공지능(AI)과 정보보호 융합 기술 및 심화 보안 트랙 연구를 통한 차세대 보안 리더 과정 참여.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Awards Section -->
     <section id="awards" class="py-20 px-8">
         <div class="max-w-7xl mx-auto">
@@ -249,6 +320,8 @@
                 <div>
                     <h2 class="text-xs font-black text-green-500 uppercase tracking-[0.4em] mb-4 mono">/ TRACK RECORD</h2>
                     <h3 class="text-4xl md:text-5xl font-black tracking-tight text-white">Awards & Achievements</h3>
+                </div>
+            </div>
 
             <div class="grid lg:grid-cols-2 gap-20">
                 <!-- Academic & School Awards -->
@@ -395,37 +468,87 @@
     </section>
 
     <!-- Footer -->
-    <footer class="py-12 border-t border-white/10 px-6">
-        <div class="max-w-7xl mx-auto flex flex-col md:row justify-between items-center text-sm text-gray-500">
-            <p>© 2026 SONG HYEONGROK. All rights reserved.</p>
-            <div class="flex space-x-6 mt-4 md:mt-0">
-                <a href="#" class="hover:text-green-400 transition">GitHub</a>
-                <a href="#" class="hover:text-green-400 transition">Email</a>
-                <a href="#" class="hover:text-green-400 transition">Dreamhack</a>
+    <footer class="py-20 border-t border-white/10 px-8">
+        <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center text-sm text-gray-500">
+            <div>
+                <p class="mb-2 font-bold text-white">© 2026 SONG HYEONGROK.</p>
+                <p class="mono text-[10px] uppercase tracking-[0.2em] text-dim">Security Researcher</p>
+            </div>
+            <div class="flex flex-col md:items-end space-y-4">
+                <a href="mailto:songhr498@gmail.com" class="group flex items-center space-x-4 transition-all">
+                    <span class="mono text-[9px] font-black text-dim tracking-widest uppercase group-hover:text-green-500">Email</span>
+                    <span class="text-white font-medium border-b border-white/5 group-hover:border-green-500/50 pb-0.5">songhr498@gmail.com</span>
+                </a>
+                <a href="https://github.com/SLRHR" target="_blank" class="group flex items-center space-x-4 transition-all">
+                    <span class="mono text-[9px] font-black text-dim tracking-widest uppercase group-hover:text-green-500">GitHub</span>
+                    <span class="text-white font-medium border-b border-white/5 group-hover:border-green-500/50 pb-0.5">github.com/SLRHR</span>
+                </a>
+                <a href="https://dreamhack.io/users/81132" target="_blank" class="group flex items-center space-x-4 transition-all">
+                    <span class="mono text-[9px] font-black text-dim tracking-widest uppercase group-hover:text-green-500">Dreamhack</span>
+                    <span class="text-white font-medium border-b border-white/5 group-hover:border-green-500/50 pb-0.5">dreamhack.io/SLHR</span>
+                </a>
             </div>
         </div>
     </footer>
 
     <script>
-        window.addEventListener('scroll', () => {
-            const sections = document.querySelectorAll('section');
-            sections.forEach(section => {
-                const top = section.getBoundingClientRect().top;
-                if (top < window.innerHeight * 0.8) {
-                    section.classList.add('opacity-100');
-                    section.classList.remove('opacity-0');
-                    section.style.transform = 'translateY(0)';
+        // Mouse Glow
+        const mouseGlow = document.getElementById('mouse-glow');
+        window.addEventListener('mousemove', (e) => {
+            mouseGlow.style.opacity = '1';
+            mouseGlow.style.left = e.clientX + 'px';
+            mouseGlow.style.top = e.clientY + 'px';
+        });
+
+        // Typewriter Effect for Name (Looping)
+        const nameElement = document.getElementById('typewriter-name');
+        const fullText = "SONG HYEONGROK";
+        let currentIndex = 0;
+        let isDeleting = false;
+
+        function updateTypewriter() {
+            const currentText = fullText.substring(0, currentIndex);
+            
+            if (currentIndex <= 4) {
+                nameElement.innerHTML = currentText;
+            } else {
+                nameElement.innerHTML = `SONG<br><span class="text-white/10">${fullText.substring(5, currentIndex)}</span>`;
+            }
+
+            let nextSpeed = isDeleting ? 75 : 150;
+
+            if (!isDeleting && currentIndex === fullText.length) {
+                isDeleting = true;
+                nextSpeed = 5000; // Wait 7 seconds
+            } else if (isDeleting && currentIndex === 0) {
+                isDeleting = false;
+                nextSpeed = 1000; // 1 second pause before starting again
+            }
+
+            currentIndex += isDeleting ? -1 : 1;
+            setTimeout(updateTypewriter, nextSpeed);
+        }
+
+        // Start Typewriter immediately
+        window.addEventListener('DOMContentLoaded', updateTypewriter);
+
+        // Intersection Observer for Scroll Reveal
+        const observerOptions = { threshold: 0.1 };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('opacity-100');
+                    entry.target.classList.remove('opacity-0');
+                    entry.target.style.transform = 'translateY(0)';
                 }
             });
-        });
+        }, observerOptions);
 
         document.querySelectorAll('section').forEach(section => {
             section.classList.add('transition-all', 'duration-1000', 'opacity-0');
             section.style.transform = 'translateY(20px)';
+            observer.observe(section);
         });
-        
-        document.querySelector('#about').classList.remove('opacity-0');
-        document.querySelector('#about').style.transform = 'translateY(0)';
     </script>
 </body>
 </html>
