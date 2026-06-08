@@ -1,10 +1,945 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="ko">
 <head>
-  <meta charset="utf-8">
-  <title>SLHR</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>송형록 | Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;700&family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" />
+    <style>
+        :root {
+            --accent: #00ff41;
+            --accent-secondary: #3498db;
+            --bg: #030303;
+            --card-bg: rgba(15, 15, 15, 0.7);
+            --text-main: #ffffff;
+            --text-dim: #999999;
+        }
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            font-family: 'Pretendard Variable', Pretendard, 'Inter', 'Noto Sans KR', sans-serif;
+            scroll-behavior: smooth;
+            letter-spacing: -0.02em;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        .mono { font-family: 'JetBrains Mono', monospace; }
+        
+
+        .bg-glow {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: 
+                radial-gradient(circle at 10% 20%, rgba(0, 255, 65, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 90% 80%, rgba(52, 152, 219, 0.08) 0%, transparent 50%);
+            z-index: -2;
+        }
+        .cyber-grid {
+            position: fixed;
+            inset: 0;
+            background-image: 
+                linear-gradient(rgba(0, 255, 65, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 65, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: -1;
+            pointer-events: none;
+        }
+        .mouse-glow {
+            position: fixed;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(0, 255, 65, 0.07) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: -1;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+
+        .elegant-title {
+            font-family: 'Pretendard Variable', Pretendard, sans-serif;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            background: linear-gradient(to bottom right, #fff, #999);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .glass-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        .glass-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(0, 255, 65, 0.4);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
+        }
+
+        /* Timeline Styles */
+        .timeline-item {
+            position: relative;
+            padding-left: 2.5rem;
+            border-left: 1px solid rgba(255, 255, 255, 0.15);
+            margin-bottom: 2.5rem;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -6px;
+            top: 10px;
+            width: 11px;
+            height: 11px;
+            background: var(--accent);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--accent);
+        }
+
+        .nav-blur {
+            background: rgba(3, 3, 3, 0.8);
+            backdrop-filter: blur(20px);
+        }
+
+        .hero-title {
+            font-size: clamp(3.5rem, 10vw, 7rem);
+            line-height: 0.9;
+            font-weight: 900;
+            letter-spacing: -0.06em;
+            color: #ffffff;
+            min-height: 1.8em;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: black;
+            font-weight: 800;
+            padding: 1.1rem 2.5rem;
+            border-radius: 9999px;
+            transition: all 0.4s;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.05em;
+        }
+
+        .profile-container {
+            position: relative;
+            width: 100%;
+            max-width: 480px;
+        }
+        .profile-image-wrapper {
+            aspect-ratio: 1/1;
+            width: 100%;
+            overflow: hidden;
+            border-radius: 50%;
+            border: 4px solid rgba(255, 255, 255, 0.2);
+            background: #111;
+        }
+        .profile-image-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .profile-glow {
+            position: absolute;
+            inset: -20px;
+            background: radial-gradient(circle, rgba(0,255,65,0.1) 0%, transparent 70%);
+            z-index: -1;
+            animation: pulse 4s infinite alternate;
+        }
+        @keyframes pulse {
+            from { transform: scale(0.95); opacity: 0.5; }
+            to { transform: scale(1.05); opacity: 1; }
+        }
+
+     
+        html { scroll-behavior: smooth; }
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            width: 0%;
+            background: linear-gradient(90deg, var(--accent), var(--accent-secondary));
+            z-index: 9999;
+            box-shadow: 0 0 18px rgba(0, 255, 65, 0.7);
+            transition: width 0.08s linear;
+        }
+        .scanline-overlay {
+            position: fixed;
+            inset: 0;
+            background: linear-gradient(to bottom, transparent 0%, rgba(255,255,255,0.018) 50%, transparent 100%);
+            background-size: 100% 6px;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0.35;
+            mix-blend-mode: screen;
+        }
+        .nav-link {
+            position: relative;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -8px;
+            width: 0;
+            height: 1px;
+            background: var(--accent);
+            transition: width 0.3s ease;
+            box-shadow: 0 0 10px var(--accent);
+        }
+        .nav-link:hover::after,
+        .nav-link.active::after { width: 100%; }
+        .nav-link.active { color: white; }
+        .mobile-menu {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.35s ease;
+        }
+        .mobile-menu.open { max-height: 420px; }
+        .hero-terminal {
+            background: linear-gradient(145deg, rgba(0,255,65,0.08), rgba(255,255,255,0.03));
+            border: 1px solid rgba(0,255,65,0.18);
+            box-shadow: inset 0 0 35px rgba(0,255,65,0.035), 0 25px 80px rgba(0,0,0,0.45);
+        }
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 9999px;
+            background: var(--accent);
+            box-shadow: 0 0 12px var(--accent);
+        }
+        .stat-card {
+            background: rgba(255,255,255,0.045);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 1.25rem;
+            padding: 1.15rem;
+            transition: transform 0.35s ease, border-color 0.35s ease, background 0.35s ease;
+        }
+        .stat-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(0,255,65,0.35);
+            background: rgba(0,255,65,0.055);
+        }
+        .skill-pill {
+            border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.04);
+            border-radius: 9999px;
+            padding: 0.75rem 1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.55rem;
+            transition: all 0.3s ease;
+        }
+        .skill-pill:hover {
+            border-color: rgba(0,255,65,0.45);
+            transform: translateY(-3px);
+            background: rgba(0,255,65,0.08);
+        }
+        .project-action {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 1.5rem;
+            border-top: 1px solid rgba(255,255,255,0.08);
+            padding-top: 1rem;
+            color: rgba(255,255,255,0.75);
+            font-size: 0.7rem;
+            font-weight: 900;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+        .project-card { cursor: pointer; }
+        .project-card:hover .project-action { color: var(--accent); }
+        .quick-dock {
+            position: fixed;
+            right: 22px;
+            bottom: 22px;
+            z-index: 60;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .dock-btn,
+        .back-top {
+            width: 46px;
+            height: 46px;
+            border-radius: 9999px;
+            display: grid;
+            place-items: center;
+            background: rgba(10,10,10,0.78);
+            border: 1px solid rgba(255,255,255,0.12);
+            backdrop-filter: blur(16px);
+            color: white;
+            transition: all 0.3s ease;
+        }
+        .dock-btn:hover,
+        .back-top:hover {
+            transform: translateY(-4px);
+            border-color: rgba(0,255,65,0.5);
+            color: var(--accent);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.45);
+        }
+        .back-top {
+            opacity: 0;
+            pointer-events: none;
+        }
+        .back-top.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .modal-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.72);
+            backdrop-filter: blur(12px);
+            z-index: 80;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        .modal-backdrop.open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .modal-panel {
+            transform: translateY(24px) scale(0.96);
+            transition: transform 0.3s ease;
+        }
+        .modal-backdrop.open .modal-panel {
+            transform: translateY(0) scale(1);
+        }
+        .toast {
+            position: fixed;
+            left: 50%;
+            bottom: 28px;
+            transform: translateX(-50%) translateY(20px);
+            opacity: 0;
+            z-index: 100;
+            transition: all 0.25s ease;
+            pointer-events: none;
+        }
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+        @media (max-width: 768px) {
+            .quick-dock { right: 14px; bottom: 14px; }
+            .dock-btn, .back-top { width: 42px; height: 42px; }
+            .scanline-overlay { opacity: 0.18; }
+        }
+
+    </style>
 </head>
-<body>
-  <h1>slhr.info works</h1>
+<body class="antialiased">
+    <div class="scroll-progress" id="scroll-progress"></div>
+    <div class="bg-glow"></div>
+    <div class="cyber-grid"></div>
+    <div class="scanline-overlay"></div>
+    <div class="mouse-glow" id="mouse-glow"></div>
+
+
+    <nav class="fixed w-full z-50 nav-blur border-b border-white/5 px-6 md:px-8 py-5">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <a href="#about" class="text-xl font-black mono tracking-tighter text-white" aria-label="홈으로 이동">
+                SHR<span class="text-green-500">_</span>SEC
+            </a>
+            <div class="hidden md:flex space-x-12 text-[10px] font-black uppercase tracking-[0.3em] text-dim">
+                <a href="#about" class="nav-link hover:text-white transition-colors">About</a>
+                <a href="#focus" class="nav-link hover:text-white transition-colors">Focus</a>
+                <a href="#quals" class="nav-link hover:text-white transition-colors">Qualifications</a>
+                <a href="#programs" class="nav-link hover:text-white transition-colors">Programs</a>
+                <a href="#awards" class="nav-link hover:text-white transition-colors">Awards</a>
+                <a href="#projects" class="nav-link hover:text-white transition-colors">Projects</a>
+            </div>
+            <div class="hidden md:flex items-center gap-3">
+                <button id="copy-email" class="px-4 py-2 rounded-full border border-white/10 text-[10px] font-black uppercase tracking-widest text-white hover:border-green-500/50 hover:text-green-500 transition-all" type="button">
+                    Copy Email
+                </button>
+                <a href="https://mail.google.com/mail/?view=cm&fs=1&to=songhr498%40gmail.com" target="_blank" rel="noopener noreferrer" class="px-4 py-2 rounded-full bg-green-500 text-black text-[10px] font-black uppercase tracking-widest hover:bg-white transition-all">
+                    Contact
+                </a>
+            </div>
+            <button id="mobile-toggle" class="md:hidden w-10 h-10 rounded-full border border-white/10 text-white" type="button" aria-label="모바일 메뉴 열기">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+        <div id="mobile-menu" class="mobile-menu md:hidden max-w-7xl mx-auto">
+            <div class="pt-5 pb-2 space-y-3 text-xs font-black uppercase tracking-[0.25em] text-dim">
+                <a href="#about" class="mobile-nav-link block py-3 border-b border-white/5 hover:text-white">About</a>
+                <a href="#quals" class="mobile-nav-link block py-3 border-b border-white/5 hover:text-white">Qualifications</a>
+                <a href="#programs" class="mobile-nav-link block py-3 border-b border-white/5 hover:text-white">Programs</a>
+                <a href="#awards" class="mobile-nav-link block py-3 border-b border-white/5 hover:text-white">Awards</a>
+                <a href="#projects" class="mobile-nav-link block py-3 border-b border-white/5 hover:text-white">Projects</a>
+                <a href="https://mail.google.com/mail/?view=cm&fs=1&to=songhr498%40gmail.com" target="_blank" rel="noopener noreferrer" class="block py-3 text-green-500">Gmail Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    
+    <section id="about" class="min-h-screen flex items-center justify-center pt-32 pb-20 px-8">
+        <div class="max-w-7xl w-full grid lg:grid-cols-12 gap-16 items-center">
+            <div class="lg:col-span-7">
+                <div class="inline-flex items-center space-x-3 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-green-500 text-[10px] font-bold mb-8 mono">
+                    <span class="relative flex h-2 w-2">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                    </span>
+                    <span>SYSTEMS ONLINE // SECURITY RESEARCHER</span>
+                </div>
+                <h1 id="typewriter-name" class="hero-title mb-8"></h1>
+                <p class="text-xl md:text-2xl text-gray-400 mb-10 max-w-2xl leading-relaxed font-normal">
+                    안녕하세요.  
+                    <span class="text-white font-bold underline decoration-green-500 underline-offset-4">세명컴퓨터고등학교 보안과 3학년</span> 송형록 입니다.
+                    저는 차세대 보안 리더로써 현대오토에버에서 주최하는 화이트해커 양성교육 선발, 현재 서울여대 AI 정보보호 영재교육원에 최종 합격하여 교육을 받고 있습니다.
+                </p>
+                <div class="hero-terminal rounded-[2rem] p-5 md:p-6 mt-10 max-w-2xl">
+                    <div class="flex items-center justify-between mb-5">
+                        <div class="flex items-center gap-2 mono text-[10px] text-green-500 font-bold tracking-widest uppercase">
+                            <span class="status-dot"></span>
+                            <span>profile.metrics</span>
+                        </div>
+                        <span class="mono text-[10px] text-gray-500">LIVE</span>
+                    </div>
+                    <div class="grid grid-cols-3 gap-3">
+                        <div class="stat-card">
+                            <p class="mono text-[10px] text-gray-500 uppercase tracking-widest">CTF 참가</p>
+                            <p class="text-lg md:text-xl font-black text-white mt-1"><span id="ctf-count" data-target="0">0</span>회</p>
+                        </div>
+                        <div class="stat-card">
+                            <p class="mono text-[10px] text-gray-500 uppercase tracking-widest">Mode</p>
+                            <p class="text-lg md:text-xl font-black text-white mt-1">SOLO</p>
+                        </div>
+                        <div class="stat-card">
+                            <p class="mono text-[10px] text-gray-500 uppercase tracking-widest">Track</p>
+                            <p class="text-lg md:text-xl font-black text-white mt-1">AI SEC</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="lg:col-span-5 flex justify-center">
+                <div class="profile-container group">
+                    <div class="profile-glow"></div>
+                    <div class="profile-image-wrapper">
+                        <img src="back.png" alt="송형록" class="w-full h-full object-cover">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <section id="quals" class="pt-40 pb-10 px-8">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-8">
+                <div>
+                    <h2 class="text-xs font-black text-blue-500 uppercase tracking-[0.4em] mb-4 mono">/ Technical Licenses</h2>
+                    <h3 class="text-4xl md:text-5xl font-black tracking-tight text-white">Qualifications</h3>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- ITQ OA Master -->
+                <div class="glass-card p-8 rounded-[2rem] border-t-4 border-blue-500 group">
+                    <div class="flex items-center space-x-4 mb-6">
+                        <div class="w-12 h-12 bg-blue-500/10 rounded-xl flex items-center justify-center group-hover:bg-blue-500 transition-colors duration-500">
+                            <i class="fas fa-file-contract text-blue-500 text-xl group-hover:text-black transition-colors duration-500"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-xl elegant-title">ITQ OA Master</h4>
+                            <p class="text-[10px] mono text-blue-500/70 font-bold uppercase tracking-wider">KPC 한국생산성본부</p>
+                        </div>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="flex items-center text-sm text-gray-400 elegant-text">
+                            <i class="fas fa-check-circle text-blue-500/50 mr-2 text-[10px]"></i> ITQ 아래한글 (Grade A)
+                        </div>
+                        <div class="flex items-center text-sm text-gray-400 elegant-text">
+                            <i class="fas fa-check-circle text-blue-500/50 mr-2 text-[10px]"></i> ITQ 한글엑셀 (Grade A)
+                        </div>
+                        <div class="flex items-center text-sm text-gray-400 elegant-text">
+                            <i class="fas fa-check-circle text-blue-500/50 mr-2 text-[10px]"></i> ITQ 한글파워포인트 (Grade A)
+                        </div>
+                    </div>
+                </div>
+
+            
+                <div class="glass-card p-8 rounded-[2rem] border-t-4 border-white/20 group">
+                    <div class="flex items-center space-x-4 mb-6">
+                        <div class="w-12 h-12 bg-white/5 rounded-xl flex items-center justify-center group-hover:bg-white transition-colors duration-500">
+                            <i class="fas fa-desktop text-white/50 text-xl group-hover:text-black transition-colors duration-500"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-xl elegant-title">컴퓨터활용능력 2급</h4>
+                            <p class="text-[10px] mono text-gray-500 font-bold uppercase tracking-wider">대한상공회의소</p>
+                        </div>
+                    </div>
+                    <div class="inline-flex items-center px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-[10px] font-bold text-gray-400 uppercase tracking-widest elegant-text">
+                        필기시험 합격
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Programs Section -->
+    <section id="programs" class="py-20 px-8">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-8">
+                <div>
+                    <h2 class="text-xs font-black text-purple-500 uppercase tracking-[0.4em] mb-4 mono">/ Education & Programs</h2>
+                    <h3 class="text-4xl md:text-5xl font-black tracking-tight text-white">Training Programs</h3>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Hyundai AutoEver -->
+                <div class="glass-card p-8 rounded-[2rem] border-t-4 border-green-500 group">
+                    <div class="flex items-center space-x-4 mb-6">
+                        <div class="w-12 h-12 bg-green-500/10 rounded-xl flex items-center justify-center group-hover:bg-green-500 transition-colors duration-500">
+                            <i class="fas fa-user-shield text-green-500 text-xl group-hover:text-black transition-colors duration-500"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-xl elegant-title">현대오토에버 화이트해커 양성교육</h4>
+                            <p class="text-[10px] mono text-green-500/70 font-bold uppercase tracking-wider">2025.06 ~ 2025.11 (수료)</p>
+                        </div>
+                    </div>
+                    <p class="text-sm text-gray-400 elegant-text leading-relaxed">
+                        화이트해커 양성을 위한 차세대 보안 전문가 교육 과정 이수 및 실전 프로젝트 수행. (우수 교육생 선정 및 장학금 수여)
+                    </p>
+                </div>
+
+                <!-- Seoul Women's University -->
+                <div class="glass-card p-8 rounded-[2rem] border-t-4 border-purple-500 group">
+                    <div class="flex items-center space-x-4 mb-6">
+                        <div class="w-12 h-12 bg-purple-500/10 rounded-xl flex items-center justify-center group-hover:bg-purple-500 transition-colors duration-500">
+                            <i class="fas fa-graduation-cap text-purple-500 text-xl group-hover:text-black transition-colors duration-500"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-xl elegant-title">서울여대 AI정보보호 영재 교육원</h4>
+                            <p class="text-[10px] mono text-purple-500/70 font-bold uppercase tracking-wider">2026.04 ~ 현재 진행 중</p>
+                        </div>
+                    </div>
+                    <p class="text-sm text-gray-400 elegant-text leading-relaxed">
+                        인공지능(AI)과 정보보호 융합 기술 및 심화 보안 트랙 연구를 통한 차세대 보안 리더 과정 참여.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Awards Section -->
+    <section id="awards" class="py-20 px-8">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-24 gap-8">
+                <div>
+                    <h2 class="text-xs font-black text-green-500 uppercase tracking-[0.4em] mb-4 mono">/ TRACK RECORD</h2>
+                    <h3 class="text-4xl md:text-5xl font-black tracking-tight text-white">Awards & Achievements</h3>
+                </div>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-20">
+                <!-- Academic & School Awards -->
+                <div>
+                    <h4 class="text-lg font-black mb-12 flex items-center text-white tracking-widest uppercase">
+                        <span class="w-10 h-0.5 bg-green-500 mr-5"></span> Academic Honors
+                    </h4>
+                    <div class="space-y-2">
+                        <div class="timeline-item">
+                            <span class="text-[10px] mono text-green-500/70 font-bold mb-1 block uppercase">1학년 2학기</span>
+                            <h5 class="text-lg elegant-title mb-0.5">교과 우수상 (체육)</h5>
+                            <p class="text-sm text-gray-500 elegant-text">우수한 성적과 성실한 태도로 교내 성취도 입증</p>
+                        </div>
+                        <div class="timeline-item">
+                            <span class="text-[10px] mono text-green-500/70 font-bold mb-1 block uppercase">2학년 1학기</span>
+                            <h5 class="text-lg elegant-title mb-0.5">생명존중 글짓기 대회 우수 (2위)</h5>
+                            <p class="text-sm text-gray-500 elegant-text">논리적인 서술 능력과 인문학적 소양 인정</p>
+                        </div>
+                        <div class="timeline-item">
+                            <span class="text-[10px] mono text-green-500/70 font-bold mb-1 block uppercase">2학년 2학기</span>
+                            <h5 class="text-lg elegant-title mb-0.5">스마트보안솔루션 경진대회 동상 (3위)</h5>
+                            <p class="text-sm text-gray-500 elegant-text">전공 실무 능력 및 보안 솔루션 설계 역량 증명</p>
+                        </div>
+                        <div class="timeline-item">
+                            <span class="text-[10px] mono text-green-500/70 font-bold mb-1 block uppercase">2학년 2학기</span>
+                            <h5 class="text-lg elegant-title mb-0.5">자격증 인증제 동상 (3위)</h5>
+                            <p class="text-sm text-gray-500 elegant-text">전문 지식 확보를 위한 끊임없는 노력</p>
+                        </div>
+                        <div class="timeline-item">
+                            <span class="text-[10px] mono text-green-500/70 font-bold mb-1 block uppercase">2학년 2학기</span>
+                            <h5 class="text-lg elegant-title mb-0.5">교과 우수상 (체육)</h5>
+                            <p class="text-sm text-gray-500 elegant-text">자기 관리 역량과 꾸준한 성실함</p>
+                        </div>
+                        <div class="timeline-item">
+                            <span class="text-[10px] mono text-green-500/70 font-bold mb-1 block uppercase">2학년 2학기</span>
+                            <h5 class="text-lg elegant-title mb-0.5">선행상 수상</h5>
+                            <p class="text-sm text-gray-500 elegant-text">모범적인 인성과 타의 귀감이 되는 태도</p>
+                        </div>
+                        <div class="timeline-item">
+                            <span class="text-[10px] mono text-green-500/70 font-bold mb-1 block uppercase">3학년 1학기</span>
+                            <h5 class="text-lg elegant-title mb-0.5">생명존중 글짓기 대회 우수상</h5>
+                            <p class="text-sm text-gray-500 elegant-text">지속적인 서술 역량과 생명존중 가치에 대한 깊이 있는 이해 입증</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- External & CTF -->
+                <div>
+                    <h4 class="text-lg font-black mb-12 flex items-center text-white tracking-widest uppercase">
+                        <span class="w-10 h-0.5 bg-blue-500 mr-5"></span> CTF & External
+                    </h4>
+                    <div id="ctf-external-list" class="space-y-6">
+                        <div class="glass-card ctf-external-card p-8 rounded-3xl border-l-4 border-green-500">
+                            <div class="flex justify-between items-center mb-5">
+                                <span class="bg-green-500/10 text-green-500 text-[9px] font-black px-3 py-1 rounded-full mono tracking-widest">HYUNDAI AUTOEVER</span>
+                                <span class="mono text-xs font-bold text-white tracking-tight">CTF 입상 / 장학생</span>
+                            </div>
+                            <h5 class="text-xl elegant-title mb-2">현대오토에버 화이트해커 양성교육</h5>
+                            <p class="text-sm text-gray-400 elegant-text leading-relaxed">CTF 대회 입상 및 전 과정 우수 교육생 선정 (장학증서 수여).</p>
+                        </div>
+
+                        <div class="glass-card ctf-external-card p-8 rounded-3xl border-l-4 border-cyan-400">
+                            <div class="flex justify-between items-center mb-5">
+                                <span class="bg-cyan-400/10 text-cyan-400 text-[9px] font-black px-3 py-1 rounded-full mono tracking-widest">INTERNATIONAL CTF</span>
+                                <span class="mono text-xs font-bold text-white tracking-tight">SOLO 25th / Top 20%</span>
+                            </div>
+                            <h5 class="text-xl elegant-title mb-2">Grey Cat CTF</h5>
+                            <p class="text-sm text-gray-400 elegant-text leading-relaxed">해외 CTF에 솔로 참가하여 전체 25등 및 상위 20% 기록.</p>
+                        </div>
+
+                        <div class="glass-card ctf-external-card p-8 rounded-3xl border-l-4 border-yellow-500">
+                            <div class="flex justify-between items-center mb-5">
+                                <span class="bg-yellow-500/10 text-yellow-500 text-[9px] font-black px-3 py-1 rounded-full mono tracking-widest">DREAMHACK</span>
+                                <span class="mono text-xs font-bold text-white tracking-tight">12th Place</span>
+                            </div>
+                            <h5 class="text-xl elegant-title mb-2">WaRP vs s0sCoD3 CTF</h5>
+                            <p class="text-sm text-gray-400 elegant-text leading-relaxed">실전 취약점 분석 및 익스플로잇 설계 역량 입증.</p>
+                        </div>
+
+                        <div class="glass-card ctf-external-card p-8 rounded-3xl border-l-4 border-orange-500">
+                            <div class="flex justify-between items-center mb-5">
+                                <span class="bg-orange-500/10 text-orange-500 text-[9px] font-black px-3 py-1 rounded-full mono tracking-widest">DREAMHACK</span>
+                                <span class="mono text-xs font-bold text-white tracking-tight">25th Place</span>
+                            </div>
+                            <h5 class="text-xl elegant-title mb-2">제1회 감귤 CTF</h5>
+                            <p class="text-sm text-gray-400 elegant-text leading-relaxed">다양한 환경의 문제 해결을 통한 실전 역량 강화.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="py-32 bg-white/[0.02] px-8">
+        <div class="max-w-7xl mx-auto">
+            <h3 class="text-4xl md:text-5xl font-black mb-20">Security Projects</h3>
+            
+            <div class="grid md:grid-cols-2 gap-10">
+                <div class="glass-card project-card p-10 rounded-[40px] flex flex-col group" role="button" tabindex="0" data-title="WEB mini-IDS" data-desc="실시간 웹 트래픽을 분석하고 공격 패턴을 시각화하는 미니 IDS 프로젝트입니다. Python/PySide6 기반으로 탐지 흐름과 대시보드 구성을 강조합니다." data-stack="PYTHON · PYSIDE6 · TRAFFIC ANALYSIS">
+                    <div class="mb-8">
+                        <div class="w-14 h-14 bg-green-500/10 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-green-500 transition-colors duration-500">
+                            <i class="fas fa-shield-virus text-green-500 text-2xl group-hover:text-black transition-colors duration-500"></i>
+                        </div>
+                        <h4 class="text-2xl font-bold mb-4">WEB mini-IDS</h4>
+                        <p class="text-gray-400 leading-relaxed">지능형 웹 공격 탐지 시스템. 실시간 트래픽 분석 및 시각화 대시보드 포함.</p>
+                    </div>
+                    <div class="mt-auto flex gap-3 flex-wrap">
+                        <span class="text-[10px] font-bold mono bg-white/5 px-3 py-1 rounded-full text-dim">PYTHON</span>
+                        <span class="text-[10px] font-bold mono bg-white/5 px-3 py-1 rounded-full text-dim">PYSIDE6</span>
+                    </div>
+                    <div class="project-action mono">View Details <i class="fas fa-arrow-right"></i></div>
+                </div>
+
+                <div class="glass-card project-card p-10 rounded-[40px] flex flex-col group" role="button" tabindex="0" data-title="비밀번호 강도 분석기" data-desc="엔트로피 계산과 크래킹 시뮬레이션을 통해 비밀번호 강도를 정량화하는 보안 도구입니다. 사용자에게 위험도를 직관적으로 보여주는 구조를 목표로 합니다." data-stack="FLASK · ALGORITHM · ENTROPY">
+                    <div class="mb-8">
+                        <div class="w-14 h-14 bg-blue-500/10 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-blue-500 transition-colors duration-500">
+                            <i class="fas fa-key text-blue-500 text-2xl group-hover:text-black transition-colors duration-500"></i>
+                        </div>
+                        <h4 class="text-2xl font-bold mb-4">비밀번호 강도 분석기</h4>
+                        <p class="text-gray-400 leading-relaxed">수학적 엔트로피 기반 보안 강도 계산 및 크래킹 시뮬레이션 도구.</p>
+                    </div>
+                    <div class="mt-auto flex gap-3 flex-wrap">
+                        <span class="text-[10px] font-bold mono bg-white/5 px-3 py-1 rounded-full text-dim">FLASK</span>
+                        <span class="text-[10px] font-bold mono bg-white/5 px-3 py-1 rounded-full text-dim">ALGORITHM</span>
+                    </div>
+                    <div class="project-action mono">View Details <i class="fas fa-arrow-right"></i></div>
+                </div>
+
+                <div class="glass-card project-card p-10 rounded-[40px] flex flex-col group" role="button" tabindex="0" data-title="SMC 포털 피싱 (XSS)" data-desc="교내 포털 환경에서 XSS 시나리오를 구성하고, 취약점 영향도를 시연한 웹 보안 분석 프로젝트입니다. 실제 공격보다 방어 관점의 위협 증명에 초점을 둡니다." data-stack="WEB SECURITY · XSS · THREAT MODELING">
+                    <div class="mb-8">
+                        <div class="w-14 h-14 bg-red-500/10 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-red-500 transition-colors duration-500">
+                            <i class="fas fa-user-secret text-red-500 text-2xl group-hover:text-black transition-colors duration-500"></i>
+                        </div>
+                        <h4 class="text-2xl font-bold mb-4">SMC 포털 피싱 (XSS)</h4>
+                        <p class="text-gray-400 leading-relaxed">교내 포털 사이트 취약점 분석 및 XSS 시나리오 시연을 통한 위협 증명.</p>
+                    </div>
+                    <div class="mt-auto flex gap-3 flex-wrap">
+                        <span class="text-[10px] font-bold mono bg-white/5 px-3 py-1 rounded-full text-dim">WEB_SECURITY</span>
+                        <span class="text-[10px] font-bold mono bg-white/5 px-3 py-1 rounded-full text-dim">XSS_PAYLOAD</span>
+                    </div>
+                    <div class="project-action mono">View Details <i class="fas fa-arrow-right"></i></div>
+                </div>
+
+                <div class="glass-card project-card p-10 rounded-[40px] flex flex-col group" role="button" tabindex="0" data-title="댓글 검열 도구 (Brute Force)" data-desc="인증 로직 허점과 자동화 처리 구조를 분석한 프로젝트입니다. 멀티스레딩을 활용한 속도 개선과 보안상 위험 설명을 함께 담습니다." data-stack="AUTOMATION · MULTI THREAD · LOGIC BUG">
+                    <div class="mb-8">
+                        <div class="w-14 h-14 bg-purple-500/10 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-purple-500 transition-colors duration-500">
+                            <i class="fas fa-trash-alt text-purple-500 text-2xl group-hover:text-black transition-colors duration-500"></i>
+                        </div>
+                        <h4 class="text-2xl font-bold mb-4">댓글 검열 도구 (Brute Force)</h4>
+                        <p class="text-gray-400 leading-relaxed">인증 로직 허점을 이용한 자동화 도구. 멀티스레딩 고속 처리 지원.</p>
+                    </div>
+                    <div class="mt-auto flex gap-3 flex-wrap">
+                        <span class="text-[10px] font-bold mono bg-white/5 px-3 py-1 rounded-full text-dim">AUTOMATION</span>
+                        <span class="text-[10px] font-bold mono bg-white/5 px-3 py-1 rounded-full text-dim">MULTI_THREAD</span>
+                    </div>
+                    <div class="project-action mono">View Details <i class="fas fa-arrow-right"></i></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Floating Contact Dock -->
+    <div class="quick-dock" aria-label="빠른 링크">
+        <a class="dock-btn" href="https://mail.google.com/mail/?view=cm&fs=1&to=songhr498%40gmail.com" target="_blank" rel="noopener noreferrer" aria-label="Gmail 작성창 열기"><i class="fas fa-envelope"></i></a>
+        <a class="dock-btn" href="https://github.com/SLRHR" target="_blank" rel="noopener noreferrer" aria-label="GitHub 열기"><i class="fab fa-github"></i></a>
+        <button class="back-top" id="back-top" type="button" aria-label="맨 위로 이동"><i class="fas fa-arrow-up"></i></button>
+    </div>
+
+    <!-- Project Detail Modal -->
+    <div id="project-modal" class="modal-backdrop px-6 flex items-center justify-center">
+        <div class="modal-panel glass-card rounded-[2rem] p-8 max-w-xl w-full">
+            <div class="flex items-start justify-between gap-6 mb-6">
+                <div>
+                    <p class="mono text-[10px] text-green-500 font-black tracking-[0.3em] uppercase mb-3">Project Detail</p>
+                    <h4 id="modal-title" class="text-2xl md:text-3xl font-black text-white"></h4>
+                </div>
+                <button id="modal-close" type="button" class="w-10 h-10 rounded-full border border-white/10 text-white hover:text-green-500 hover:border-green-500/50 transition-all" aria-label="프로젝트 상세 닫기"><i class="fas fa-times"></i></button>
+            </div>
+            <p id="modal-desc" class="text-gray-400 leading-relaxed mb-6"></p>
+            <div class="rounded-2xl bg-black/30 border border-white/10 p-4">
+                <p class="mono text-[10px] text-gray-500 uppercase tracking-widest mb-2">Stack</p>
+                <p id="modal-stack" class="mono text-sm text-green-500 font-bold"></p>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast" class="toast rounded-full bg-black/80 border border-green-500/30 px-5 py-3 text-sm text-white shadow-2xl backdrop-blur-xl">
+        이메일 주소가 복사되었습니다.
+    </div>
+
+    <!-- Footer -->
+    <footer class="py-20 border-t border-white/10 px-8">
+        <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center text-sm text-gray-500">
+            <div>
+                <p class="mb-2 font-bold text-white">© 2026 SONG HYEONGROK.</p>
+                <p class="mono text-[10px] uppercase tracking-[0.2em] text-dim">Security Researcher</p>
+            </div>
+            <div class="flex flex-col md:items-end space-y-4">
+                <a href="https://mail.google.com/mail/?view=cm&fs=1&to=songhr498%40gmail.com" target="_blank" rel="noopener noreferrer" class="group flex items-center space-x-4 transition-all" aria-label="Gmail로 송형록에게 이메일 보내기">
+                    <span class="mono text-[9px] font-black text-dim tracking-widest uppercase group-hover:text-green-500">Gmail</span>
+                    <span class="text-white font-medium border-b border-white/5 group-hover:border-green-500/50 pb-0.5">songhr498@gmail.com</span>
+                </a>
+                <a href="https://github.com/SLRHR" target="_blank" class="group flex items-center space-x-4 transition-all">
+                    <span class="mono text-[9px] font-black text-dim tracking-widest uppercase group-hover:text-green-500">GitHub</span>
+                    <span class="text-white font-medium border-b border-white/5 group-hover:border-green-500/50 pb-0.5">github.com/SLRHR</span>
+                </a>
+                <a href="https://dreamhack.io/users/81132" target="_blank" class="group flex items-center space-x-4 transition-all">
+                    <span class="mono text-[9px] font-black text-dim tracking-widest uppercase group-hover:text-green-500">Dreamhack</span>
+                    <span class="text-white font-medium border-b border-white/5 group-hover:border-green-500/50 pb-0.5">dreamhack.io/SLHR</span>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const EMAIL = 'songhr498@gmail.com';
+
+        // Mouse Glow
+        const mouseGlow = document.getElementById('mouse-glow');
+        window.addEventListener('mousemove', (e) => {
+            mouseGlow.style.opacity = '1';
+            mouseGlow.style.left = e.clientX + 'px';
+            mouseGlow.style.top = e.clientY + 'px';
+        });
+
+        // Scroll Progress + Back Top
+        const scrollProgress = document.getElementById('scroll-progress');
+        const backTop = document.getElementById('back-top');
+        function updateScrollUi() {
+            const scrollTop = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+            scrollProgress.style.width = progress + '%';
+            backTop.classList.toggle('visible', scrollTop > 600);
+        }
+        window.addEventListener('scroll', updateScrollUi, { passive: true });
+        backTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+        updateScrollUi();
+
+        // Mobile Menu
+        const mobileToggle = document.getElementById('mobile-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileToggle.addEventListener('click', () => {
+            mobileMenu.classList.toggle('open');
+            const icon = mobileToggle.querySelector('i');
+            icon.classList.toggle('fa-bars');
+            icon.classList.toggle('fa-times');
+        });
+        document.querySelectorAll('.mobile-nav-link').forEach(link => {
+            link.addEventListener('click', () => mobileMenu.classList.remove('open'));
+        });
+
+        // Copy Email Toast
+        const toast = document.getElementById('toast');
+        function showToast(message) {
+            toast.textContent = message;
+            toast.classList.add('show');
+            clearTimeout(window.__toastTimer);
+            window.__toastTimer = setTimeout(() => toast.classList.remove('show'), 1800);
+        }
+        const copyBtn = document.getElementById('copy-email');
+        if (copyBtn) {
+            copyBtn.addEventListener('click', async () => {
+                try {
+                    await navigator.clipboard.writeText(EMAIL);
+                    showToast('이메일 주소가 복사되었습니다.');
+                } catch (err) {
+                    showToast(EMAIL);
+                }
+            });
+        }
+
+        // Typewriter Effect for Name (Looping)
+        const nameElement = document.getElementById('typewriter-name');
+        const fullText = "SONG HYEONGROK";
+        let currentIndex = 0;
+        let isDeleting = false;
+
+        function updateTypewriter() {
+            const currentText = fullText.substring(0, currentIndex);
+            if (currentIndex <= 4) {
+                nameElement.innerHTML = currentText;
+            } else {
+                nameElement.innerHTML = `SONG<br><span class="text-white/10">${fullText.substring(5, currentIndex)}</span>`;
+            }
+
+            let nextSpeed = isDeleting ? 75 : 150;
+            if (!isDeleting && currentIndex === fullText.length) {
+                isDeleting = true;
+                nextSpeed = 5000;
+            } else if (isDeleting && currentIndex === 0) {
+                isDeleting = false;
+                nextSpeed = 1000;
+            }
+
+            currentIndex += isDeleting ? -1 : 1;
+            setTimeout(updateTypewriter, nextSpeed);
+        }
+        window.addEventListener('DOMContentLoaded', updateTypewriter);
+
+        // Intersection Observer for Scroll Reveal + Active Nav
+        const observerOptions = { threshold: 0.1 };
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('opacity-100');
+                    entry.target.classList.remove('opacity-0');
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('section').forEach(section => {
+            section.classList.add('transition-all', 'duration-1000', 'opacity-0');
+            section.style.transform = 'translateY(20px)';
+            revealObserver.observe(section);
+        });
+
+        const navLinks = [...document.querySelectorAll('.nav-link')];
+        const sectionObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    navLinks.forEach(link => {
+                        link.classList.toggle('active', link.getAttribute('href') === `#${entry.target.id}`);
+                    });
+                }
+            });
+        }, { rootMargin: '-35% 0px -55% 0px', threshold: 0.01 });
+        document.querySelectorAll('section[id]').forEach(section => sectionObserver.observe(section));
+
+        // CTF participation counter
+        const ctfCountEl = document.getElementById('ctf-count');
+        const ctfCards = document.querySelectorAll('#ctf-external-list .ctf-external-card');
+        if (ctfCountEl) {
+            ctfCountEl.dataset.target = String(ctfCards.length);
+            ctfCountEl.textContent = '0';
+
+            const animateCounter = (element, target) => {
+                const duration = 1200;
+                const startTime = performance.now();
+                const tick = (now) => {
+                    const progress = Math.min((now - startTime) / duration, 1);
+                    const eased = 1 - Math.pow(1 - progress, 3);
+                    element.textContent = String(Math.round(eased * target));
+                    if (progress < 1) requestAnimationFrame(tick);
+                    else element.textContent = String(target);
+                };
+                requestAnimationFrame(tick);
+            };
+
+            const counterObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting && !ctfCountEl.dataset.counted) {
+                        ctfCountEl.dataset.counted = 'true';
+                        animateCounter(ctfCountEl, ctfCards.length);
+                    }
+                });
+            }, { threshold: 0.35 });
+
+            counterObserver.observe(ctfCountEl.closest('.hero-terminal'));
+        }
+
+        // Project Detail Modal
+        const modal = document.getElementById('project-modal');
+        const modalTitle = document.getElementById('modal-title');
+        const modalDesc = document.getElementById('modal-desc');
+        const modalStack = document.getElementById('modal-stack');
+        const modalClose = document.getElementById('modal-close');
+
+        function openProjectModal(card) {
+            modalTitle.textContent = card.dataset.title || 'Project';
+            modalDesc.textContent = card.dataset.desc || '';
+            modalStack.textContent = card.dataset.stack || '';
+            modal.classList.add('open');
+        }
+        function closeProjectModal() {
+            modal.classList.remove('open');
+        }
+        document.querySelectorAll('.project-card').forEach(card => {
+            card.addEventListener('click', () => openProjectModal(card));
+            card.addEventListener('keydown', (event) => {
+                if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault();
+                    openProjectModal(card);
+                }
+            });
+        });
+        modalClose.addEventListener('click', closeProjectModal);
+        modal.addEventListener('click', (event) => {
+            if (event.target === modal) closeProjectModal();
+        });
+        window.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape') closeProjectModal();
+        });
+    </script>
 </body>
 </html>
