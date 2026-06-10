@@ -1,14 +1,15 @@
 <!DOCTYPE html>
+
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SLHR</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;700&family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" />
-    <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SLHR</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;family=JetBrains+Mono:wght@400;700&amp;family=Noto+Sans+KR:wght@300;400;500;700;900&amp;display=swap" rel="stylesheet"/>
+<link as="style" crossorigin="" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" rel="stylesheet">
+<style>
         :root {
             --accent: #00ff41;
             --accent-secondary: #3498db;
@@ -402,525 +403,872 @@
             .scanline-overlay { opacity: 0.18; }
         }
 
+
+        /* =========================
+           Mobile Responsiveness Patch
+           - Keeps desktop design intact
+           - Optimizes spacing, typography, cards, modal, and footer for phones
+        ========================= */
+        img, svg, video, canvas {
+            max-width: 100%;
+        }
+
+        .glass-card,
+        .stat-card,
+        .ctf-meta-item,
+        .project-card {
+            min-width: 0;
+        }
+
+        @media (hover: none), (pointer: coarse) {
+            .glass-card:hover,
+            .stat-card:hover,
+            .skill-pill:hover,
+            .dock-btn:hover,
+            .back-top:hover {
+                transform: none;
+            }
+
+            .mouse-glow {
+                display: none;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.001ms !important;
+                animation-iteration-count: 1 !important;
+                scroll-behavior: auto !important;
+                transition-duration: 0.001ms !important;
+            }
+        }
+
+        @media (max-width: 1024px) {
+            #about .max-w-7xl {
+                gap: 3rem !important;
+            }
+
+            .profile-container {
+                max-width: 340px;
+            }
+
+            .hero-title {
+                min-height: 1.9em;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                font-size: 15px;
+                line-height: 1.65;
+            }
+
+            nav {
+                padding-left: 1rem !important;
+                padding-right: 1rem !important;
+                padding-top: 0.9rem !important;
+                padding-bottom: 0.9rem !important;
+            }
+
+            .nav-blur {
+                background: rgba(3, 3, 3, 0.92);
+            }
+
+            .mobile-menu.open {
+                max-height: 520px;
+            }
+
+            .mobile-menu a {
+                min-height: 44px;
+                display: flex !important;
+                align-items: center;
+            }
+
+            section,
+            footer {
+                padding-left: 1rem !important;
+                padding-right: 1rem !important;
+            }
+
+            #about {
+                min-height: auto !important;
+                padding-top: 7.25rem !important;
+                padding-bottom: 4rem !important;
+            }
+
+            #quals {
+                padding-top: 5rem !important;
+                padding-bottom: 2.5rem !important;
+            }
+
+            #programs,
+            #awards {
+                padding-top: 4rem !important;
+                padding-bottom: 4rem !important;
+            }
+
+            #projects {
+                padding-top: 5rem !important;
+                padding-bottom: 5rem !important;
+            }
+
+            .hero-title {
+                font-size: clamp(2.7rem, 15vw, 4.4rem);
+                line-height: 0.95;
+                letter-spacing: -0.055em;
+                margin-bottom: 1.25rem !important;
+                min-height: 1.95em;
+                word-break: keep-all;
+            }
+
+            #about p.text-xl {
+                font-size: 1.05rem !important;
+                line-height: 1.75 !important;
+                margin-bottom: 1.75rem !important;
+            }
+
+            #about .inline-flex {
+                max-width: 100%;
+                white-space: normal;
+                align-items: center;
+            }
+
+            .hero-terminal {
+                border-radius: 1.5rem !important;
+                padding: 1rem !important;
+                margin-top: 2rem !important;
+            }
+
+            .hero-terminal .grid {
+                grid-template-columns: 1fr !important;
+                gap: 0.75rem !important;
+            }
+
+            .stat-card {
+                padding: 0.95rem !important;
+                border-radius: 1rem !important;
+            }
+
+            .stat-card p:last-child {
+                font-size: 1.05rem !important;
+            }
+
+            .profile-container {
+                max-width: 280px;
+                margin-top: 1rem;
+            }
+
+            .profile-image-wrapper {
+                border-width: 3px;
+            }
+
+            .profile-glow {
+                inset: -12px;
+            }
+
+            .elegant-title {
+                -webkit-text-fill-color: unset;
+                color: #fff;
+                background: none;
+            }
+
+            h3.text-4xl,
+            h3.md\:text-5xl {
+                font-size: clamp(2rem, 9vw, 2.75rem) !important;
+                line-height: 1.08 !important;
+            }
+
+            .glass-card {
+                border-radius: 1.5rem !important;
+                padding: 1.35rem !important;
+            }
+
+            .grid.md\:grid-cols-2,
+            .grid.lg\:grid-cols-2,
+            .grid.md\:grid-cols-2.lg\:grid-cols-3 {
+                gap: 1rem !important;
+            }
+
+            #quals .space-y-3 > div,
+            #quals .flex.items-center.justify-between.gap-3 {
+                align-items: flex-start !important;
+                flex-direction: column !important;
+                gap: 0.35rem !important;
+            }
+
+            #quals .whitespace-nowrap {
+                white-space: normal !important;
+            }
+
+            .timeline-item {
+                padding-left: 1.35rem;
+                margin-bottom: 1.75rem;
+            }
+
+            .timeline-item::before {
+                left: -5px;
+                top: 8px;
+                width: 9px;
+                height: 9px;
+            }
+
+            #awards .mb-24,
+            #projects .mb-20 {
+                margin-bottom: 2.75rem !important;
+            }
+
+            #awards .gap-20 {
+                gap: 3rem !important;
+            }
+
+            .ctf-category-heading {
+                align-items: flex-start;
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .ctf-external-card > div:first-child {
+                align-items: flex-start !important;
+                flex-direction: column !important;
+                gap: 0.65rem !important;
+                margin-bottom: 1rem !important;
+            }
+
+            .ctf-external-card h5 {
+                font-size: 1.1rem !important;
+                line-height: 1.35 !important;
+            }
+
+            .ctf-meta-grid {
+                grid-template-columns: 1fr !important;
+                gap: 0.55rem !important;
+            }
+
+            .ctf-meta-item {
+                border-radius: 0.9rem;
+                padding: 0.65rem !important;
+            }
+
+            .ctf-meta-value {
+                white-space: normal !important;
+                overflow: visible !important;
+                text-overflow: clip !important;
+            }
+
+            .project-card {
+                cursor: default;
+            }
+
+            .project-card .mb-8 {
+                margin-bottom: 1.4rem !important;
+            }
+
+            .project-card h4 {
+                font-size: 1.35rem !important;
+                line-height: 1.35 !important;
+            }
+
+            .project-card p {
+                font-size: 0.95rem;
+            }
+
+            .project-action {
+                font-size: 0.65rem;
+                letter-spacing: 0.08em;
+            }
+
+            .quick-dock {
+                right: 12px;
+                bottom: 12px;
+                gap: 8px;
+            }
+
+            .dock-btn,
+            .back-top {
+                width: 40px;
+                height: 40px;
+            }
+
+            .modal-backdrop {
+                padding: 1rem !important;
+                align-items: flex-end;
+            }
+
+            .modal-panel {
+                width: 100%;
+                max-height: calc(100vh - 2rem);
+                overflow-y: auto;
+                border-radius: 1.5rem !important;
+                padding: 1.35rem !important;
+            }
+
+            #modal-title {
+                font-size: 1.45rem !important;
+                line-height: 1.25 !important;
+            }
+
+            #modal-close {
+                flex: 0 0 auto;
+            }
+
+            .toast {
+                width: calc(100% - 2rem);
+                text-align: center;
+                bottom: 18px;
+                border-radius: 1rem;
+            }
+
+            footer {
+                padding-top: 4rem !important;
+                padding-bottom: 4rem !important;
+            }
+
+            footer .md\:items-end {
+                align-items: flex-start !important;
+            }
+
+            footer a.group {
+                width: 100%;
+                align-items: flex-start !important;
+                justify-content: space-between;
+                gap: 1rem;
+            }
+
+            footer a.group span:last-child {
+                overflow-wrap: anywhere;
+                text-align: right;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-title {
+                font-size: clamp(2.35rem, 17vw, 3.35rem);
+                min-height: 2.05em;
+            }
+
+            #about {
+                padding-top: 6.75rem !important;
+            }
+
+            #about .inline-flex {
+                font-size: 9px !important;
+                padding-left: 0.85rem !important;
+                padding-right: 0.85rem !important;
+            }
+
+            #about p.text-xl {
+                font-size: 1rem !important;
+            }
+
+            .profile-container {
+                max-width: 235px;
+            }
+
+            .glass-card {
+                padding: 1.15rem !important;
+            }
+
+            .project-card .w-14,
+            .project-card .h-14 {
+                width: 3rem !important;
+                height: 3rem !important;
+            }
+
+            .project-card .text-2xl {
+                font-size: 1.2rem !important;
+            }
+
+            .ctf-category-badge {
+                font-size: 8px;
+                letter-spacing: 0.12em;
+            }
+
+            .dock-btn,
+            .back-top {
+                width: 38px;
+                height: 38px;
+            }
+
+            footer a.group {
+                flex-direction: column;
+                gap: 0.35rem;
+            }
+
+            footer a.group span:last-child {
+                text-align: left;
+            }
+        }
+
     </style>
-</head>
+</link></head>
 <body class="antialiased">
-    <div class="scroll-progress" id="scroll-progress"></div>
-    <div class="bg-glow"></div>
-    <div class="cyber-grid"></div>
-    <div class="scanline-overlay"></div>
-    <div class="mouse-glow" id="mouse-glow"></div>
-
-
-    <nav class="fixed w-full z-50 nav-blur border-b border-white/5 px-6 md:px-8 py-5">
-        <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <a href="#about" class="text-xl font-black mono tracking-tighter text-white" aria-label="홈으로 이동">
+<div class="scroll-progress" id="scroll-progress"></div>
+<div class="bg-glow"></div>
+<div class="cyber-grid"></div>
+<div class="scanline-overlay"></div>
+<div class="mouse-glow" id="mouse-glow"></div>
+<nav class="fixed w-full z-50 nav-blur border-b border-white/5 px-6 md:px-8 py-5">
+<div class="max-w-7xl mx-auto flex justify-between items-center">
+<a aria-label="홈으로 이동" class="text-xl font-black mono tracking-tighter text-white" href="#about">
                 SHR<span class="text-green-500">_</span>SEC
             </a>
-            <div class="hidden md:flex space-x-12 text-[10px] font-black uppercase tracking-[0.3em] text-dim">
-                <a href="#about" class="nav-link hover:text-white transition-colors">About</a>
-                <a href="#focus" class="nav-link hover:text-white transition-colors">Focus</a>
-                <a href="#quals" class="nav-link hover:text-white transition-colors">Qualifications</a>
-                <a href="#programs" class="nav-link hover:text-white transition-colors">Programs</a>
-                <a href="#awards" class="nav-link hover:text-white transition-colors">Awards</a>
-                <a href="#projects" class="nav-link hover:text-white transition-colors">Projects</a>
-            </div>
-            <div class="hidden md:flex items-center gap-3">
-                <button id="copy-email" class="px-4 py-2 rounded-full border border-white/10 text-[10px] font-black uppercase tracking-widest text-white hover:border-green-500/50 hover:text-green-500 transition-all" type="button">
+<div class="hidden md:flex space-x-12 text-[10px] font-black uppercase tracking-[0.3em] text-dim">
+<a class="nav-link hover:text-white transition-colors" href="#about">About</a>
+<a class="nav-link hover:text-white transition-colors" href="#focus">Focus</a>
+<a class="nav-link hover:text-white transition-colors" href="#quals">Qualifications</a>
+<a class="nav-link hover:text-white transition-colors" href="#programs">Programs</a>
+<a class="nav-link hover:text-white transition-colors" href="#awards">Awards</a>
+<a class="nav-link hover:text-white transition-colors" href="#projects">Projects</a>
+</div>
+<div class="hidden md:flex items-center gap-3">
+<button class="px-4 py-2 rounded-full border border-white/10 text-[10px] font-black uppercase tracking-widest text-white hover:border-green-500/50 hover:text-green-500 transition-all" id="copy-email" type="button">
                     Copy Email
                 </button>
-                <a href="https://mail.google.com/mail/?view=cm&fs=1&to=songhr498%40gmail.com" target="_blank" rel="noopener noreferrer" class="px-4 py-2 rounded-full bg-green-500 text-black text-[10px] font-black uppercase tracking-widest hover:bg-white transition-all">
+<a class="px-4 py-2 rounded-full bg-green-500 text-black text-[10px] font-black uppercase tracking-widest hover:bg-white transition-all" href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=songhr498%40gmail.com" rel="noopener noreferrer" target="_blank">
                     Contact
                 </a>
-            </div>
-            <button id="mobile-toggle" class="md:hidden w-10 h-10 rounded-full border border-white/10 text-white" type="button" aria-label="모바일 메뉴 열기">
-                <i class="fas fa-bars"></i>
-            </button>
-        </div>
-        <div id="mobile-menu" class="mobile-menu md:hidden max-w-7xl mx-auto">
-            <div class="pt-5 pb-2 space-y-3 text-xs font-black uppercase tracking-[0.25em] text-dim">
-                <a href="#about" class="mobile-nav-link block py-3 border-b border-white/5 hover:text-white">About</a>
-                <a href="#quals" class="mobile-nav-link block py-3 border-b border-white/5 hover:text-white">Qualifications</a>
-                <a href="#programs" class="mobile-nav-link block py-3 border-b border-white/5 hover:text-white">Programs</a>
-                <a href="#awards" class="mobile-nav-link block py-3 border-b border-white/5 hover:text-white">Awards</a>
-                <a href="#projects" class="mobile-nav-link block py-3 border-b border-white/5 hover:text-white">Projects</a>
-                <a href="https://mail.google.com/mail/?view=cm&fs=1&to=songhr498%40gmail.com" target="_blank" rel="noopener noreferrer" class="block py-3 text-green-500">Gmail Contact</a>
-            </div>
-        </div>
-    </nav>
-
-    
-    <section id="about" class="min-h-screen flex items-center justify-center pt-32 pb-20 px-8">
-        <div class="max-w-7xl w-full grid lg:grid-cols-12 gap-16 items-center">
-            <div class="lg:col-span-7">
-                <div class="inline-flex items-center space-x-3 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-green-500 text-[10px] font-bold mb-8 mono">
-                    <span class="relative flex h-2 w-2">
-                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                        <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
-                    </span>
-                    <span>SYSTEMS ONLINE // SECURITY RESEARCHER</span>
-                </div>
-                <h1 id="typewriter-name" class="hero-title mb-8"></h1>
-                <p class="text-xl md:text-2xl text-gray-400 mb-10 max-w-2xl leading-relaxed font-normal">
+</div>
+<button aria-label="모바일 메뉴 열기" class="md:hidden w-10 h-10 rounded-full border border-white/10 text-white" id="mobile-toggle" type="button">
+<i class="fas fa-bars"></i>
+</button>
+</div>
+<div class="mobile-menu md:hidden max-w-7xl mx-auto" id="mobile-menu">
+<div class="pt-5 pb-2 space-y-3 text-xs font-black uppercase tracking-[0.25em] text-dim">
+<a class="mobile-nav-link block py-3 border-b border-white/5 hover:text-white" href="#about">About</a>
+<a class="mobile-nav-link block py-3 border-b border-white/5 hover:text-white" href="#quals">Qualifications</a>
+<a class="mobile-nav-link block py-3 border-b border-white/5 hover:text-white" href="#programs">Programs</a>
+<a class="mobile-nav-link block py-3 border-b border-white/5 hover:text-white" href="#awards">Awards</a>
+<a class="mobile-nav-link block py-3 border-b border-white/5 hover:text-white" href="#projects">Projects</a>
+<a class="block py-3 text-green-500" href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=songhr498%40gmail.com" rel="noopener noreferrer" target="_blank">Gmail Contact</a>
+</div>
+</div>
+</nav>
+<section class="min-h-screen flex items-center justify-center pt-32 pb-20 px-8" id="about">
+<div class="max-w-7xl w-full grid lg:grid-cols-12 gap-16 items-center">
+<div class="lg:col-span-7">
+<div class="inline-flex items-center space-x-3 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-green-500 text-[10px] font-bold mb-8 mono">
+<span class="relative flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+</span>
+<span>SYSTEMS ONLINE // SECURITY RESEARCHER</span>
+</div>
+<h1 class="hero-title mb-8" id="typewriter-name"></h1>
+<p class="text-xl md:text-2xl text-gray-400 mb-10 max-w-2xl leading-relaxed font-normal">
                     안녕하세요.  
                     <span class="text-white font-bold underline decoration-green-500 underline-offset-4">세명컴퓨터고등학교 보안과 3학년</span> 송형록 입니다.
                     저는 차세대 보안 리더로써 현대오토에버에서 주최하는 화이트해커 양성교육 선발, 현재 서울여대 AI 정보보호 영재교육원에 최종 합격하여 교육을 받고 있습니다.
                 </p>
-                <div class="hero-terminal rounded-[2rem] p-5 md:p-6 mt-10 max-w-2xl">
-                    <div class="flex items-center justify-between mb-5">
-                        <div class="flex items-center gap-2 mono text-[10px] text-green-500 font-bold tracking-widest uppercase">
-                            <span class="status-dot"></span>
-                            <span>profile.metrics</span>
-                        </div>
-                        <span class="mono text-[10px] text-gray-500">LIVE</span>
-                    </div>
-                    <div class="grid grid-cols-3 gap-3">
-                        <div class="stat-card">
-                            <p class="mono text-[10px] text-gray-500 uppercase tracking-widest">CTF 참가</p>
-                            <p class="text-lg md:text-xl font-black text-white mt-1"><span id="ctf-count" data-target="0">0</span>회</p>
-                        </div>
-                        <div class="stat-card">
-                            <p class="mono text-[10px] text-gray-500 uppercase tracking-widest">Mode</p>
-                            <p class="text-lg md:text-xl font-black text-white mt-1">SOLO</p>
-                        </div>
-                        <div class="stat-card">
-                            <p class="mono text-[10px] text-gray-500 uppercase tracking-widest">Track</p>
-                            <p class="text-lg md:text-xl font-black text-white mt-1">AI SEC</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="lg:col-span-5 flex justify-center">
-                <div class="profile-container group">
-                    <div class="profile-glow"></div>
-                    <div class="profile-image-wrapper">
-                        <img src="back.png" alt="송형록" class="w-full h-full object-cover">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-
-    <section id="quals" class="pt-40 pb-10 px-8">
-        <div class="max-w-7xl mx-auto">
-            <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-8">
-                <div>
-                    <h2 class="text-xs font-black text-blue-500 uppercase tracking-[0.4em] mb-4 mono">/ Technical Licenses</h2>
-                    <h3 class="text-4xl md:text-5xl font-black tracking-tight text-white">Qualifications</h3>
-                </div>
-            </div>
-
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- ITQ OA Master -->
-                <div class="glass-card p-8 rounded-[2rem] border-t-4 border-blue-500 group">
-                    <div class="flex items-center space-x-4 mb-6">
-                        <div class="w-12 h-12 bg-blue-500/10 rounded-xl flex items-center justify-center group-hover:bg-blue-500 transition-colors duration-500">
-                            <i class="fas fa-file-contract text-blue-500 text-xl group-hover:text-black transition-colors duration-500"></i>
-                        </div>
-                        <div>
-                            <h4 class="text-xl elegant-title">ITQ OA Master</h4>
-                            <p class="text-[10px] mono text-blue-500/70 font-bold uppercase tracking-wider">KPC 한국생산성본부</p>
-                        </div>
-                    </div>
-                    <div class="space-y-3">
-                        <div class="flex items-center justify-between gap-3 text-sm text-gray-400 elegant-text">
-                            <span class="flex items-center min-w-0">
-                                <i class="fas fa-check-circle text-blue-500/50 mr-2 text-[10px]"></i> ITQ 아래한글 (Grade A)
+<div class="hero-terminal rounded-[2rem] p-5 md:p-6 mt-10 max-w-2xl">
+<div class="flex items-center justify-between mb-5">
+<div class="flex items-center gap-2 mono text-[10px] text-green-500 font-bold tracking-widest uppercase">
+<span class="status-dot"></span>
+<span>profile.metrics</span>
+</div>
+<span class="mono text-[10px] text-gray-500">LIVE</span>
+</div>
+<div class="grid grid-cols-3 gap-3">
+<div class="stat-card">
+<p class="mono text-[10px] text-gray-500 uppercase tracking-widest">CTF 참가</p>
+<p class="text-lg md:text-xl font-black text-white mt-1"><span data-target="0" id="ctf-count">0</span>회</p>
+</div>
+<div class="stat-card">
+<p class="mono text-[10px] text-gray-500 uppercase tracking-widest">Mode</p>
+<p class="text-lg md:text-xl font-black text-white mt-1">SOLO</p>
+</div>
+<div class="stat-card">
+<p class="mono text-[10px] text-gray-500 uppercase tracking-widest">Track</p>
+<p class="text-lg md:text-xl font-black text-white mt-1">AI SEC</p>
+</div>
+</div>
+</div>
+</div>
+<div class="lg:col-span-5 flex justify-center">
+<div class="profile-container group">
+<div class="profile-glow"></div>
+<div class="profile-image-wrapper">
+<img alt="송형록" class="w-full h-full object-cover" src="back.png"/>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="pt-40 pb-10 px-8" id="quals">
+<div class="max-w-7xl mx-auto">
+<div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-8">
+<div>
+<h2 class="text-xs font-black text-blue-500 uppercase tracking-[0.4em] mb-4 mono">/ Technical Licenses</h2>
+<h3 class="text-4xl md:text-5xl font-black tracking-tight text-white">Qualifications</h3>
+</div>
+</div>
+<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+<!-- ITQ OA Master -->
+<div class="glass-card p-8 rounded-[2rem] border-t-4 border-blue-500 group">
+<div class="flex items-center space-x-4 mb-6">
+<div class="w-12 h-12 bg-blue-500/10 rounded-xl flex items-center justify-center group-hover:bg-blue-500 transition-colors duration-500">
+<i class="fas fa-file-contract text-blue-500 text-xl group-hover:text-black transition-colors duration-500"></i>
+</div>
+<div>
+<h4 class="text-xl elegant-title">ITQ OA Master</h4>
+<p class="text-[10px] mono text-blue-500/70 font-bold uppercase tracking-wider">KPC 한국생산성본부</p>
+</div>
+</div>
+<div class="space-y-3">
+<div class="flex items-center justify-between gap-3 text-sm text-gray-400 elegant-text">
+<span class="flex items-center min-w-0">
+<i class="fas fa-check-circle text-blue-500/50 mr-2 text-[10px]"></i> ITQ 아래한글 (Grade A)
                             </span>
-                            <span class="mono text-[10px] text-blue-500/70 font-bold tracking-widest whitespace-nowrap">2025.04.03 취득</span>
-                        </div>
-                        <div class="flex items-center justify-between gap-3 text-sm text-gray-400 elegant-text">
-                            <span class="flex items-center min-w-0">
-                                <i class="fas fa-check-circle text-blue-500/50 mr-2 text-[10px]"></i> ITQ 한글엑셀 (Grade A)
+<span class="mono text-[10px] text-blue-500/70 font-bold tracking-widest whitespace-nowrap">2025.04.03 취득</span>
+</div>
+<div class="flex items-center justify-between gap-3 text-sm text-gray-400 elegant-text">
+<span class="flex items-center min-w-0">
+<i class="fas fa-check-circle text-blue-500/50 mr-2 text-[10px]"></i> ITQ 한글엑셀 (Grade A)
                             </span>
-                            <span class="mono text-[10px] text-blue-500/70 font-bold tracking-widest whitespace-nowrap">2025.06.13 취득</span>
-                        </div>
-                        <div class="flex items-center justify-between gap-3 text-sm text-gray-400 elegant-text">
-                            <span class="flex items-center min-w-0">
-                                <i class="fas fa-check-circle text-blue-500/50 mr-2 text-[10px]"></i> ITQ 한글파워포인트 (Grade A)
+<span class="mono text-[10px] text-blue-500/70 font-bold tracking-widest whitespace-nowrap">2025.06.13 취득</span>
+</div>
+<div class="flex items-center justify-between gap-3 text-sm text-gray-400 elegant-text">
+<span class="flex items-center min-w-0">
+<i class="fas fa-check-circle text-blue-500/50 mr-2 text-[10px]"></i> ITQ 한글파워포인트 (Grade A)
                             </span>
-                            <span class="mono text-[10px] text-blue-500/70 font-bold tracking-widest whitespace-nowrap">2025.06.13 취득</span>
-                        </div>
-                    </div>
-                </div>
-
-            
-                <div class="glass-card p-8 rounded-[2rem] border-t-4 border-white/20 group">
-                    <div class="flex items-center space-x-4 mb-6">
-                        <div class="w-12 h-12 bg-white/5 rounded-xl flex items-center justify-center group-hover:bg-white transition-colors duration-500">
-                            <i class="fas fa-desktop text-white/50 text-xl group-hover:text-black transition-colors duration-500"></i>
-                        </div>
-                        <div>
-                            <h4 class="text-xl elegant-title">컴퓨터활용능력 2급</h4>
-                            <p class="text-[10px] mono text-gray-500 font-bold uppercase tracking-wider">대한상공회의소</p>
-                        </div>
-                    </div>
-                    <div class="flex flex-wrap gap-2">
-                        <div class="inline-flex items-center px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-[10px] font-bold text-gray-400 uppercase tracking-widest elegant-text">
+<span class="mono text-[10px] text-blue-500/70 font-bold tracking-widest whitespace-nowrap">2025.06.13 취득</span>
+</div>
+</div>
+</div>
+<div class="glass-card p-8 rounded-[2rem] border-t-4 border-white/20 group">
+<div class="flex items-center space-x-4 mb-6">
+<div class="w-12 h-12 bg-white/5 rounded-xl flex items-center justify-center group-hover:bg-white transition-colors duration-500">
+<i class="fas fa-desktop text-white/50 text-xl group-hover:text-black transition-colors duration-500"></i>
+</div>
+<div>
+<h4 class="text-xl elegant-title">컴퓨터활용능력 2급</h4>
+<p class="text-[10px] mono text-gray-500 font-bold uppercase tracking-wider">대한상공회의소</p>
+</div>
+</div>
+<div class="flex flex-wrap gap-2">
+<div class="inline-flex items-center px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-[10px] font-bold text-gray-400 uppercase tracking-widest elegant-text">
                             필기시험 합격
                         </div>
-                        <div class="inline-flex items-center px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-[10px] font-bold text-gray-400 uppercase tracking-widest elegant-text">
+<div class="inline-flex items-center px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-[10px] font-bold text-gray-400 uppercase tracking-widest elegant-text">
                             2025.08.09 취득
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Programs Section -->
-    <section id="programs" class="py-20 px-8">
-        <div class="max-w-7xl mx-auto">
-            <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-8">
-                <div>
-                    <h2 class="text-xs font-black text-purple-500 uppercase tracking-[0.4em] mb-4 mono">/ Education & Programs</h2>
-                    <h3 class="text-4xl md:text-5xl font-black tracking-tight text-white">Training Programs</h3>
-                </div>
-            </div>
-
-            <div class="grid md:grid-cols-2 gap-8">
-                <!-- Hyundai AutoEver -->
-                <div class="glass-card p-8 rounded-[2rem] border-t-4 border-green-500 group">
-                    <div class="flex items-center space-x-4 mb-6">
-                        <div class="w-12 h-12 bg-green-500/10 rounded-xl flex items-center justify-center group-hover:bg-green-500 transition-colors duration-500">
-                            <i class="fas fa-user-shield text-green-500 text-xl group-hover:text-black transition-colors duration-500"></i>
-                        </div>
-                        <div>
-                            <h4 class="text-xl elegant-title">현대오토에버 화이트해커 양성교육</h4>
-                            <p class="text-[10px] mono text-green-500/70 font-bold uppercase tracking-wider">2025.06 ~ 2025.11 (수료)</p>
-                        </div>
-                    </div>
-                    <p class="text-sm text-gray-400 elegant-text leading-relaxed">
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Programs Section -->
+<section class="py-20 px-8" id="programs">
+<div class="max-w-7xl mx-auto">
+<div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-8">
+<div>
+<h2 class="text-xs font-black text-purple-500 uppercase tracking-[0.4em] mb-4 mono">/ Education &amp; Programs</h2>
+<h3 class="text-4xl md:text-5xl font-black tracking-tight text-white">Training Programs</h3>
+</div>
+</div>
+<div class="grid md:grid-cols-2 gap-8">
+<!-- Hyundai AutoEver -->
+<div class="glass-card p-8 rounded-[2rem] border-t-4 border-green-500 group">
+<div class="flex items-center space-x-4 mb-6">
+<div class="w-12 h-12 bg-green-500/10 rounded-xl flex items-center justify-center group-hover:bg-green-500 transition-colors duration-500">
+<i class="fas fa-user-shield text-green-500 text-xl group-hover:text-black transition-colors duration-500"></i>
+</div>
+<div>
+<h4 class="text-xl elegant-title">현대오토에버 화이트해커 양성교육</h4>
+<p class="text-[10px] mono text-green-500/70 font-bold uppercase tracking-wider">2025.06 ~ 2025.11 (수료)</p>
+</div>
+</div>
+<p class="text-sm text-gray-400 elegant-text leading-relaxed">
                         화이트해커 양성을 위한 차세대 보안 전문가 교육 과정 이수 및 실전 프로젝트 수행. (우수 교육생 선정 및 장학금 수여)
                     </p>
-                </div>
-
-                <!-- Seoul Women's University -->
-                <div class="glass-card p-8 rounded-[2rem] border-t-4 border-purple-500 group">
-                    <div class="flex items-center space-x-4 mb-6">
-                        <div class="w-12 h-12 bg-purple-500/10 rounded-xl flex items-center justify-center group-hover:bg-purple-500 transition-colors duration-500">
-                            <i class="fas fa-graduation-cap text-purple-500 text-xl group-hover:text-black transition-colors duration-500"></i>
-                        </div>
-                        <div>
-                            <h4 class="text-xl elegant-title">서울여대 AI정보보호 영재 교육원</h4>
-                            <p class="text-[10px] mono text-purple-500/70 font-bold uppercase tracking-wider">2026.04 ~ 현재 진행 중</p>
-                        </div>
-                    </div>
-                    <p class="text-sm text-gray-400 elegant-text leading-relaxed">
+</div>
+<!-- Seoul Women's University -->
+<div class="glass-card p-8 rounded-[2rem] border-t-4 border-purple-500 group">
+<div class="flex items-center space-x-4 mb-6">
+<div class="w-12 h-12 bg-purple-500/10 rounded-xl flex items-center justify-center group-hover:bg-purple-500 transition-colors duration-500">
+<i class="fas fa-graduation-cap text-purple-500 text-xl group-hover:text-black transition-colors duration-500"></i>
+</div>
+<div>
+<h4 class="text-xl elegant-title">서울여대 AI정보보호 영재 교육원</h4>
+<p class="text-[10px] mono text-purple-500/70 font-bold uppercase tracking-wider">2026.04 ~ 현재 진행 중</p>
+</div>
+</div>
+<p class="text-sm text-gray-400 elegant-text leading-relaxed">
                         인공지능(AI)과 정보보호 융합 기술 및 심화 보안 트랙 연구를 통한 차세대 보안 리더 과정 참여.
                     </p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Awards Section -->
-    <section id="awards" class="py-20 px-8">
-        <div class="max-w-7xl mx-auto">
-            <div class="flex flex-col md:flex-row md:items-end justify-between mb-24 gap-8">
-                <div>
-                    <h2 class="text-xs font-black text-green-500 uppercase tracking-[0.4em] mb-4 mono">/ TRACK RECORD</h2>
-                    <h3 class="text-4xl md:text-5xl font-black tracking-tight text-white">Awards & Achievements</h3>
-                </div>
-            </div>
-
-            <div class="grid lg:grid-cols-2 gap-20">
-                <!-- Academic & School Awards -->
-                <div>
-                    <h4 class="text-lg font-black mb-12 flex items-center text-white tracking-widest uppercase">
-                        <span class="w-10 h-0.5 bg-green-500 mr-5"></span> Academic Honors
+</div>
+</div>
+</div>
+</section>
+<!-- Awards Section -->
+<section class="py-20 px-8" id="awards">
+<div class="max-w-7xl mx-auto">
+<div class="flex flex-col md:flex-row md:items-end justify-between mb-24 gap-8">
+<div>
+<h2 class="text-xs font-black text-green-500 uppercase tracking-[0.4em] mb-4 mono">/ TRACK RECORD</h2>
+<h3 class="text-4xl md:text-5xl font-black tracking-tight text-white">Awards &amp; Achievements</h3>
+</div>
+</div>
+<div class="grid lg:grid-cols-2 gap-20">
+<!-- Academic & School Awards -->
+<div>
+<h4 class="text-lg font-black mb-12 flex items-center text-white tracking-widest uppercase">
+<span class="w-10 h-0.5 bg-green-500 mr-5"></span> Academic Honors
                     </h4>
-                    <div class="space-y-2">
-                        <div class="timeline-item">
-                            <span class="text-[10px] mono text-green-500/70 font-bold mb-1 block uppercase">1학년 2학기</span>
-                            <h5 class="text-lg elegant-title mb-0.5">교과 우수상 (체육)</h5>
-                            <p class="text-sm text-gray-500 elegant-text">우수한 성적과 성실한 태도로 교내 성취도 입증</p>
-                        </div>
-                        <div class="timeline-item">
-                            <span class="text-[10px] mono text-green-500/70 font-bold mb-1 block uppercase">2학년 1학기</span>
-                            <h5 class="text-lg elegant-title mb-0.5">생명존중 글짓기 대회 우수 (2위)</h5>
-                            <p class="text-sm text-gray-500 elegant-text">논리적인 서술 능력과 인문학적 소양 인정</p>
-                        </div>
-                        <div class="timeline-item">
-                            <span class="text-[10px] mono text-green-500/70 font-bold mb-1 block uppercase">2학년 2학기</span>
-                            <h5 class="text-lg elegant-title mb-0.5">스마트보안솔루션 경진대회 동상 (3위)</h5>
-                            <p class="text-sm text-gray-500 elegant-text">전공 실무 능력 및 보안 솔루션 설계 역량 증명</p>
-                        </div>
-                        <div class="timeline-item">
-                            <span class="text-[10px] mono text-green-500/70 font-bold mb-1 block uppercase">2학년 2학기</span>
-                            <h5 class="text-lg elegant-title mb-0.5">자격증 인증제 동상 (3위)</h5>
-                            <p class="text-sm text-gray-500 elegant-text">전문 지식 확보를 위한 끊임없는 노력</p>
-                        </div>
-                        <div class="timeline-item">
-                            <span class="text-[10px] mono text-green-500/70 font-bold mb-1 block uppercase">2학년 2학기</span>
-                            <h5 class="text-lg elegant-title mb-0.5">교과 우수상 (체육)</h5>
-                            <p class="text-sm text-gray-500 elegant-text">자기 관리 역량과 꾸준한 성실함</p>
-                        </div>
-                        <div class="timeline-item">
-                            <span class="text-[10px] mono text-green-500/70 font-bold mb-1 block uppercase">2학년 2학기</span>
-                            <h5 class="text-lg elegant-title mb-0.5">선행상 수상</h5>
-                            <p class="text-sm text-gray-500 elegant-text">모범적인 인성과 타의 귀감이 되는 태도</p>
-                        </div>
-                        <div class="timeline-item">
-                            <span class="text-[10px] mono text-green-500/70 font-bold mb-1 block uppercase">3학년 1학기</span>
-                            <h5 class="text-lg elegant-title mb-0.5">생명존중 글짓기 대회 우수상</h5>
-                            <p class="text-sm text-gray-500 elegant-text">지속적인 서술 역량과 생명존중 가치에 대한 깊이 있는 이해 입증</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- External & CTF -->
-                <div>
-                    <h4 class="text-lg font-black mb-12 flex items-center text-white tracking-widest uppercase">
-                        <span class="w-10 h-0.5 bg-blue-500 mr-5"></span> CTF & External
+<div class="space-y-2">
+<div class="timeline-item">
+<span class="text-[10px] mono text-green-500/70 font-bold mb-1 block uppercase">1학년 2학기</span>
+<h5 class="text-lg elegant-title mb-0.5">교과 우수상 (체육)</h5>
+<p class="text-sm text-gray-500 elegant-text">우수한 성적과 성실한 태도로 교내 성취도 입증</p>
+</div>
+<div class="timeline-item">
+<span class="text-[10px] mono text-green-500/70 font-bold mb-1 block uppercase">2학년 1학기</span>
+<h5 class="text-lg elegant-title mb-0.5">생명존중 글짓기 대회 우수 (2위)</h5>
+<p class="text-sm text-gray-500 elegant-text">논리적인 서술 능력과 인문학적 소양 인정</p>
+</div>
+<div class="timeline-item">
+<span class="text-[10px] mono text-green-500/70 font-bold mb-1 block uppercase">2학년 2학기</span>
+<h5 class="text-lg elegant-title mb-0.5">스마트보안솔루션 경진대회 동상 (3위)</h5>
+<p class="text-sm text-gray-500 elegant-text">전공 실무 능력 및 보안 솔루션 설계 역량 증명</p>
+</div>
+<div class="timeline-item">
+<span class="text-[10px] mono text-green-500/70 font-bold mb-1 block uppercase">2학년 2학기</span>
+<h5 class="text-lg elegant-title mb-0.5">자격증 인증제 동상 (3위)</h5>
+<p class="text-sm text-gray-500 elegant-text">전문 지식 확보를 위한 끊임없는 노력</p>
+</div>
+<div class="timeline-item">
+<span class="text-[10px] mono text-green-500/70 font-bold mb-1 block uppercase">2학년 2학기</span>
+<h5 class="text-lg elegant-title mb-0.5">교과 우수상 (체육)</h5>
+<p class="text-sm text-gray-500 elegant-text">자기 관리 역량과 꾸준한 성실함</p>
+</div>
+<div class="timeline-item">
+<span class="text-[10px] mono text-green-500/70 font-bold mb-1 block uppercase">2학년 2학기</span>
+<h5 class="text-lg elegant-title mb-0.5">선행상 수상</h5>
+<p class="text-sm text-gray-500 elegant-text">모범적인 인성과 타의 귀감이 되는 태도</p>
+</div>
+<div class="timeline-item">
+<span class="text-[10px] mono text-green-500/70 font-bold mb-1 block uppercase">3학년 1학기</span>
+<h5 class="text-lg elegant-title mb-0.5">생명존중 글짓기 대회 우수상</h5>
+<p class="text-sm text-gray-500 elegant-text">지속적인 서술 역량과 생명존중 가치에 대한 깊이 있는 이해 입증</p>
+</div>
+</div>
+</div>
+<!-- External & CTF -->
+<div>
+<h4 class="text-lg font-black mb-12 flex items-center text-white tracking-widest uppercase">
+<span class="w-10 h-0.5 bg-blue-500 mr-5"></span> CTF &amp; External
                     </h4>
-                    <div id="ctf-external-list" class="space-y-10">
-                        <div>
-                            <div class="ctf-category-heading">
-                                <span class="ctf-category-badge domestic">DOMESTIC</span>
-                                <h5 class="text-sm font-black text-white tracking-widest uppercase">국내 CTF / External</h5>
-                            </div>
-                            <div class="space-y-6">
-                                <div class="glass-card ctf-external-card p-8 rounded-3xl border-l-4 border-green-500">
-                                    <div class="flex justify-between items-center mb-5">
-                                        <span class="bg-green-500/10 text-green-500 text-[9px] font-black px-3 py-1 rounded-full mono tracking-widest">HYUNDAI AUTOEVER</span>
-                                        <span class="mono text-xs font-bold text-white tracking-tight">CTF 입상 / 장학생</span>
-                                    </div>
-                                    <h5 class="text-xl elegant-title mb-2">현대오토에버 화이트해커 양성교육</h5>
-                                    <div class="ctf-meta-grid" aria-label="CTF metadata">
-                                        <div class="ctf-meta-item">
-                                            <span class="ctf-meta-label">Division</span>
-                                            <span class="ctf-meta-value">국내</span>
-                                        </div>
-                                        <div class="ctf-meta-item">
-                                            <span class="ctf-meta-label">Host Country</span>
-                                            <span class="ctf-meta-value">대한민국</span>
-                                        </div>
-                                        <div class="ctf-meta-item">
-                                            <span class="ctf-meta-label">Organizer</span>
-                                            <span class="ctf-meta-value">현대오토에버</span>
-                                        </div>
-                                    </div>
-                                    <p class="text-sm text-gray-400 elegant-text leading-relaxed">CTF 대회 입상 및 전 과정 우수 교육생 선정 (장학증서 수여).</p>
-                                </div>
+<div class="space-y-10" id="ctf-external-list">
+<div>
+<div class="ctf-category-heading">
+<span class="ctf-category-badge domestic">DOMESTIC</span>
+<h5 class="text-sm font-black text-white tracking-widest uppercase">국내 CTF / External</h5>
+</div>
+<div class="space-y-6">
+<div class="glass-card ctf-external-card p-8 rounded-3xl border-l-4 border-green-500">
+<div class="flex justify-between items-center mb-5">
+<span class="bg-green-500/10 text-green-500 text-[9px] font-black px-3 py-1 rounded-full mono tracking-widest">HYUNDAI AUTOEVER</span>
+<span class="mono text-xs font-bold text-white tracking-tight">CTF 입상 / 장학생</span>
+</div>
+<h5 class="text-xl elegant-title mb-2">현대오토에버 화이트해커 양성교육</h5>
+<div aria-label="CTF metadata" class="ctf-meta-grid">
+<div class="ctf-meta-item">
+<span class="ctf-meta-label">Division</span>
+<span class="ctf-meta-value">국내</span>
+</div>
+<div class="ctf-meta-item">
+<span class="ctf-meta-label">Host Country</span>
+<span class="ctf-meta-value">대한민국</span>
+</div>
+<div class="ctf-meta-item">
+<span class="ctf-meta-label">Organizer</span>
+<span class="ctf-meta-value">현대오토에버</span>
+</div>
+</div>
+<p class="text-sm text-gray-400 elegant-text leading-relaxed">CTF 대회 입상 및 전 과정 우수 교육생 선정 (장학증서 수여).</p>
+</div>
+<div class="glass-card ctf-external-card p-8 rounded-3xl border-l-4 border-yellow-500">
+<div class="flex justify-between items-center mb-5">
+<span class="bg-yellow-500/10 text-yellow-500 text-[9px] font-black px-3 py-1 rounded-full mono tracking-widest">DREAMHACK</span>
+<span class="mono text-xs font-bold text-white tracking-tight">12th Place</span>
+</div>
+<h5 class="text-xl elegant-title mb-2">WaRP vs s0sCoD3 CTF</h5>
+<div aria-label="CTF metadata" class="ctf-meta-grid">
+<div class="ctf-meta-item">
+<span class="ctf-meta-label">Division</span>
+<span class="ctf-meta-value">국내</span>
+</div>
+<div class="ctf-meta-item">
+<span class="ctf-meta-label">Host Country</span>
+<span class="ctf-meta-value">대한민국</span>
+</div>
+<div class="ctf-meta-item">
+<span class="ctf-meta-label">Organizer</span>
+<span class="ctf-meta-value">Dreamhack</span>
+</div>
+</div>
+<p class="text-sm text-gray-400 elegant-text leading-relaxed">실전 취약점 분석 및 익스플로잇 설계 역량 입증.</p>
+</div>
+<div class="glass-card ctf-external-card p-8 rounded-3xl border-l-4 border-orange-500">
+<div class="flex justify-between items-center mb-5">
+<span class="bg-orange-500/10 text-orange-500 text-[9px] font-black px-3 py-1 rounded-full mono tracking-widest">DREAMHACK</span>
+<span class="mono text-xs font-bold text-white tracking-tight">25th Place</span>
+</div>
+<h5 class="text-xl elegant-title mb-2">제1회 감귤 CTF</h5>
+<div aria-label="CTF metadata" class="ctf-meta-grid">
+<div class="ctf-meta-item">
+<span class="ctf-meta-label">Division</span>
+<span class="ctf-meta-value">국내</span>
+</div>
+<div class="ctf-meta-item">
+<span class="ctf-meta-label">Host Country</span>
+<span class="ctf-meta-value">대한민국</span>
+</div>
+<div class="ctf-meta-item">
+<span class="ctf-meta-label">Organizer</span>
+<span class="ctf-meta-value">Dreamhack</span>
+</div>
+</div>
+<p class="text-sm text-gray-400 elegant-text leading-relaxed">다양한 환경의 문제 해결을 통한 실전 역량 강화.</p>
+</div>
+</div>
+</div>
+<div>
+<div class="ctf-category-heading">
+<span class="ctf-category-badge international">INTERNATIONAL</span>
+<h5 class="text-sm font-black text-white tracking-widest uppercase">해외 CTF</h5>
+</div>
+<div class="space-y-6">
+<div class="glass-card ctf-external-card p-8 rounded-3xl border-l-4 border-cyan-400">
+<div class="flex justify-between items-center mb-5">
+<span class="bg-cyan-400/10 text-cyan-400 text-[9px] font-black px-3 py-1 rounded-full mono tracking-widest">INTERNATIONAL CTF</span>
+<span class="mono text-xs font-bold text-white tracking-tight">SOLO 25th / Top 20%</span>
+</div>
+<h5 class="text-xl elegant-title mb-2">Grey Cat CTF</h5>
+<div aria-label="CTF metadata" class="ctf-meta-grid">
+<div class="ctf-meta-item">
+<span class="ctf-meta-label">Division</span>
+<span class="ctf-meta-value">해외</span>
+</div>
+<div class="ctf-meta-item">
+<span class="ctf-meta-label">Host Country</span>
+<span class="ctf-meta-value">싱가포르</span>
+</div>
+<div class="ctf-meta-item">
+<span class="ctf-meta-label">Organizer</span>
+<span class="ctf-meta-value">NUS Greyhats</span>
+</div>
+</div>
+<p class="text-sm text-gray-400 elegant-text leading-relaxed">싱가포르 NUS Greyhats가 주최한 해외 CTF에 솔로 참가하여 전체 25등 및 상위 20% 기록.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Projects Section -->
+<section class="py-32 bg-white/[0.02] px-8" id="projects">
+<div class="max-w-7xl mx-auto">
+<h3 class="text-4xl md:text-5xl font-black mb-20">Security Projects</h3>
+<div class="grid md:grid-cols-2 gap-10">
+<div class="glass-card project-card p-10 rounded-[40px] flex flex-col group" data-desc="실시간 웹 트래픽을 분석하고 공격 패턴을 시각화하는 미니 IDS 프로젝트입니다. Python/PySide6 기반으로 탐지 흐름과 대시보드 구성을 강조합니다." data-stack="PYTHON · PYSIDE6 · TRAFFIC ANALYSIS" data-title="WEB mini-IDS" role="button" tabindex="0">
+<div class="mb-8">
+<div class="w-14 h-14 bg-green-500/10 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-green-500 transition-colors duration-500">
+<i class="fas fa-shield-virus text-green-500 text-2xl group-hover:text-black transition-colors duration-500"></i>
+</div>
+<h4 class="text-2xl font-bold mb-4">WEB mini-IDS</h4>
+<p class="text-gray-400 leading-relaxed">지능형 웹 공격 탐지 시스템. 실시간 트래픽 분석 및 시각화 대시보드 포함.</p>
+</div>
+<div class="mt-auto flex gap-3 flex-wrap">
+<span class="text-[10px] font-bold mono bg-white/5 px-3 py-1 rounded-full text-dim">PYTHON</span>
+<span class="text-[10px] font-bold mono bg-white/5 px-3 py-1 rounded-full text-dim">PYSIDE6</span>
+</div>
+<div class="project-action mono">View Details <i class="fas fa-arrow-right"></i></div>
+</div>
+<div class="glass-card project-card p-10 rounded-[40px] flex flex-col group" data-desc="엔트로피 계산과 크래킹 시뮬레이션을 통해 비밀번호 강도를 정량화하는 보안 도구입니다. 사용자에게 위험도를 직관적으로 보여주는 구조를 목표로 합니다." data-stack="FLASK · ALGORITHM · ENTROPY" data-title="비밀번호 강도 분석기" role="button" tabindex="0">
+<div class="mb-8">
+<div class="w-14 h-14 bg-blue-500/10 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-blue-500 transition-colors duration-500">
+<i class="fas fa-key text-blue-500 text-2xl group-hover:text-black transition-colors duration-500"></i>
+</div>
+<h4 class="text-2xl font-bold mb-4">비밀번호 강도 분석기</h4>
+<p class="text-gray-400 leading-relaxed">수학적 엔트로피 기반 보안 강도 계산 및 크래킹 시뮬레이션 도구.</p>
+</div>
+<div class="mt-auto flex gap-3 flex-wrap">
+<span class="text-[10px] font-bold mono bg-white/5 px-3 py-1 rounded-full text-dim">FLASK</span>
+<span class="text-[10px] font-bold mono bg-white/5 px-3 py-1 rounded-full text-dim">ALGORITHM</span>
+</div>
+<div class="project-action mono">View Details <i class="fas fa-arrow-right"></i></div>
+</div>
 
-                                <div class="glass-card ctf-external-card p-8 rounded-3xl border-l-4 border-yellow-500">
-                                    <div class="flex justify-between items-center mb-5">
-                                        <span class="bg-yellow-500/10 text-yellow-500 text-[9px] font-black px-3 py-1 rounded-full mono tracking-widest">DREAMHACK</span>
-                                        <span class="mono text-xs font-bold text-white tracking-tight">12th Place</span>
-                                    </div>
-                                    <h5 class="text-xl elegant-title mb-2">WaRP vs s0sCoD3 CTF</h5>
-                                    <div class="ctf-meta-grid" aria-label="CTF metadata">
-                                        <div class="ctf-meta-item">
-                                            <span class="ctf-meta-label">Division</span>
-                                            <span class="ctf-meta-value">국내</span>
-                                        </div>
-                                        <div class="ctf-meta-item">
-                                            <span class="ctf-meta-label">Host Country</span>
-                                            <span class="ctf-meta-value">대한민국</span>
-                                        </div>
-                                        <div class="ctf-meta-item">
-                                            <span class="ctf-meta-label">Organizer</span>
-                                            <span class="ctf-meta-value">Dreamhack</span>
-                                        </div>
-                                    </div>
-                                    <p class="text-sm text-gray-400 elegant-text leading-relaxed">실전 취약점 분석 및 익스플로잇 설계 역량 입증.</p>
-                                </div>
 
-                                <div class="glass-card ctf-external-card p-8 rounded-3xl border-l-4 border-orange-500">
-                                    <div class="flex justify-between items-center mb-5">
-                                        <span class="bg-orange-500/10 text-orange-500 text-[9px] font-black px-3 py-1 rounded-full mono tracking-widest">DREAMHACK</span>
-                                        <span class="mono text-xs font-bold text-white tracking-tight">25th Place</span>
-                                    </div>
-                                    <h5 class="text-xl elegant-title mb-2">제1회 감귤 CTF</h5>
-                                    <div class="ctf-meta-grid" aria-label="CTF metadata">
-                                        <div class="ctf-meta-item">
-                                            <span class="ctf-meta-label">Division</span>
-                                            <span class="ctf-meta-value">국내</span>
-                                        </div>
-                                        <div class="ctf-meta-item">
-                                            <span class="ctf-meta-label">Host Country</span>
-                                            <span class="ctf-meta-value">대한민국</span>
-                                        </div>
-                                        <div class="ctf-meta-item">
-                                            <span class="ctf-meta-label">Organizer</span>
-                                            <span class="ctf-meta-value">Dreamhack</span>
-                                        </div>
-                                    </div>
-                                    <p class="text-sm text-gray-400 elegant-text leading-relaxed">다양한 환경의 문제 해결을 통한 실전 역량 강화.</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div>
-                            <div class="ctf-category-heading">
-                                <span class="ctf-category-badge international">INTERNATIONAL</span>
-                                <h5 class="text-sm font-black text-white tracking-widest uppercase">해외 CTF</h5>
-                            </div>
-                            <div class="space-y-6">
-                                <div class="glass-card ctf-external-card p-8 rounded-3xl border-l-4 border-cyan-400">
-                                    <div class="flex justify-between items-center mb-5">
-                                        <span class="bg-cyan-400/10 text-cyan-400 text-[9px] font-black px-3 py-1 rounded-full mono tracking-widest">INTERNATIONAL CTF</span>
-                                        <span class="mono text-xs font-bold text-white tracking-tight">SOLO 25th / Top 20%</span>
-                                    </div>
-                                    <h5 class="text-xl elegant-title mb-2">Grey Cat CTF</h5>
-                                    <div class="ctf-meta-grid" aria-label="CTF metadata">
-                                        <div class="ctf-meta-item">
-                                            <span class="ctf-meta-label">Division</span>
-                                            <span class="ctf-meta-value">해외</span>
-                                        </div>
-                                        <div class="ctf-meta-item">
-                                            <span class="ctf-meta-label">Host Country</span>
-                                            <span class="ctf-meta-value">싱가포르</span>
-                                        </div>
-                                        <div class="ctf-meta-item">
-                                            <span class="ctf-meta-label">Organizer</span>
-                                            <span class="ctf-meta-value">NUS Greyhats</span>
-                                        </div>
-                                    </div>
-                                    <p class="text-sm text-gray-400 elegant-text leading-relaxed">싱가포르 NUS Greyhats가 주최한 해외 CTF에 솔로 참가하여 전체 25등 및 상위 20% 기록.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Projects Section -->
-    <section id="projects" class="py-32 bg-white/[0.02] px-8">
-        <div class="max-w-7xl mx-auto">
-            <h3 class="text-4xl md:text-5xl font-black mb-20">Security Projects</h3>
-            
-            <div class="grid md:grid-cols-2 gap-10">
-                <div class="glass-card project-card p-10 rounded-[40px] flex flex-col group" role="button" tabindex="0" data-title="WEB mini-IDS" data-desc="실시간 웹 트래픽을 분석하고 공격 패턴을 시각화하는 미니 IDS 프로젝트입니다. Python/PySide6 기반으로 탐지 흐름과 대시보드 구성을 강조합니다." data-stack="PYTHON · PYSIDE6 · TRAFFIC ANALYSIS">
-                    <div class="mb-8">
-                        <div class="w-14 h-14 bg-green-500/10 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-green-500 transition-colors duration-500">
-                            <i class="fas fa-shield-virus text-green-500 text-2xl group-hover:text-black transition-colors duration-500"></i>
-                        </div>
-                        <h4 class="text-2xl font-bold mb-4">WEB mini-IDS</h4>
-                        <p class="text-gray-400 leading-relaxed">지능형 웹 공격 탐지 시스템. 실시간 트래픽 분석 및 시각화 대시보드 포함.</p>
-                    </div>
-                    <div class="mt-auto flex gap-3 flex-wrap">
-                        <span class="text-[10px] font-bold mono bg-white/5 px-3 py-1 rounded-full text-dim">PYTHON</span>
-                        <span class="text-[10px] font-bold mono bg-white/5 px-3 py-1 rounded-full text-dim">PYSIDE6</span>
-                    </div>
-                    <div class="project-action mono">View Details <i class="fas fa-arrow-right"></i></div>
-                </div>
-
-                <div class="glass-card project-card p-10 rounded-[40px] flex flex-col group" role="button" tabindex="0" data-title="비밀번호 강도 분석기" data-desc="엔트로피 계산과 크래킹 시뮬레이션을 통해 비밀번호 강도를 정량화하는 보안 도구입니다. 사용자에게 위험도를 직관적으로 보여주는 구조를 목표로 합니다." data-stack="FLASK · ALGORITHM · ENTROPY">
-                    <div class="mb-8">
-                        <div class="w-14 h-14 bg-blue-500/10 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-blue-500 transition-colors duration-500">
-                            <i class="fas fa-key text-blue-500 text-2xl group-hover:text-black transition-colors duration-500"></i>
-                        </div>
-                        <h4 class="text-2xl font-bold mb-4">비밀번호 강도 분석기</h4>
-                        <p class="text-gray-400 leading-relaxed">수학적 엔트로피 기반 보안 강도 계산 및 크래킹 시뮬레이션 도구.</p>
-                    </div>
-                    <div class="mt-auto flex gap-3 flex-wrap">
-                        <span class="text-[10px] font-bold mono bg-white/5 px-3 py-1 rounded-full text-dim">FLASK</span>
-                        <span class="text-[10px] font-bold mono bg-white/5 px-3 py-1 rounded-full text-dim">ALGORITHM</span>
-                    </div>
-                    <div class="project-action mono">View Details <i class="fas fa-arrow-right"></i></div>
-                </div>
-
-                <div class="glass-card project-card p-10 rounded-[40px] flex flex-col group" role="button" tabindex="0" data-title="SMC 포털 피싱 (XSS)" data-desc="교내 포털 환경에서 XSS 시나리오를 구성하고, 취약점 영향도를 시연한 웹 보안 분석 프로젝트입니다. 실제 공격보다 방어 관점의 위협 증명에 초점을 둡니다." data-stack="WEB SECURITY · XSS · THREAT MODELING">
-                    <div class="mb-8">
-                        <div class="w-14 h-14 bg-red-500/10 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-red-500 transition-colors duration-500">
-                            <i class="fas fa-user-secret text-red-500 text-2xl group-hover:text-black transition-colors duration-500"></i>
-                        </div>
-                        <h4 class="text-2xl font-bold mb-4">SMC 포털 피싱 (XSS)</h4>
-                        <p class="text-gray-400 leading-relaxed">교내 포털 사이트 취약점 분석 및 XSS 시나리오 시연을 통한 위협 증명.</p>
-                    </div>
-                    <div class="mt-auto flex gap-3 flex-wrap">
-                        <span class="text-[10px] font-bold mono bg-white/5 px-3 py-1 rounded-full text-dim">WEB_SECURITY</span>
-                        <span class="text-[10px] font-bold mono bg-white/5 px-3 py-1 rounded-full text-dim">XSS_PAYLOAD</span>
-                    </div>
-                    <div class="project-action mono">View Details <i class="fas fa-arrow-right"></i></div>
-                </div>
-
-                <div class="glass-card project-card p-10 rounded-[40px] flex flex-col group" role="button" tabindex="0" data-title="댓글 검열 도구 (Brute Force)" data-desc="인증 로직 허점과 자동화 처리 구조를 분석한 프로젝트입니다. 멀티스레딩을 활용한 속도 개선과 보안상 위험 설명을 함께 담습니다." data-stack="AUTOMATION · MULTI THREAD · LOGIC BUG">
-                    <div class="mb-8">
-                        <div class="w-14 h-14 bg-purple-500/10 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-purple-500 transition-colors duration-500">
-                            <i class="fas fa-trash-alt text-purple-500 text-2xl group-hover:text-black transition-colors duration-500"></i>
-                        </div>
-                        <h4 class="text-2xl font-bold mb-4">댓글 검열 도구 (Brute Force)</h4>
-                        <p class="text-gray-400 leading-relaxed">인증 로직 허점을 이용한 자동화 도구. 멀티스레딩 고속 처리 지원.</p>
-                    </div>
-                    <div class="mt-auto flex gap-3 flex-wrap">
-                        <span class="text-[10px] font-bold mono bg-white/5 px-3 py-1 rounded-full text-dim">AUTOMATION</span>
-                        <span class="text-[10px] font-bold mono bg-white/5 px-3 py-1 rounded-full text-dim">MULTI_THREAD</span>
-                    </div>
-                    <div class="project-action mono">View Details <i class="fas fa-arrow-right"></i></div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Floating Contact Dock -->
-    <div class="quick-dock" aria-label="빠른 링크">
-        <a class="dock-btn" href="https://mail.google.com/mail/?view=cm&fs=1&to=songhr498%40gmail.com" target="_blank" rel="noopener noreferrer" aria-label="Gmail 작성창 열기"><i class="fas fa-envelope"></i></a>
-        <a class="dock-btn" href="https://github.com/SLRHR" target="_blank" rel="noopener noreferrer" aria-label="GitHub 열기"><i class="fab fa-github"></i></a>
-        <button class="back-top" id="back-top" type="button" aria-label="맨 위로 이동"><i class="fas fa-arrow-up"></i></button>
-    </div>
-
-    <!-- Project Detail Modal -->
-    <div id="project-modal" class="modal-backdrop px-6 flex items-center justify-center">
-        <div class="modal-panel glass-card rounded-[2rem] p-8 max-w-xl w-full">
-            <div class="flex items-start justify-between gap-6 mb-6">
-                <div>
-                    <p class="mono text-[10px] text-green-500 font-black tracking-[0.3em] uppercase mb-3">Project Detail</p>
-                    <h4 id="modal-title" class="text-2xl md:text-3xl font-black text-white"></h4>
-                </div>
-                <button id="modal-close" type="button" class="w-10 h-10 rounded-full border border-white/10 text-white hover:text-green-500 hover:border-green-500/50 transition-all" aria-label="프로젝트 상세 닫기"><i class="fas fa-times"></i></button>
-            </div>
-            <p id="modal-desc" class="text-gray-400 leading-relaxed mb-6"></p>
-            <div class="rounded-2xl bg-black/30 border border-white/10 p-4">
-                <p class="mono text-[10px] text-gray-500 uppercase tracking-widest mb-2">Stack</p>
-                <p id="modal-stack" class="mono text-sm text-green-500 font-bold"></p>
-            </div>
-        </div>
-    </div>
-
-    <div id="toast" class="toast rounded-full bg-black/80 border border-green-500/30 px-5 py-3 text-sm text-white shadow-2xl backdrop-blur-xl">
+</div>
+</div>
+</section>
+<!-- Floating Contact Dock -->
+<div aria-label="빠른 링크" class="quick-dock">
+<a aria-label="Gmail 작성창 열기" class="dock-btn" href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=songhr498%40gmail.com" rel="noopener noreferrer" target="_blank"><i class="fas fa-envelope"></i></a>
+<a aria-label="GitHub 열기" class="dock-btn" href="https://github.com/SLRHR" rel="noopener noreferrer" target="_blank"><i class="fab fa-github"></i></a>
+<button aria-label="맨 위로 이동" class="back-top" id="back-top" type="button"><i class="fas fa-arrow-up"></i></button>
+</div>
+<!-- Project Detail Modal -->
+<div class="modal-backdrop px-6 flex items-center justify-center" id="project-modal">
+<div class="modal-panel glass-card rounded-[2rem] p-8 max-w-xl w-full">
+<div class="flex items-start justify-between gap-6 mb-6">
+<div>
+<p class="mono text-[10px] text-green-500 font-black tracking-[0.3em] uppercase mb-3">Project Detail</p>
+<h4 class="text-2xl md:text-3xl font-black text-white" id="modal-title"></h4>
+</div>
+<button aria-label="프로젝트 상세 닫기" class="w-10 h-10 rounded-full border border-white/10 text-white hover:text-green-500 hover:border-green-500/50 transition-all" id="modal-close" type="button"><i class="fas fa-times"></i></button>
+</div>
+<p class="text-gray-400 leading-relaxed mb-6" id="modal-desc"></p>
+<div class="rounded-2xl bg-black/30 border border-white/10 p-4">
+<p class="mono text-[10px] text-gray-500 uppercase tracking-widest mb-2">Stack</p>
+<p class="mono text-sm text-green-500 font-bold" id="modal-stack"></p>
+</div>
+</div>
+</div>
+<div class="toast rounded-full bg-black/80 border border-green-500/30 px-5 py-3 text-sm text-white shadow-2xl backdrop-blur-xl" id="toast">
         이메일 주소가 복사되었습니다.
     </div>
-
-    <!-- Footer -->
-    <footer class="py-20 border-t border-white/10 px-8">
-        <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center text-sm text-gray-500">
-            <div>
-                <p class="mb-2 font-bold text-white">© 2026 SONG HYEONGROK.</p>
-                <p class="mono text-[10px] uppercase tracking-[0.2em] text-dim">Security Researcher</p>
-            </div>
-            <div class="flex flex-col md:items-end space-y-4">
-                <a href="https://mail.google.com/mail/?view=cm&fs=1&to=songhr498%40gmail.com" target="_blank" rel="noopener noreferrer" class="group flex items-center space-x-4 transition-all" aria-label="Gmail로 송형록에게 이메일 보내기">
-                    <span class="mono text-[9px] font-black text-dim tracking-widest uppercase group-hover:text-green-500">Gmail</span>
-                    <span class="text-white font-medium border-b border-white/5 group-hover:border-green-500/50 pb-0.5">songhr498@gmail.com</span>
-                </a>
-                <a href="https://github.com/SLRHR" target="_blank" class="group flex items-center space-x-4 transition-all">
-                    <span class="mono text-[9px] font-black text-dim tracking-widest uppercase group-hover:text-green-500">GitHub</span>
-                    <span class="text-white font-medium border-b border-white/5 group-hover:border-green-500/50 pb-0.5">github.com/SLRHR</span>
-                </a>
-                <a href="https://dreamhack.io/users/81132" target="_blank" class="group flex items-center space-x-4 transition-all">
-                    <span class="mono text-[9px] font-black text-dim tracking-widest uppercase group-hover:text-green-500">Dreamhack</span>
-                    <span class="text-white font-medium border-b border-white/5 group-hover:border-green-500/50 pb-0.5">dreamhack.io/SLHR</span>
-                </a>
-            </div>
-        </div>
-    </footer>
-
-    <script>
+<!-- Footer -->
+<footer class="py-20 border-t border-white/10 px-8">
+<div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center text-sm text-gray-500">
+<div>
+<p class="mb-2 font-bold text-white">© 2026 SONG HYEONGROK.</p>
+<p class="mono text-[10px] uppercase tracking-[0.2em] text-dim">Security Researcher</p>
+</div>
+<div class="flex flex-col md:items-end space-y-4">
+<a aria-label="Gmail로 송형록에게 이메일 보내기" class="group flex items-center space-x-4 transition-all" href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=songhr498%40gmail.com" rel="noopener noreferrer" target="_blank">
+<span class="mono text-[9px] font-black text-dim tracking-widest uppercase group-hover:text-green-500">Gmail</span>
+<span class="text-white font-medium border-b border-white/5 group-hover:border-green-500/50 pb-0.5">songhr498@gmail.com</span>
+</a>
+<a class="group flex items-center space-x-4 transition-all" href="https://github.com/SLRHR" target="_blank">
+<span class="mono text-[9px] font-black text-dim tracking-widest uppercase group-hover:text-green-500">GitHub</span>
+<span class="text-white font-medium border-b border-white/5 group-hover:border-green-500/50 pb-0.5">github.com/SLRHR</span>
+</a>
+<a class="group flex items-center space-x-4 transition-all" href="https://dreamhack.io/users/81132" target="_blank">
+<span class="mono text-[9px] font-black text-dim tracking-widest uppercase group-hover:text-green-500">Dreamhack</span>
+<span class="text-white font-medium border-b border-white/5 group-hover:border-green-500/50 pb-0.5">dreamhack.io/SLHR</span>
+</a>
+</div>
+</div>
+</footer>
+<script>
         const EMAIL = 'songhr498@gmail.com';
 
-        // Mouse Glow
+        // Mouse Glow - desktop only
         const mouseGlow = document.getElementById('mouse-glow');
-        window.addEventListener('mousemove', (e) => {
-            mouseGlow.style.opacity = '1';
-            mouseGlow.style.left = e.clientX + 'px';
-            mouseGlow.style.top = e.clientY + 'px';
-        });
+        const canUseMouseGlow = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+        if (mouseGlow && canUseMouseGlow) {
+            window.addEventListener('mousemove', (e) => {
+                mouseGlow.style.opacity = '1';
+                mouseGlow.style.left = e.clientX + 'px';
+                mouseGlow.style.top = e.clientY + 'px';
+            }, { passive: true });
+        }
 
         // Scroll Progress + Back Top
         const scrollProgress = document.getElementById('scroll-progress');
@@ -939,14 +1287,20 @@
         // Mobile Menu
         const mobileToggle = document.getElementById('mobile-toggle');
         const mobileMenu = document.getElementById('mobile-menu');
-        mobileToggle.addEventListener('click', () => {
-            mobileMenu.classList.toggle('open');
+        function setMobileMenuState(isOpen) {
+            mobileMenu.classList.toggle('open', isOpen);
+            mobileToggle.setAttribute('aria-expanded', String(isOpen));
             const icon = mobileToggle.querySelector('i');
-            icon.classList.toggle('fa-bars');
-            icon.classList.toggle('fa-times');
+            icon.classList.toggle('fa-bars', !isOpen);
+            icon.classList.toggle('fa-times', isOpen);
+        }
+
+        mobileToggle.setAttribute('aria-expanded', 'false');
+        mobileToggle.addEventListener('click', () => {
+            setMobileMenuState(!mobileMenu.classList.contains('open'));
         });
         document.querySelectorAll('.mobile-nav-link').forEach(link => {
-            link.addEventListener('click', () => mobileMenu.classList.remove('open'));
+            link.addEventListener('click', () => setMobileMenuState(false));
         });
 
         // Copy Email Toast
