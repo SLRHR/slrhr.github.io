@@ -331,6 +331,71 @@
             transform: translateX(-50%) translateY(0);
             opacity: 1;
         }
+
+        .ctf-category-heading {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1.25rem;
+        }
+        .ctf-category-badge {
+            display: inline-flex;
+            align-items: center;
+            border-radius: 9999px;
+            padding: 0.35rem 0.75rem;
+            font-size: 9px;
+            font-weight: 900;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .ctf-category-badge.domestic {
+            background: rgba(0, 255, 65, 0.1);
+            color: #00ff41;
+            border: 1px solid rgba(0, 255, 65, 0.22);
+        }
+        .ctf-category-badge.international {
+            background: rgba(34, 211, 238, 0.1);
+            color: #22d3ee;
+            border: 1px solid rgba(34, 211, 238, 0.22);
+        }
+        .ctf-meta-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 0.65rem;
+            margin: 1rem 0 1.15rem;
+        }
+        .ctf-meta-item {
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.035);
+            border-radius: 1rem;
+            padding: 0.75rem;
+            min-width: 0;
+        }
+        .ctf-meta-label {
+            display: block;
+            font-size: 9px;
+            font-weight: 900;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.38);
+            font-family: 'JetBrains Mono', monospace;
+            margin-bottom: 0.25rem;
+        }
+        .ctf-meta-value {
+            display: block;
+            font-size: 0.78rem;
+            font-weight: 800;
+            color: rgba(255, 255, 255, 0.86);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        @media (max-width: 640px) {
+            .ctf-meta-grid { grid-template-columns: 1fr; }
+            .ctf-meta-value { white-space: normal; }
+        }
+
         @media (max-width: 768px) {
             .quick-dock { right: 14px; bottom: 14px; }
             .dock-btn, .back-top { width: 42px; height: 42px; }
@@ -610,41 +675,113 @@
                     <h4 class="text-lg font-black mb-12 flex items-center text-white tracking-widest uppercase">
                         <span class="w-10 h-0.5 bg-blue-500 mr-5"></span> CTF & External
                     </h4>
-                    <div id="ctf-external-list" class="space-y-6">
-                        <div class="glass-card ctf-external-card p-8 rounded-3xl border-l-4 border-green-500">
-                            <div class="flex justify-between items-center mb-5">
-                                <span class="bg-green-500/10 text-green-500 text-[9px] font-black px-3 py-1 rounded-full mono tracking-widest">HYUNDAI AUTOEVER</span>
-                                <span class="mono text-xs font-bold text-white tracking-tight">CTF 입상 / 장학생</span>
+                    <div id="ctf-external-list" class="space-y-10">
+                        <div>
+                            <div class="ctf-category-heading">
+                                <span class="ctf-category-badge domestic">DOMESTIC</span>
+                                <h5 class="text-sm font-black text-white tracking-widest uppercase">국내 CTF / External</h5>
                             </div>
-                            <h5 class="text-xl elegant-title mb-2">현대오토에버 화이트해커 양성교육</h5>
-                            <p class="text-sm text-gray-400 elegant-text leading-relaxed">CTF 대회 입상 및 전 과정 우수 교육생 선정 (장학증서 수여).</p>
+                            <div class="space-y-6">
+                                <div class="glass-card ctf-external-card p-8 rounded-3xl border-l-4 border-green-500">
+                                    <div class="flex justify-between items-center mb-5">
+                                        <span class="bg-green-500/10 text-green-500 text-[9px] font-black px-3 py-1 rounded-full mono tracking-widest">HYUNDAI AUTOEVER</span>
+                                        <span class="mono text-xs font-bold text-white tracking-tight">CTF 입상 / 장학생</span>
+                                    </div>
+                                    <h5 class="text-xl elegant-title mb-2">현대오토에버 화이트해커 양성교육</h5>
+                                    <div class="ctf-meta-grid" aria-label="CTF metadata">
+                                        <div class="ctf-meta-item">
+                                            <span class="ctf-meta-label">Division</span>
+                                            <span class="ctf-meta-value">국내</span>
+                                        </div>
+                                        <div class="ctf-meta-item">
+                                            <span class="ctf-meta-label">Host Country</span>
+                                            <span class="ctf-meta-value">대한민국</span>
+                                        </div>
+                                        <div class="ctf-meta-item">
+                                            <span class="ctf-meta-label">Organizer</span>
+                                            <span class="ctf-meta-value">현대오토에버</span>
+                                        </div>
+                                    </div>
+                                    <p class="text-sm text-gray-400 elegant-text leading-relaxed">CTF 대회 입상 및 전 과정 우수 교육생 선정 (장학증서 수여).</p>
+                                </div>
+
+                                <div class="glass-card ctf-external-card p-8 rounded-3xl border-l-4 border-yellow-500">
+                                    <div class="flex justify-between items-center mb-5">
+                                        <span class="bg-yellow-500/10 text-yellow-500 text-[9px] font-black px-3 py-1 rounded-full mono tracking-widest">DREAMHACK</span>
+                                        <span class="mono text-xs font-bold text-white tracking-tight">12th Place</span>
+                                    </div>
+                                    <h5 class="text-xl elegant-title mb-2">WaRP vs s0sCoD3 CTF</h5>
+                                    <div class="ctf-meta-grid" aria-label="CTF metadata">
+                                        <div class="ctf-meta-item">
+                                            <span class="ctf-meta-label">Division</span>
+                                            <span class="ctf-meta-value">국내</span>
+                                        </div>
+                                        <div class="ctf-meta-item">
+                                            <span class="ctf-meta-label">Host Country</span>
+                                            <span class="ctf-meta-value">대한민국</span>
+                                        </div>
+                                        <div class="ctf-meta-item">
+                                            <span class="ctf-meta-label">Organizer</span>
+                                            <span class="ctf-meta-value">Dreamhack</span>
+                                        </div>
+                                    </div>
+                                    <p class="text-sm text-gray-400 elegant-text leading-relaxed">실전 취약점 분석 및 익스플로잇 설계 역량 입증.</p>
+                                </div>
+
+                                <div class="glass-card ctf-external-card p-8 rounded-3xl border-l-4 border-orange-500">
+                                    <div class="flex justify-between items-center mb-5">
+                                        <span class="bg-orange-500/10 text-orange-500 text-[9px] font-black px-3 py-1 rounded-full mono tracking-widest">DREAMHACK</span>
+                                        <span class="mono text-xs font-bold text-white tracking-tight">25th Place</span>
+                                    </div>
+                                    <h5 class="text-xl elegant-title mb-2">제1회 감귤 CTF</h5>
+                                    <div class="ctf-meta-grid" aria-label="CTF metadata">
+                                        <div class="ctf-meta-item">
+                                            <span class="ctf-meta-label">Division</span>
+                                            <span class="ctf-meta-value">국내</span>
+                                        </div>
+                                        <div class="ctf-meta-item">
+                                            <span class="ctf-meta-label">Host Country</span>
+                                            <span class="ctf-meta-value">대한민국</span>
+                                        </div>
+                                        <div class="ctf-meta-item">
+                                            <span class="ctf-meta-label">Organizer</span>
+                                            <span class="ctf-meta-value">Dreamhack</span>
+                                        </div>
+                                    </div>
+                                    <p class="text-sm text-gray-400 elegant-text leading-relaxed">다양한 환경의 문제 해결을 통한 실전 역량 강화.</p>
+                                </div>
+                            </div>
                         </div>
 
-                        <div class="glass-card ctf-external-card p-8 rounded-3xl border-l-4 border-cyan-400">
-                            <div class="flex justify-between items-center mb-5">
-                                <span class="bg-cyan-400/10 text-cyan-400 text-[9px] font-black px-3 py-1 rounded-full mono tracking-widest">INTERNATIONAL CTF</span>
-                                <span class="mono text-xs font-bold text-white tracking-tight">SOLO 25th / Top 20%</span>
+                        <div>
+                            <div class="ctf-category-heading">
+                                <span class="ctf-category-badge international">INTERNATIONAL</span>
+                                <h5 class="text-sm font-black text-white tracking-widest uppercase">해외 CTF</h5>
                             </div>
-                            <h5 class="text-xl elegant-title mb-2">Grey Cat CTF</h5>
-                            <p class="text-sm text-gray-400 elegant-text leading-relaxed">해외 CTF에 솔로 참가하여 전체 25등 및 상위 20% 기록.</p>
-                        </div>
-
-                        <div class="glass-card ctf-external-card p-8 rounded-3xl border-l-4 border-yellow-500">
-                            <div class="flex justify-between items-center mb-5">
-                                <span class="bg-yellow-500/10 text-yellow-500 text-[9px] font-black px-3 py-1 rounded-full mono tracking-widest">DREAMHACK</span>
-                                <span class="mono text-xs font-bold text-white tracking-tight">12th Place</span>
+                            <div class="space-y-6">
+                                <div class="glass-card ctf-external-card p-8 rounded-3xl border-l-4 border-cyan-400">
+                                    <div class="flex justify-between items-center mb-5">
+                                        <span class="bg-cyan-400/10 text-cyan-400 text-[9px] font-black px-3 py-1 rounded-full mono tracking-widest">INTERNATIONAL CTF</span>
+                                        <span class="mono text-xs font-bold text-white tracking-tight">SOLO 25th / Top 20%</span>
+                                    </div>
+                                    <h5 class="text-xl elegant-title mb-2">Grey Cat CTF</h5>
+                                    <div class="ctf-meta-grid" aria-label="CTF metadata">
+                                        <div class="ctf-meta-item">
+                                            <span class="ctf-meta-label">Division</span>
+                                            <span class="ctf-meta-value">해외</span>
+                                        </div>
+                                        <div class="ctf-meta-item">
+                                            <span class="ctf-meta-label">Host Country</span>
+                                            <span class="ctf-meta-value">싱가포르</span>
+                                        </div>
+                                        <div class="ctf-meta-item">
+                                            <span class="ctf-meta-label">Organizer</span>
+                                            <span class="ctf-meta-value">NUS Greyhats</span>
+                                        </div>
+                                    </div>
+                                    <p class="text-sm text-gray-400 elegant-text leading-relaxed">싱가포르 NUS Greyhats가 주최한 해외 CTF에 솔로 참가하여 전체 25등 및 상위 20% 기록.</p>
+                                </div>
                             </div>
-                            <h5 class="text-xl elegant-title mb-2">WaRP vs s0sCoD3 CTF</h5>
-                            <p class="text-sm text-gray-400 elegant-text leading-relaxed">실전 취약점 분석 및 익스플로잇 설계 역량 입증.</p>
-                        </div>
-
-                        <div class="glass-card ctf-external-card p-8 rounded-3xl border-l-4 border-orange-500">
-                            <div class="flex justify-between items-center mb-5">
-                                <span class="bg-orange-500/10 text-orange-500 text-[9px] font-black px-3 py-1 rounded-full mono tracking-widest">DREAMHACK</span>
-                                <span class="mono text-xs font-bold text-white tracking-tight">25th Place</span>
-                            </div>
-                            <h5 class="text-xl elegant-title mb-2">제1회 감귤 CTF</h5>
-                            <p class="text-sm text-gray-400 elegant-text leading-relaxed">다양한 환경의 문제 해결을 통한 실전 역량 강화.</p>
                         </div>
                     </div>
                 </div>
