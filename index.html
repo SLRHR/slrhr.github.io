@@ -212,30 +212,8 @@
                 transition: max-height 0.35s ease;
             }
             .mobile-menu.open { max-height: 420px; }
-            .hero-terminal {
-                background: linear-gradient(145deg, rgba(0,255,65,0.08), rgba(255,255,255,0.03));
-                border: 1px solid rgba(0,255,65,0.18);
-                box-shadow: inset 0 0 35px rgba(0,255,65,0.035), 0 25px 80px rgba(0,0,0,0.45);
-            }
-            .status-dot {
-                width: 8px;
-                height: 8px;
-                border-radius: 9999px;
-                background: var(--accent);
-                box-shadow: 0 0 12px var(--accent);
-            }
-            .stat-card {
-                background: rgba(255,255,255,0.045);
-                border: 1px solid rgba(255,255,255,0.08);
-                border-radius: 1.25rem;
-                padding: 1.15rem;
-                transition: transform 0.35s ease, border-color 0.35s ease, background 0.35s ease;
-            }
-            .stat-card:hover {
-                transform: translateY(-5px);
-                border-color: rgba(0,255,65,0.35);
-                background: rgba(0,255,65,0.055);
-            }
+
+
             .skill-pill {
                 border: 1px solid rgba(255,255,255,0.1);
                 background: rgba(255,255,255,0.04);
@@ -416,7 +394,6 @@
             }
 
             .glass-card,
-            .stat-card,
             .ctf-meta-item,
             .project-card {
                 min-width: 0;
@@ -424,7 +401,6 @@
 
             @media (hover: none), (pointer: coarse) {
                 .glass-card:hover,
-                .stat-card:hover,
                 .skill-pill:hover,
                 .dock-btn:hover,
                 .back-top:hover {
@@ -537,25 +513,6 @@
                     align-items: center;
                 }
 
-                .hero-terminal {
-                    border-radius: 1.5rem !important;
-                    padding: 1rem !important;
-                    margin-top: 2rem !important;
-                }
-
-                .hero-terminal .grid {
-                    grid-template-columns: 1fr !important;
-                    gap: 0.75rem !important;
-                }
-
-                .stat-card {
-                    padding: 0.95rem !important;
-                    border-radius: 1rem !important;
-                }
-
-                .stat-card p:last-child {
-                    font-size: 1.05rem !important;
-                }
 
                 .profile-container {
                     max-width: 280px;
@@ -866,29 +823,6 @@
                         현대오토에버 화이트해커 양성교육을 수료하고 서울여대 AI 정보보호 
                         <br>영재교육원을 최종합격하여 AI 보안 분야를 학습하고 있습니다.
                     </p>
-    <div class="hero-terminal rounded-[2rem] p-5 md:p-6 mt-10 max-w-2xl">
-    <div class="flex items-center justify-between mb-5">
-    <div class="flex items-center gap-2 mono text-[10px] text-green-500 font-bold tracking-widest uppercase">
-    <span class="status-dot"></span>
-    <span>profile.metrics</span>
-    </div>
-    <span class="mono text-[10px] text-gray-500">LIVE</span>
-    </div>
-    <div class="grid grid-cols-3 gap-3">
-    <div class="stat-card">
-    <p class="mono text-[10px] text-gray-500 uppercase tracking-widest">CTF 참가</p>
-    <p class="text-lg md:text-xl font-black text-white mt-1"><span data-target="0" id="ctf-count">0</span>회</p>
-    </div>
-    <div class="stat-card">
-    <p class="mono text-[10px] text-gray-500 uppercase tracking-widest">Mode</p>
-    <p class="text-lg md:text-xl font-black text-white mt-1">SOLO</p>
-    </div>
-    <div class="stat-card">
-    <p class="mono text-[10px] text-gray-500 uppercase tracking-widest">Track</p>
-    <p class="text-lg md:text-xl font-black text-white mt-1">AI SEC</p>
-    </div>
-    </div>
-    </div>
     </div>
     <div class="lg:col-span-5 flex justify-center">
     <div class="profile-container group">
@@ -1473,37 +1407,6 @@
                 });
             }, { rootMargin: '-35% 0px -55% 0px', threshold: 0.01 });
             document.querySelectorAll('section[id]').forEach(section => sectionObserver.observe(section));
-
-            const ctfCountEl = document.getElementById('ctf-count');
-            const ctfCards = document.querySelectorAll('#ctf-external-list .ctf-external-card');
-            if (ctfCountEl) {
-                ctfCountEl.dataset.target = String(ctfCards.length);
-                ctfCountEl.textContent = '0';
-
-                const animateCounter = (element, target) => {
-                    const duration = 1200;
-                    const startTime = performance.now();
-                    const tick = (now) => {
-                        const progress = Math.min((now - startTime) / duration, 1);
-                        const eased = 1 - Math.pow(1 - progress, 3);
-                        element.textContent = String(Math.round(eased * target));
-                        if (progress < 1) requestAnimationFrame(tick);
-                        else element.textContent = String(target);
-                    };
-                    requestAnimationFrame(tick);
-                };
-
-                const counterObserver = new IntersectionObserver((entries) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting && !ctfCountEl.dataset.counted) {
-                            ctfCountEl.dataset.counted = 'true';
-                            animateCounter(ctfCountEl, ctfCards.length);
-                        }
-                    });
-                }, { threshold: 0.35 });
-
-                counterObserver.observe(ctfCountEl.closest('.hero-terminal'));
-            }
         </script>
     </body>
     </html>
