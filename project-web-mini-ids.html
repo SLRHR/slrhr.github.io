@@ -1,261 +1,252 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!DOCTYPE html>
+
+    <html lang="ko">
+    <head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <title>WEB mini-IDS | SLHR Project Blog</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;700&family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet" />
-    <link as="style" crossorigin="" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;family=JetBrains+Mono:wght@400;700&amp;family=Noto+Sans+KR:wght@300;400;500;700;900&amp;display=swap" rel="stylesheet"/>
+    <link as="style" crossorigin="" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" rel="stylesheet"/>
     <style>
 
-:root {
-    --accent: #00ff41;
-    --accent-secondary: #3498db;
-    --bg: #030303;
-    --card-bg: rgba(15, 15, 15, 0.74);
-    --text-main: #ffffff;
-    --text-dim: #999999;
-}
-html { scroll-behavior: smooth; }
-body {
-    background-color: var(--bg);
-    color: var(--text-main);
-    font-family: 'Pretendard Variable', Pretendard, 'Inter', 'Noto Sans KR', sans-serif;
-    letter-spacing: -0.02em;
-    line-height: 1.7;
-    overflow-x: hidden;
-}
-.mono { font-family: 'JetBrains Mono', monospace; }
-.bg-glow {
-    position: fixed;
-    inset: 0;
-    background:
-        radial-gradient(circle at 10% 20%, rgba(0, 255, 65, 0.08) 0%, transparent 46%),
-        radial-gradient(circle at 90% 80%, rgba(52, 152, 219, 0.08) 0%, transparent 52%);
-    z-index: -2;
-}
-.cyber-grid {
-    position: fixed;
-    inset: 0;
-    background-image:
-        linear-gradient(rgba(0, 255, 65, 0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0, 255, 65, 0.03) 1px, transparent 1px);
-    background-size: 50px 50px;
-    z-index: -1;
-    pointer-events: none;
-}
-.nav-blur { background: rgba(3, 3, 3, 0.86); backdrop-filter: blur(20px); }
-.glass-card {
-    background: var(--card-bg);
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    box-shadow: 0 25px 70px rgba(0, 0, 0, 0.42);
-}
-.article-title {
-    font-size: clamp(2.5rem, 7vw, 5.6rem);
-    line-height: 0.95;
-    font-weight: 900;
-    letter-spacing: -0.065em;
-}
-.section-kicker {
-    color: var(--accent);
-    font-size: 10px;
-    font-weight: 900;
-    letter-spacing: 0.32em;
-    text-transform: uppercase;
-}
-.prose-card h2 { font-size: 1.75rem; font-weight: 900; color: white; margin-bottom: 1rem; letter-spacing: -0.04em; }
-.prose-card h3 { font-size: 1.1rem; font-weight: 900; color: white; margin-bottom: 0.5rem; }
-.prose-card p { color: rgba(255,255,255,0.66); margin-bottom: 1rem; }
-.prose-card ul { color: rgba(255,255,255,0.66); padding-left: 1.2rem; list-style: disc; }
-.prose-card li { margin-bottom: 0.6rem; }
-.tag {
-    display: inline-flex;
-    align-items: center;
-    border-radius: 9999px;
-    border: 1px solid rgba(255,255,255,0.10);
-    background: rgba(255,255,255,0.045);
-    padding: 0.45rem 0.75rem;
-    font-size: 10px;
-    font-weight: 900;
-    color: rgba(255,255,255,0.68);
-    letter-spacing: 0.1em;
-}
-.step-line {
-    position: relative;
-    padding-left: 1.6rem;
-    border-left: 1px solid rgba(255,255,255,0.12);
-}
-.step-line::before {
-    content: '';
-    position: absolute;
-    left: -5px;
-    top: 0.45rem;
-    width: 9px;
-    height: 9px;
-    border-radius: 9999px;
-    background: var(--accent);
-    box-shadow: 0 0 14px var(--accent);
-}
-.placeholder {
-    border: 1px dashed rgba(255,255,255,0.16);
-    background: rgba(255,255,255,0.035);
-    min-height: 220px;
-}
-@media (max-width: 768px) {
-    .article-title { font-size: clamp(2.35rem, 14vw, 4rem); }
-    .glass-card { border-radius: 1.5rem !important; padding: 1.25rem !important; }
-}
+    :root {
+        --accent: #00ff41;
+        --accent-secondary: #3498db;
+        --bg: #030303;
+        --card-bg: rgba(15, 15, 15, 0.74);
+        --text-main: #ffffff;
+        --text-dim: #999999;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+        background-color: var(--bg);
+        color: var(--text-main);
+        font-family: 'Pretendard Variable', Pretendard, 'Inter', 'Noto Sans KR', sans-serif;
+        letter-spacing: -0.02em;
+        line-height: 1.7;
+        overflow-x: hidden;
+    }
+    .mono { font-family: 'JetBrains Mono', monospace; }
+    .bg-glow {
+        position: fixed;
+        inset: 0;
+        background:
+            radial-gradient(circle at 10% 20%, rgba(0, 255, 65, 0.08) 0%, transparent 46%),
+            radial-gradient(circle at 90% 80%, rgba(52, 152, 219, 0.08) 0%, transparent 52%);
+        z-index: -2;
+    }
+    .cyber-grid {
+        position: fixed;
+        inset: 0;
+        background-image:
+            linear-gradient(rgba(0, 255, 65, 0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(0, 255, 65, 0.03) 1px, transparent 1px);
+        background-size: 50px 50px;
+        z-index: -1;
+        pointer-events: none;
+    }
+    .nav-blur { background: rgba(3, 3, 3, 0.86); backdrop-filter: blur(20px); }
+    .glass-card {
+        background: var(--card-bg);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        box-shadow: 0 25px 70px rgba(0, 0, 0, 0.42);
+    }
+    .article-title {
+        font-size: clamp(2.5rem, 7vw, 5.6rem);
+        line-height: 0.95;
+        font-weight: 900;
+        letter-spacing: -0.065em;
+    }
+    .section-kicker {
+        color: var(--accent);
+        font-size: 10px;
+        font-weight: 900;
+        letter-spacing: 0.32em;
+        text-transform: uppercase;
+    }
+    .prose-card h2 { font-size: 1.75rem; font-weight: 900; color: white; margin-bottom: 1rem; letter-spacing: -0.04em; }
+    .prose-card h3 { font-size: 1.1rem; font-weight: 900; color: white; margin-bottom: 0.5rem; }
+    .prose-card p { color: rgba(255,255,255,0.66); margin-bottom: 1rem; }
+    .prose-card ul { color: rgba(255,255,255,0.66); padding-left: 1.2rem; list-style: disc; }
+    .prose-card li { margin-bottom: 0.6rem; }
+    .tag {
+        display: inline-flex;
+        align-items: center;
+        border-radius: 9999px;
+        border: 1px solid rgba(255,255,255,0.10);
+        background: rgba(255,255,255,0.045);
+        padding: 0.45rem 0.75rem;
+        font-size: 10px;
+        font-weight: 900;
+        color: rgba(255,255,255,0.68);
+        letter-spacing: 0.1em;
+    }
+    .step-line {
+        position: relative;
+        padding-left: 1.6rem;
+        border-left: 1px solid rgba(255,255,255,0.12);
+    }
+    .step-line::before {
+        content: '';
+        position: absolute;
+        left: -5px;
+        top: 0.45rem;
+        width: 9px;
+        height: 9px;
+        border-radius: 9999px;
+        background: var(--accent);
+        box-shadow: 0 0 14px var(--accent);
+    }
+    .placeholder {
+        border: 1px dashed rgba(255,255,255,0.16);
+        background: rgba(255,255,255,0.035);
+        min-height: 220px;
+    }
+    @media (max-width: 768px) {
+        .article-title { font-size: clamp(2.35rem, 14vw, 4rem); }
+        .glass-card { border-radius: 1.5rem !important; padding: 1.25rem !important; }
+    }
 
-    </style>
-</head>
-<body class="antialiased">
+        </style>
+    </head>
+    <body class="antialiased">
     <div class="bg-glow"></div>
     <div class="cyber-grid"></div>
-
     <nav class="fixed w-full z-50 nav-blur border-b border-white/5 px-6 md:px-8 py-5">
-        <div class="max-w-6xl mx-auto flex justify-between items-center">
-            <a class="text-xl font-black mono tracking-tighter text-white" href="index.html#about">SHR<span style="color: var(--accent);">_</span>SEC</a>
-            <div class="flex items-center gap-3 text-[10px] font-black uppercase tracking-[0.24em]">
-                <a class="hidden sm:inline-flex text-gray-400 hover:text-white transition-colors" href="index.html#projects">Projects</a>
-                <a class="px-4 py-2 rounded-full border border-white/10 text-white hover:border-white/30 transition-all" href="index.html#projects">Back</a>
-            </div>
-        </div>
+    <div class="max-w-6xl mx-auto flex justify-between items-center">
+    <a class="text-xl font-black mono tracking-tighter text-white" href="index.html#about">SHR<span style="color: var(--accent);">_</span>SEC</a>
+    <div class="flex items-center gap-3 text-[10px] font-black uppercase tracking-[0.24em]">
+    <a class="hidden sm:inline-flex text-gray-400 hover:text-white transition-colors" href="index.html#projects">Projects</a>
+    <a class="px-4 py-2 rounded-full border border-white/10 text-white hover:border-white/30 transition-all" href="index.html#projects">Back</a>
+    </div>
+    </div>
     </nav>
-
     <main class="pt-32 pb-24 px-6 md:px-8">
-        <article class="max-w-6xl mx-auto">
-            <header class="mb-14">
-                <p class="section-kicker mono mb-5">/ Security Project</p>
-                <div class="grid lg:grid-cols-12 gap-10 items-end">
-                    <div class="lg:col-span-8">
-                        <h1 class="article-title text-white mb-6">WEB mini-IDS</h1>
-                        <p class="text-xl md:text-2xl text-gray-400 max-w-3xl leading-relaxed">실시간 웹 트래픽 분석과 공격 패턴 시각화를 목표로 만든 미니 침입 탐지 시스템 프로젝트입니다.</p>
-                    </div>
-                    <div class="lg:col-span-4">
-                        <div class="glass-card rounded-[2rem] p-6">
-                            <div class="w-14 h-14 rounded-2xl flex items-center justify-center mb-5" style="background: color-mix(in srgb, var(--accent) 12%, transparent);">
-                                <i class="fas fa-shield-virus text-2xl" style="color: var(--accent);"></i>
-                            </div>
-                            <p class="mono text-[10px] text-gray-500 uppercase tracking-[0.24em] mb-2">Project Stack</p>
-                            <div class="flex flex-wrap gap-2"><span class="tag mono">PYTHON</span>
-<span class="tag mono">PYSIDE6</span>
-<span class="tag mono">TRAFFIC ANALYSIS</span>
-<span class="tag mono">DASHBOARD</span>
-<span class="tag mono">DETECTION RULE</span></div>
-                        </div>
-                    </div>
-                </div>
-            </header>
-
-            <section class="grid lg:grid-cols-12 gap-8 mb-8">
-                <div class="lg:col-span-8 glass-card prose-card rounded-[2rem] p-8 md:p-10">
-                    <p class="section-kicker mono mb-4">01 · Overview</p>
-                    <h2>프로젝트 개요</h2>
-                    <p>WEB mini-IDS는 웹 요청 로그 또는 트래픽 데이터를 분석하여 의심스러운 패턴을 탐지하고, GUI 대시보드에서 결과를 확인할 수 있도록 설계한 보안 프로젝트입니다. 단순히 문자열을 찾는 방식이 아니라, 공격 유형별 특징을 분리해 탐지 규칙을 구성하는 데 초점을 맞췄습니다.</p>
-                    <p>웹 공격은 SQL Injection, XSS, Path Traversal처럼 요청 문자열에 특징적인 흔적이 남는 경우가 많습니다. 이 프로젝트는 그런 흔적을 빠르게 분류하고 시각화하여, 보안 관제 흐름을 작은 규모로 구현해 보는 것을 목표로 했습니다.</p>
-                </div>
-                <aside class="lg:col-span-4 glass-card rounded-[2rem] p-8">
-                    <p class="section-kicker mono mb-4">Summary</p>
-                    <div class="space-y-5 text-sm">
-                        <div>
-                            <p class="mono text-[10px] text-gray-500 uppercase tracking-widest mb-1">Role</p>
-                            <p class="font-bold text-white">기획 · 설계 · 구현</p>
-                        </div>
-                        <div>
-                            <p class="mono text-[10px] text-gray-500 uppercase tracking-widest mb-1">Format</p>
-                            <p class="font-bold text-white">개인 프로젝트</p>
-                        </div>
-                        <div>
-                            <p class="mono text-[10px] text-gray-500 uppercase tracking-widest mb-1">Purpose</p>
-                            <p class="text-gray-400">문제 정의 → 기능 설계 → 구현 흐름까지 포트폴리오형으로 정리</p>
-                        </div>
-                    </div>
-                </aside>
-            </section>
-
-            <section class="grid lg:grid-cols-2 gap-8 mb-8">
-                <div class="glass-card prose-card rounded-[2rem] p-8 md:p-10">
-                    <p class="section-kicker mono mb-4">02 · Features</p>
-                    <h2>주요 기능</h2>
-                    <ul><li>웹 요청 데이터 입력 및 파싱</li>
-<li>SQL Injection, XSS, Path Traversal 등 기본 공격 패턴 탐지</li>
-<li>탐지 결과를 위험도와 유형별로 분류</li>
-<li>PySide6 기반 대시보드에서 로그, 카운트, 탐지 결과 확인</li>
-<li>탐지 규칙을 코드 단위로 분리하여 확장 가능하게 구성</li></ul>
-                </div>
-                <div class="glass-card prose-card rounded-[2rem] p-8 md:p-10">
-                    <p class="section-kicker mono mb-4">03 · Architecture</p>
-                    <h2>구현 구조</h2>
-                    <div class="space-y-6">
-                <div class="step-line">
-                    <h3>Input Layer</h3>
-                    <p>로그 파일 또는 요청 데이터를 읽어 분석 가능한 형태로 정규화합니다.</p>
-                </div>
-
-                <div class="step-line">
-                    <h3>Detection Engine</h3>
-                    <p>정규표현식과 키워드 기반 규칙을 적용해 공격 유형을 판별합니다.</p>
-                </div>
-
-                <div class="step-line">
-                    <h3>Scoring Logic</h3>
-                    <p>탐지된 패턴의 개수와 유형에 따라 위험도를 계산합니다.</p>
-                </div>
-
-                <div class="step-line">
-                    <h3>Dashboard UI</h3>
-                    <p>탐지 결과, 통계, 상세 로그를 GUI에서 확인할 수 있게 표시합니다.</p>
-                </div>
-                    </div>
-                </div>
-            </section>
-
-            <section class="grid lg:grid-cols-12 gap-8 mb-8">
-                <div class="lg:col-span-7 glass-card prose-card rounded-[2rem] p-8 md:p-10">
-                    <p class="section-kicker mono mb-4">04 · Build Log</p>
-                    <h2>어떤 방식으로 만들었는가</h2>
-                    <p>탐지 로직은 UI와 분리하여 작성했습니다. 이렇게 하면 새로운 공격 패턴을 추가할 때 화면 코드를 건드리지 않고 탐지 규칙만 확장할 수 있습니다. PySide6는 테이블 형태의 로그 확인과 버튼 기반 분석 흐름을 구현하기 위해 사용했습니다.</p>
-                    <p>탐지 규칙이 너무 단순하면 정상 요청도 공격으로 잘못 분류될 수 있습니다. 그래서 키워드 하나만으로 판단하기보다 요청 경로, 파라미터, 특수문자 조합, 인코딩 흔적을 함께 확인하는 방식으로 오탐을 줄이는 구조를 잡았습니다.</p>
-                </div>
-                <div class="lg:col-span-5 glass-card rounded-[2rem] p-8 md:p-10">
-                    <p class="section-kicker mono mb-4">Screenshot Area</p>
-                    <div class="placeholder rounded-[1.5rem] flex items-center justify-center text-center p-8">
-                        <div>
-                            <i class="fas fa-image text-3xl mb-4" style="color: var(--accent);"></i>
-                            <p class="mono text-[10px] text-gray-500 uppercase tracking-[0.2em]">Add project screenshots here</p>
-                            <p class="text-sm text-gray-500 mt-3">완성 화면, 설계도, 코드 일부, 결과 화면 이미지를 넣는 영역입니다.</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section class="grid lg:grid-cols-2 gap-8 mb-12">
-                <div class="glass-card prose-card rounded-[2rem] p-8 md:p-10">
-                    <p class="section-kicker mono mb-4">05 · Result</p>
-                    <h2>결과 및 배운 점</h2>
-                    <p>웹 공격 탐지의 기본 흐름인 데이터 수집, 파싱, 탐지, 분류, 시각화를 한 번에 경험할 수 있었습니다. 특히 관제 시스템이 단순 탐지보다 결과를 읽기 쉽게 보여주는 것이 중요하다는 점을 확인했습니다.</p>
-                </div>
-                <div class="glass-card prose-card rounded-[2rem] p-8 md:p-10">
-                    <p class="section-kicker mono mb-4">06 · Next Step</p>
-                    <h2>개선 계획</h2>
-                    <ul><li>탐지 규칙 커스터마이징 기능 추가</li>
-<li>CSV/JSON 리포트 내보내기</li>
-<li>실시간 프록시 로그 연동</li>
-<li>오탐/정탐 샘플 기반 탐지 정확도 개선</li></ul>
-                </div>
-            </section>
-
-            <footer class="flex flex-col md:flex-row gap-4 justify-between items-start md:items-center border-t border-white/10 pt-8">
-                <a class="inline-flex items-center gap-3 text-white hover:opacity-80 transition-opacity" href="index.html#projects">
-                    <i class="fas fa-arrow-left" style="color: var(--accent);"></i>
-                    <span class="mono text-[10px] font-black uppercase tracking-[0.24em]">Back to Projects</span>
-                </a>
-                <p class="mono text-[10px] text-gray-600 uppercase tracking-[0.2em]">© 2026 SONG HYEONGROK · Project Archive</p>
-            </footer>
-        </article>
+    <article class="max-w-6xl mx-auto">
+    <header class="mb-14">
+    <p class="section-kicker mono mb-5">/ Security Project</p>
+    <div class="grid lg:grid-cols-12 gap-10 items-end">
+    <div class="lg:col-span-8">
+    <h1 class="article-title text-white mb-6">WEB mini-IDS</h1>
+    <p class="text-xl md:text-2xl text-gray-400 max-w-3xl leading-relaxed">실시간 웹 트래픽 분석과 공격 패턴 시각화를 목표로 만든 미니 침입 탐지 시스템 프로젝트입니다.</p>
+    </div>
+    <div class="lg:col-span-4">
+    <div class="glass-card rounded-[2rem] p-6">
+    <div class="w-14 h-14 rounded-2xl flex items-center justify-center mb-5" style="background: color-mix(in srgb, var(--accent) 12%, transparent);">
+    <i class="fas fa-shield-virus text-2xl" style="color: var(--accent);"></i>
+    </div>
+    <p class="mono text-[10px] text-gray-500 uppercase tracking-[0.24em] mb-2">Project Stack</p>
+    <div class="flex flex-wrap gap-2"><span class="tag mono">PYTHON</span>
+    <span class="tag mono">PYSIDE6</span>
+    <span class="tag mono">TRAFFIC ANALYSIS</span>
+    <span class="tag mono">DASHBOARD</span>
+    <span class="tag mono">DETECTION RULE</span></div>
+    </div>
+    </div>
+    </div>
+    </header>
+    <section class="grid lg:grid-cols-12 gap-8 mb-8">
+    <div class="lg:col-span-8 glass-card prose-card rounded-[2rem] p-8 md:p-10">
+    <p class="section-kicker mono mb-4">01 · Overview</p>
+    <h2>프로젝트 개요</h2>
+    <p>WEB mini-IDS는 웹 요청 로그 또는 트래픽 데이터를 분석하여 의심스러운 패턴을 탐지하고, GUI 대시보드에서 결과를 확인할 수 있도록 설계한 보안 프로젝트입니다. 단순히 문자열을 찾는 방식이 아니라, 공격 유형별 특징을 분리해 탐지 규칙을 구성하는 데 초점을 맞췄습니다.</p>
+    <p>웹 공격은 SQL Injection, XSS, Path Traversal처럼 요청 문자열에 특징적인 흔적이 남는 경우가 많습니다. 이 프로젝트는 그런 흔적을 빠르게 분류하고 시각화하여, 보안 관제 흐름을 작은 규모로 구현해 보는 것을 목표로 했습니다.</p>
+    </div>
+    <aside class="lg:col-span-4 glass-card rounded-[2rem] p-8">
+    <p class="section-kicker mono mb-4">Summary</p>
+    <div class="space-y-5 text-sm">
+    <div>
+    <p class="mono text-[10px] text-gray-500 uppercase tracking-widest mb-1">Role</p>
+    <p class="font-bold text-white">기획 · 설계 · 구현</p>
+    </div>
+    <div>
+    <p class="mono text-[10px] text-gray-500 uppercase tracking-widest mb-1">Format</p>
+    <p class="font-bold text-white">개인 프로젝트</p>
+    </div>
+    <div>
+    <p class="mono text-[10px] text-gray-500 uppercase tracking-widest mb-1">Purpose</p>
+    <p class="text-gray-400">문제 정의 → 기능 설계 → 구현 흐름까지 포트폴리오형으로 정리</p>
+    </div>
+    </div>
+    </aside>
+    </section>
+    <section class="grid lg:grid-cols-2 gap-8 mb-8">
+    <div class="glass-card prose-card rounded-[2rem] p-8 md:p-10">
+    <p class="section-kicker mono mb-4">02 · Features</p>
+    <h2>주요 기능</h2>
+    <ul><li>웹 요청 데이터 입력 및 파싱</li>
+    <li>SQL Injection, XSS, Path Traversal 등 기본 공격 패턴 탐지</li>
+    <li>탐지 결과를 위험도와 유형별로 분류</li>
+    <li>PySide6 기반 대시보드에서 로그, 카운트, 탐지 결과 확인</li>
+    <li>탐지 규칙을 코드 단위로 분리하여 확장 가능하게 구성</li></ul>
+    </div>
+    <div class="glass-card prose-card rounded-[2rem] p-8 md:p-10">
+    <p class="section-kicker mono mb-4">03 · Architecture</p>
+    <h2>구현 구조</h2>
+    <div class="space-y-6">
+    <div class="step-line">
+    <h3>Input Layer</h3>
+    <p>로그 파일 또는 요청 데이터를 읽어 분석 가능한 형태로 정규화합니다.</p>
+    </div>
+    <div class="step-line">
+    <h3>Detection Engine</h3>
+    <p>정규표현식과 키워드 기반 규칙을 적용해 공격 유형을 판별합니다.</p>
+    </div>
+    <div class="step-line">
+    <h3>Scoring Logic</h3>
+    <p>탐지된 패턴의 개수와 유형에 따라 위험도를 계산합니다.</p>
+    </div>
+    <div class="step-line">
+    <h3>Dashboard UI</h3>
+    <p>탐지 결과, 통계, 상세 로그를 GUI에서 확인할 수 있게 표시합니다.</p>
+    </div>
+    </div>
+    </div>
+    </section>
+    <section class="grid lg:grid-cols-12 gap-8 mb-8">
+    <div class="lg:col-span-7 glass-card prose-card rounded-[2rem] p-8 md:p-10">
+    <p class="section-kicker mono mb-4">04 · Build Log</p>
+    <h2>어떤 방식으로 만들었는가</h2>
+    <p>탐지 로직은 UI와 분리하여 작성했습니다. 이렇게 하면 새로운 공격 패턴을 추가할 때 화면 코드를 건드리지 않고 탐지 규칙만 확장할 수 있습니다. PySide6는 테이블 형태의 로그 확인과 버튼 기반 분석 흐름을 구현하기 위해 사용했습니다.</p>
+    <p>탐지 규칙이 너무 단순하면 정상 요청도 공격으로 잘못 분류될 수 있습니다. 그래서 키워드 하나만으로 판단하기보다 요청 경로, 파라미터, 특수문자 조합, 인코딩 흔적을 함께 확인하는 방식으로 오탐을 줄이는 구조를 잡았습니다.</p>
+    </div>
+    <div class="lg:col-span-5 glass-card rounded-[2rem] p-8 md:p-10">
+    <p class="section-kicker mono mb-4">Screenshot Area</p>
+    <div class="placeholder rounded-[1.5rem] flex items-center justify-center text-center p-8">
+    <div>
+    <i class="fas fa-image text-3xl mb-4" style="color: var(--accent);"></i>
+    <p class="mono text-[10px] text-gray-500 uppercase tracking-[0.2em]">Add project screenshots here</p>
+    <p class="text-sm text-gray-500 mt-3">완성 화면, 설계도, 코드 일부, 결과 화면 이미지를 넣는 영역입니다.</p>
+    </div>
+    </div>
+    </div>
+    </section>
+    <section class="grid lg:grid-cols-2 gap-8 mb-12">
+    <div class="glass-card prose-card rounded-[2rem] p-8 md:p-10">
+    <p class="section-kicker mono mb-4">05 · Result</p>
+    <h2>결과 및 배운 점</h2>
+    <p>웹 공격 탐지의 기본 흐름인 데이터 수집, 파싱, 탐지, 분류, 시각화를 한 번에 경험할 수 있었습니다. 특히 관제 시스템이 단순 탐지보다 결과를 읽기 쉽게 보여주는 것이 중요하다는 점을 확인했습니다.</p>
+    </div>
+    <div class="glass-card prose-card rounded-[2rem] p-8 md:p-10">
+    <p class="section-kicker mono mb-4">06 · Next Step</p>
+    <h2>개선 계획</h2>
+    <ul><li>탐지 규칙 커스터마이징 기능 추가</li>
+    <li>CSV/JSON 리포트 내보내기</li>
+    <li>실시간 프록시 로그 연동</li>
+    <li>오탐/정탐 샘플 기반 탐지 정확도 개선</li></ul>
+    </div>
+    </section>
+    <footer class="flex flex-col md:flex-row gap-4 justify-between items-start md:items-center border-t border-white/10 pt-8">
+    <a class="inline-flex items-center gap-3 text-white hover:opacity-80 transition-opacity" href="index.html#projects">
+    <i class="fas fa-arrow-left" style="color: var(--accent);"></i>
+    <span class="mono text-[10px] font-black uppercase tracking-[0.24em]">Back to Projects</span>
+    </a>
+    <p class="mono text-[10px] text-gray-600 uppercase tracking-[0.2em]">© 2026 SONG HYEONGROK · Project Archive</p>
+    </footer>
+    </article>
     </main>
-</body>
-</html>
+    </body>
+    </html>
