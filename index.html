@@ -343,6 +343,34 @@
                 color: #22d3ee;
                 border: 1px solid rgba(34, 211, 238, 0.22);
             }
+            .qualification-card-grid {
+                align-items: stretch;
+            }
+            .qualification-card-grid > .qualification-card {
+                height: 100%;
+                min-height: 350px;
+            }
+            .qualification-card .document-view-btn {
+                margin-top: auto;
+            }
+            @media (min-width: 768px) {
+                .qualification-card-grid {
+                    grid-auto-rows: 1fr;
+                }
+            }
+
+            .ctf-card-grid {
+                align-items: stretch;
+            }
+            .ctf-card-grid > .ctf-external-card {
+                height: 100%;
+            }
+            @media (min-width: 768px) {
+                .ctf-card-grid {
+                    grid-auto-rows: 1fr;
+                }
+            }
+
             .ctf-meta-grid {
                 display: grid;
                 grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -540,6 +568,11 @@
                     border-radius: 1.5rem !important;
                     padding: 1.35rem !important;
                 }
+
+                .qualification-card-grid > .qualification-card {
+                    min-height: 0;
+                }
+
 
                 .grid.md\:grid-cols-2,
                 .grid.lg\:grid-cols-2,
@@ -926,8 +959,8 @@
 <h3 class="text-4xl md:text-5xl font-black tracking-tight text-white">Qualifications</h3>
 </div>
 </div>
-<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-<div class="glass-card p-8 rounded-[2rem] border-t-4 border-blue-500 group flex flex-col">
+<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 qualification-card-grid">
+<div class="glass-card qualification-card p-8 rounded-[2rem] border-t-4 border-blue-500 group flex flex-col">
 <div class="flex items-center space-x-4 mb-6">
 <div class="w-12 h-12 bg-blue-500/10 rounded-xl flex items-center justify-center group-hover:bg-blue-500 transition-colors duration-500">
 <i class="fas fa-file-contract text-blue-500 text-xl group-hover:text-black transition-colors duration-500"></i>
@@ -958,7 +991,7 @@
 </div>
 </div>
 <button aria-label="ITQ 자격취득 내역서 보기" class="document-view-btn project-action mono" data-document-src="ITQ_자격증_취득내역서.png" data-document-title="ITQ 자격취득 내역서" type="button"><span>View Certificate</span><i class="fas fa-expand-alt"></i></button></div>
-<div class="glass-card p-8 rounded-[2rem] border-t-4 border-cyan-500 group flex flex-col">
+<div class="glass-card qualification-card p-8 rounded-[2rem] border-t-4 border-cyan-500 group flex flex-col">
 <div class="flex items-center space-x-4 mb-6">
 <div class="w-12 h-12 bg-cyan-500/10 rounded-xl flex items-center justify-center group-hover:bg-cyan-500 transition-colors duration-500">
 <i class="fas fa-desktop text-cyan-500 text-xl group-hover:text-black transition-colors duration-500"></i>
@@ -977,7 +1010,7 @@
                             </div>
 </div>
 <button aria-label="컴퓨터활용능력 2급 필기시험 합격 확인서 보기" class="document-view-btn project-action mono" data-document-src="컴퓨터활용능력.png" data-document-title="컴퓨터활용능력 2급 필기시험 합격 확인서" type="button"><span>View Certificate</span><i class="fas fa-expand-alt"></i></button></div>
-<div class="glass-card p-8 rounded-[2rem] border-t-4 border-emerald-500 group flex flex-col">
+<div class="glass-card qualification-card p-8 rounded-[2rem] border-t-4 border-emerald-500 group flex flex-col">
 <div class="flex items-center space-x-4 mb-6">
 <div class="w-12 h-12 bg-emerald-500/10 rounded-xl flex items-center justify-center group-hover:bg-emerald-500 transition-colors duration-500">
 <i class="fas fa-network-wired text-emerald-500 text-xl group-hover:text-black transition-colors duration-500"></i>
@@ -1124,17 +1157,17 @@
 <span class="ctf-category-badge domestic">DOMESTIC</span>
 <h5 class="text-sm font-black text-white tracking-widest uppercase">국내 CTF / External</h5>
 </div>
-<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 ctf-card-grid">
 <div class="glass-card ctf-external-card p-8 rounded-3xl border-l-4 border-green-500 h-full min-h-[320px] flex flex-col">
 <div class="flex justify-between items-center mb-5 gap-4">
 <span class="bg-green-500/10 text-green-500 text-[9px] font-black px-3 py-1 rounded-full mono tracking-widest">HYUNDAI AUTOEVER</span>
 <span class="mono text-xs font-bold text-white tracking-tight">CTF 입상 / 장학생</span>
 </div>
-<h5 class="text-xl elegant-title mb-2">현대오토에버 화이트해커 경진대회</h5>
+<h5 class="text-xl elegant-title mb-2">현대오토에버 화이트해커 양성교육</h5>
 <div aria-label="CTF metadata" class="ctf-meta-grid">
 <div class="ctf-meta-item">
-<span class="ctf-meta-label">Division</span>
-<span class="ctf-meta-value">국내</span>
+<span class="ctf-meta-label">Team</span>
+<span class="ctf-meta-value">Solo</span>
 </div>
 <div class="ctf-meta-item">
 <span class="ctf-meta-label">Host Country</span>
@@ -1155,8 +1188,8 @@
 <h5 class="text-xl elegant-title mb-2">WaRP vs s0sCoD3 CTF</h5>
 <div aria-label="CTF metadata" class="ctf-meta-grid">
 <div class="ctf-meta-item">
-<span class="ctf-meta-label">Division</span>
-<span class="ctf-meta-value">국내</span>
+<span class="ctf-meta-label">Team</span>
+<span class="ctf-meta-value">Solo</span>
 </div>
 <div class="ctf-meta-item">
 <span class="ctf-meta-label">Host Country</span>
@@ -1177,8 +1210,8 @@
 <h5 class="text-xl elegant-title mb-2">제1회 감귤 CTF</h5>
 <div aria-label="CTF metadata" class="ctf-meta-grid">
 <div class="ctf-meta-item">
-<span class="ctf-meta-label">Division</span>
-<span class="ctf-meta-value">국내</span>
+<span class="ctf-meta-label">Team</span>
+<span class="ctf-meta-value">Solo</span>
 </div>
 <div class="ctf-meta-item">
 <span class="ctf-meta-label">Host Country</span>
@@ -1198,17 +1231,40 @@
 <span class="ctf-category-badge international">INTERNATIONAL</span>
 <h5 class="text-sm font-black text-white tracking-widest uppercase">해외 CTF</h5>
 </div>
-<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 ctf-card-grid">
+<div class="glass-card ctf-external-card p-8 rounded-3xl border-l-4 border-purple-500 h-full min-h-[320px] flex flex-col">
+<div class="flex justify-between items-center mb-5 gap-4">
+<span class="bg-purple-500/10 text-purple-400 text-[9px] font-black px-3 py-1 rounded-full mono tracking-widest">ATHENA CTF 2026</span>
+<span class="mono text-xs font-bold text-white tracking-tight">Overall 4th / Solo 1st</span>
+</div>
+<h5 class="text-xl elegant-title mb-2">Athena CTF</h5>
+<div aria-label="CTF metadata" class="ctf-meta-grid">
+<div class="ctf-meta-item">
+<span class="ctf-meta-label">Team</span>
+<span class="ctf-meta-value">Duo</span>
+</div>
+<div class="ctf-meta-item">
+<span class="ctf-meta-label">Host Country</span>
+<span class="ctf-meta-value">인도</span>
+</div>
+<div class="ctf-meta-item">
+<span class="ctf-meta-label">Organizer</span>
+<span class="ctf-meta-value">AstraQ Cyber Defence</span>
+</div>
+</div>
+<p class="text-sm text-gray-400 elegant-text leading-relaxed pt-4">인도 AstraQ Cyber Defence가 주최한 Athena CTF 2026에 2인 팀으로 참가하여 전체 4위 입상 및 솔로 기준 1위 기록.</p>
+<button aria-label="Athena CTF 2026 입상장 보기" class="document-view-btn project-action mono" data-document-src="Athena_CTF_2026_Certificate.png" data-document-title="Athena CTF 2026 입상장" type="button"><span>View Certificate</span><i class="fas fa-expand-alt"></i></button>
+</div>
 <div class="glass-card ctf-external-card p-8 rounded-3xl border-l-4 border-sky-400 h-full min-h-[320px] flex flex-col">
 <div class="flex justify-between items-center mb-5 gap-4">
 <span class="bg-sky-400/10 text-sky-400 text-[9px] font-black px-3 py-1 rounded-full mono tracking-widest">BOROCTF 2026</span>
-<span class="mono text-xs font-bold text-white tracking-tight">HS SOLO 34th / Top 19.5%</span>
+<span class="mono text-xs font-bold text-white tracking-tight">HS 34th / Top 19.5%</span>
 </div>
 <h5 class="text-xl elegant-title mb-2">boroCTF</h5>
 <div aria-label="CTF metadata" class="ctf-meta-grid">
 <div class="ctf-meta-item">
-<span class="ctf-meta-label">Division</span>
-<span class="ctf-meta-value">해외</span>
+<span class="ctf-meta-label">Team</span>
+<span class="ctf-meta-value">Solo</span>
 </div>
 <div class="ctf-meta-item">
 <span class="ctf-meta-label">Host Country</span>
@@ -1224,13 +1280,13 @@
 <div class="glass-card ctf-external-card p-8 rounded-3xl border-l-4 border-cyan-400 h-full min-h-[320px] flex flex-col">
 <div class="flex justify-between items-center mb-5 gap-4">
 <span class="bg-cyan-400/10 text-cyan-400 text-[9px] font-black px-3 py-1 rounded-full mono tracking-widest">INTERNATIONAL CTF</span>
-<span class="mono text-xs font-bold text-white tracking-tight">SOLO 25th / Top 20%</span>
+<span class="mono text-xs font-bold text-white tracking-tight">25th / Top 20%</span>
 </div>
 <h5 class="text-xl elegant-title mb-2">Grey Cat CTF</h5>
 <div aria-label="CTF metadata" class="ctf-meta-grid">
 <div class="ctf-meta-item">
-<span class="ctf-meta-label">Division</span>
-<span class="ctf-meta-value">해외</span>
+<span class="ctf-meta-label">Team</span>
+<span class="ctf-meta-value">Solo</span>
 </div>
 <div class="ctf-meta-item">
 <span class="ctf-meta-label">Host Country</span>
