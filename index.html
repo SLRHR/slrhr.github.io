@@ -1,1569 +1,1120 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
 <head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>SLHR</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;family=JetBrains+Mono:wght@400;700&amp;family=Noto+Sans+KR:wght@300;400;500;700;900&amp;display=swap" rel="stylesheet"/>
-<link as="style" crossorigin="" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" rel="stylesheet"/>
-<style>
-            :root {
-                --accent: #00ff41;
-                --accent-secondary: #3498db;
-                --bg: #030303;
-                --card-bg: rgba(15, 15, 15, 0.7);
-                --text-main: #ffffff;
-                --text-dim: #999999;
-            }
-            body {
-                background-color: var(--bg);
-                color: var(--text-main);
-                font-family: 'Pretendard Variable', Pretendard, 'Inter', 'Noto Sans KR', sans-serif;
-                scroll-behavior: smooth;
-                letter-spacing: -0.02em;
-                line-height: 1.6;
-                overflow-x: hidden;
-            }
-            .mono { font-family: 'JetBrains Mono', monospace; }
-            
-
-            .bg-glow {
-                position: fixed;
-                top: 0; left: 0; width: 100%; height: 100%;
-                background: 
-                    radial-gradient(circle at 10% 20%, rgba(0, 255, 65, 0.08) 0%, transparent 50%),
-                    radial-gradient(circle at 90% 80%, rgba(52, 152, 219, 0.08) 0%, transparent 50%);
-                z-index: -2;
-            }
-            .cyber-grid {
-                position: fixed;
-                inset: 0;
-                background-image: 
-                    linear-gradient(rgba(0, 255, 65, 0.03) 1px, transparent 1px),
-                    linear-gradient(90deg, rgba(0, 255, 65, 0.03) 1px, transparent 1px);
-                background-size: 50px 50px;
-                z-index: -1;
-                pointer-events: none;
-            }
-            .mouse-glow {
-                position: fixed;
-                width: 600px;
-                height: 600px;
-                background: radial-gradient(circle, rgba(0, 255, 65, 0.07) 0%, transparent 70%);
-                border-radius: 50%;
-                pointer-events: none;
-                z-index: -1;
-                transform: translate(-50%, -50%);
-                opacity: 0;
-                transition: opacity 0.5s;
-            }
-
-            .elegant-title {
-                font-family: 'Pretendard Variable', Pretendard, sans-serif;
-                font-weight: 700;
-                letter-spacing: -0.03em;
-                background: linear-gradient(to bottom right, #fff, #999);
-                -webkit-background-clip: text;
-                -webkit-text-fill-color: transparent;
-            }
-
-            .glass-card {
-                background: var(--card-bg);
-                backdrop-filter: blur(20px);
-                border: 1px solid rgba(255, 255, 255, 0.08);
-                transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
-                position: relative;
-                overflow: hidden;
-            }
-            .glass-card:hover {
-                transform: translateY(-10px);
-                border-color: rgba(0, 255, 65, 0.4);
-                box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
-            }
-
-            
-            .timeline-item {
-                position: relative;
-                padding-left: 2.5rem;
-                border-left: 1px solid rgba(255, 255, 255, 0.15);
-                margin-bottom: 2.5rem;
-            }
-            .timeline-item::before {
-                content: '';
-                position: absolute;
-                left: -6px;
-                top: 10px;
-                width: 11px;
-                height: 11px;
-                background: var(--accent);
-                border-radius: 50%;
-                box-shadow: 0 0 10px var(--accent);
-            }
-
-            .academic-honors-list .timeline-item {
-                margin-bottom: 1.45rem;
-            }
-            .academic-honors-list .timeline-item::before {
-                top: 8px;
-            }
-
-            .nav-blur {
-                background: rgba(3, 3, 3, 0.8);
-                backdrop-filter: blur(20px);
-            }
-
-            .hero-title {
-                font-size: clamp(3.5rem, 10vw, 7rem);
-                line-height: 0.9;
-                font-weight: 900;
-                letter-spacing: -0.06em;
-                color: #ffffff;
-                min-height: 1.8em;
-            }
-
-            .btn-primary {
-                background: var(--accent);
-                color: black;
-                font-weight: 800;
-                padding: 1.1rem 2.5rem;
-                border-radius: 9999px;
-                transition: all 0.4s;
-                text-transform: uppercase;
-                font-size: 0.85rem;
-                letter-spacing: 0.05em;
-            }
-
-            .profile-container {
-                position: relative;
-                width: 100%;
-                max-width: 480px;
-            }
-            .profile-image-wrapper {
-                aspect-ratio: 1/1;
-                width: 100%;
-                overflow: hidden;
-                border-radius: 50%;
-                border: 4px solid rgba(255, 255, 255, 0.2);
-                background: #111;
-            }
-            .profile-image-wrapper img {
-                width: 100%;
-                height: 100%;
-                object-fit: cover;
-            }
-            .profile-glow {
-                position: absolute;
-                inset: -20px;
-                background: radial-gradient(circle, rgba(0,255,65,0.1) 0%, transparent 70%);
-                z-index: -1;
-                animation: pulse 4s infinite alternate;
-            }
-            @keyframes pulse {
-                from { transform: scale(0.95); opacity: 0.5; }
-                to { transform: scale(1.05); opacity: 1; }
-            }
-
-        
-            html { scroll-behavior: smooth; }
-            .scroll-progress {
-                position: fixed;
-                top: 0;
-                left: 0;
-                height: 3px;
-                width: 0%;
-                background: linear-gradient(90deg, var(--accent), var(--accent-secondary));
-                z-index: 9999;
-                box-shadow: 0 0 18px rgba(0, 255, 65, 0.7);
-                transition: width 0.08s linear;
-            }
-            .scanline-overlay {
-                position: fixed;
-                inset: 0;
-                background: linear-gradient(to bottom, transparent 0%, rgba(255,255,255,0.018) 50%, transparent 100%);
-                background-size: 100% 6px;
-                pointer-events: none;
-                z-index: 1;
-                opacity: 0.35;
-                mix-blend-mode: screen;
-            }
-            .nav-link {
-                position: relative;
-            }
-            .nav-link::after {
-                content: '';
-                position: absolute;
-                left: 0;
-                bottom: -8px;
-                width: 0;
-                height: 1px;
-                background: var(--accent);
-                transition: width 0.3s ease;
-                box-shadow: 0 0 10px var(--accent);
-            }
-            .nav-link:hover::after,
-            .nav-link.active::after { width: 100%; }
-            .nav-link.active { color: white; }
-            .mobile-menu {
-                max-height: 0;
-                overflow: hidden;
-                transition: max-height 0.35s ease;
-            }
-            .mobile-menu.open { max-height: 420px; }
-            .skill-pill {
-                border: 1px solid rgba(255,255,255,0.1);
-                background: rgba(255,255,255,0.04);
-                border-radius: 9999px;
-                padding: 0.75rem 1rem;
-                display: inline-flex;
-                align-items: center;
-                gap: 0.55rem;
-                transition: all 0.3s ease;
-            }
-            .skill-pill:hover {
-                border-color: rgba(0,255,65,0.45);
-                transform: translateY(-3px);
-                background: rgba(0,255,65,0.08);
-            }
-            .project-action {
-                width: 100%;
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                margin-top: 1.5rem;
-                border-top: 1px solid rgba(255,255,255,0.08);
-                padding-top: 1rem;
-                color: rgba(255,255,255,0.75);
-                font-size: 0.7rem;
-                font-weight: 900;
-                letter-spacing: 0.12em;
-                text-transform: uppercase;
-            }
-            .project-card { cursor: pointer; color: inherit; text-decoration: none; }
-            .project-card:hover .project-action { color: var(--accent); }
-            .quick-dock {
-                position: fixed;
-                right: 22px;
-                bottom: 22px;
-                z-index: 60;
-                display: flex;
-                flex-direction: column;
-                gap: 10px;
-            }
-            .dock-btn,
-            .back-top {
-                width: 46px;
-                height: 46px;
-                border-radius: 9999px;
-                display: grid;
-                place-items: center;
-                background: rgba(10,10,10,0.78);
-                border: 1px solid rgba(255,255,255,0.12);
-                backdrop-filter: blur(16px);
-                color: white;
-                transition: all 0.3s ease;
-            }
-            .dock-btn:hover,
-            .back-top:hover {
-                transform: translateY(-4px);
-                border-color: rgba(0,255,65,0.5);
-                color: var(--accent);
-                box-shadow: 0 12px 35px rgba(0,0,0,0.45);
-            }
-            .back-top {
-                opacity: 0;
-                pointer-events: none;
-            }
-            .back-top.visible {
-                opacity: 1;
-                pointer-events: auto;
-            }
-            .modal-backdrop {
-                position: fixed;
-                inset: 0;
-                background: rgba(0,0,0,0.72);
-                backdrop-filter: blur(12px);
-                z-index: 80;
-                opacity: 0;
-                pointer-events: none;
-                transition: opacity 0.3s ease;
-            }
-            .modal-backdrop.open {
-                opacity: 1;
-                pointer-events: auto;
-            }
-            .modal-panel {
-                transform: translateY(24px) scale(0.96);
-                transition: transform 0.3s ease;
-            }
-            .modal-backdrop.open .modal-panel {
-                transform: translateY(0) scale(1);
-            }
-            .toast {
-                position: fixed;
-                left: 50%;
-                bottom: 28px;
-                transform: translateX(-50%) translateY(20px);
-                opacity: 0;
-                z-index: 100;
-                transition: all 0.25s ease;
-                pointer-events: none;
-            }
-            .toast.show {
-                transform: translateX(-50%) translateY(0);
-                opacity: 1;
-            }
-
-            .ctf-category-heading {
-                display: flex;
-                align-items: center;
-                gap: 0.75rem;
-                margin-bottom: 1.25rem;
-            }
-            .ctf-category-badge {
-                display: inline-flex;
-                align-items: center;
-                border-radius: 9999px;
-                padding: 0.35rem 0.75rem;
-                font-size: 9px;
-                font-weight: 900;
-                letter-spacing: 0.18em;
-                text-transform: uppercase;
-                font-family: 'JetBrains Mono', monospace;
-            }
-            .ctf-category-badge.domestic {
-                background: rgba(0, 255, 65, 0.1);
-                color: #00ff41;
-                border: 1px solid rgba(0, 255, 65, 0.22);
-            }
-            .ctf-category-badge.international {
-                background: rgba(34, 211, 238, 0.1);
-                color: #22d3ee;
-                border: 1px solid rgba(34, 211, 238, 0.22);
-            }
-            .qualification-card-grid {
-                align-items: stretch;
-            }
-            .qualification-card-grid > .qualification-card {
-                height: 100%;
-            }
-            .qualification-card .document-view-btn {
-                margin-top: auto;
-            }
-            .qualification-card-grid > .qualification-card:first-child .document-view-btn {
-                margin-top: 1.25rem;
-            }
-            @media (min-width: 768px) {
-                .qualification-card-grid {
-                    grid-auto-rows: 1fr;
-                }
-            }
-
-            .ctf-card-grid {
-                align-items: stretch;
-            }
-            .ctf-card-grid > .ctf-external-card {
-                height: 100%;
-            }
-            @media (min-width: 768px) {
-                .ctf-card-grid {
-                    grid-auto-rows: 1fr;
-                }
-            }
-
-            .ctf-meta-grid {
-                display: grid;
-                grid-template-columns: repeat(3, minmax(0, 1fr));
-                gap: 0.65rem;
-                margin: 1rem 0 1.15rem;
-            }
-            .ctf-meta-item {
-                border: 1px solid rgba(255, 255, 255, 0.08);
-                background: rgba(255, 255, 255, 0.035);
-                border-radius: 1rem;
-                padding: 0.75rem;
-                min-width: 0;
-            }
-            .ctf-meta-label {
-                display: block;
-                font-size: 9px;
-                font-weight: 900;
-                letter-spacing: 0.12em;
-                text-transform: uppercase;
-                color: rgba(255, 255, 255, 0.38);
-                font-family: 'JetBrains Mono', monospace;
-                margin-bottom: 0.25rem;
-            }
-            .ctf-meta-value {
-                display: block;
-                font-size: 0.78rem;
-                font-weight: 800;
-                color: rgba(255, 255, 255, 0.86);
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-            }
-            @media (max-width: 640px) {
-                .ctf-meta-grid { grid-template-columns: 1fr; }
-                .ctf-meta-value { white-space: normal; }
-            }
-
-            @media (max-width: 768px) {
-                .quick-dock { right: 14px; bottom: 14px; }
-                .dock-btn, .back-top { width: 42px; height: 42px; }
-                .scanline-overlay { opacity: 0.18; }
-            }
-
-            
-            img, svg, video, canvas {
-                max-width: 100%;
-            }
-
-            .glass-card,
-            .ctf-meta-item,
-            .project-card {
-                min-width: 0;
-            }
-
-            @media (hover: none), (pointer: coarse) {
-                .glass-card:hover,
-                .skill-pill:hover,
-                .dock-btn:hover,
-                .back-top:hover {
-                    transform: none;
-                }
-
-                .mouse-glow {
-                    display: none;
-                }
-            }
-
-            @media (prefers-reduced-motion: reduce) {
-                *,
-                *::before,
-                *::after {
-                    animation-duration: 0.001ms !important;
-                    animation-iteration-count: 1 !important;
-                    scroll-behavior: auto !important;
-                    transition-duration: 0.001ms !important;
-                }
-            }
-
-            @media (max-width: 1024px) {
-                #about .max-w-7xl {
-                    gap: 3rem !important;
-                }
-
-                .profile-container {
-                    max-width: 340px;
-                }
-
-                .hero-title {
-                    min-height: 1.9em;
-                }
-            }
-
-            @media (max-width: 768px) {
-                body {
-                    font-size: 15px;
-                    line-height: 1.65;
-                }
-
-                nav {
-                    padding-left: 1rem !important;
-                    padding-right: 1rem !important;
-                    padding-top: 0.9rem !important;
-                    padding-bottom: 0.9rem !important;
-                }
-
-                .nav-blur {
-                    background: rgba(3, 3, 3, 0.92);
-                }
-
-                .mobile-menu.open {
-                    max-height: 520px;
-                }
-
-                .mobile-menu a {
-                    min-height: 44px;
-                    display: flex !important;
-                    align-items: center;
-                }
-
-                section,
-                footer {
-                    padding-left: 1rem !important;
-                    padding-right: 1rem !important;
-                }
-
-                #about {
-                    min-height: auto !important;
-                    padding-top: 7.25rem !important;
-                    padding-bottom: 4rem !important;
-                }
-
-                #quals {
-                    padding-top: 5rem !important;
-                    padding-bottom: 2.5rem !important;
-                }
-
-                #programs,
-                #awards {
-                    padding-top: 4rem !important;
-                    padding-bottom: 4rem !important;
-                }
-
-                #projects {
-                    padding-top: 5rem !important;
-                    padding-bottom: 5rem !important;
-                }
-
-                .hero-title {
-                    font-size: clamp(2.7rem, 15vw, 4.4rem);
-                    line-height: 0.95;
-                    letter-spacing: -0.055em;
-                    margin-bottom: 1.25rem !important;
-                    min-height: 1.95em;
-                    word-break: keep-all;
-                }
-
-                #about p.text-xl {
-                    font-size: 1.05rem !important;
-                    line-height: 1.75 !important;
-                    margin-bottom: 1.75rem !important;
-                }
-
-                #about .inline-flex {
-                    max-width: 100%;
-                    white-space: normal;
-                    align-items: center;
-                }
-
-                .profile-container {
-                    max-width: 280px;
-                    margin-top: 1rem;
-                }
-
-                .profile-image-wrapper {
-                    border-width: 3px;
-                }
-
-                .profile-glow {
-                    inset: -12px;
-                }
-
-                .elegant-title {
-                    -webkit-text-fill-color: unset;
-                    color: #fff;
-                    background: none;
-                }
-
-                h3.text-4xl,
-                h3.md\:text-5xl {
-                    font-size: clamp(2rem, 9vw, 2.75rem) !important;
-                    line-height: 1.08 !important;
-                }
-
-                .glass-card {
-                    border-radius: 1.5rem !important;
-                    padding: 1.35rem !important;
-                }
-
-                .qualification-card-grid > .qualification-card {
-                    min-height: 0;
-                }
-
-
-                .grid.md\:grid-cols-2,
-                .grid.lg\:grid-cols-2,
-                .grid.md\:grid-cols-2.lg\:grid-cols-3 {
-                    gap: 1rem !important;
-                }
-
-                #quals .space-y-3 > div,
-                #quals .flex.items-center.justify-between.gap-3 {
-                    align-items: flex-start !important;
-                    flex-direction: column !important;
-                    gap: 0.35rem !important;
-                }
-
-                #quals .whitespace-nowrap {
-                    white-space: normal !important;
-                }
-
-                .timeline-item {
-                    padding-left: 1.35rem;
-                    margin-bottom: 1.75rem;
-                }
-
-                .timeline-item::before {
-                    left: -5px;
-                    top: 8px;
-                    width: 9px;
-                    height: 9px;
-                }
-
-                #awards .mb-24,
-                #projects .mb-20 {
-                    margin-bottom: 2.75rem !important;
-                }
-
-                #awards .gap-20 {
-                    gap: 3rem !important;
-                }
-
-                .ctf-category-heading {
-                    align-items: flex-start;
-                    flex-direction: column;
-                    gap: 0.5rem;
-                }
-
-                .ctf-external-card > div:first-child {
-                    align-items: flex-start !important;
-                    flex-direction: column !important;
-                    gap: 0.65rem !important;
-                    margin-bottom: 1rem !important;
-                }
-
-                .ctf-external-card h5 {
-                    font-size: 1.1rem !important;
-                    line-height: 1.35 !important;
-                }
-
-                .ctf-meta-grid {
-                    grid-template-columns: 1fr !important;
-                    gap: 0.55rem !important;
-                }
-
-                .ctf-meta-item {
-                    border-radius: 0.9rem;
-                    padding: 0.65rem !important;
-                }
-
-                .ctf-meta-value {
-                    white-space: normal !important;
-                    overflow: visible !important;
-                    text-overflow: clip !important;
-                }
-
-                .project-card {
-                    cursor: pointer;
-                }
-
-                .project-card .mb-8 {
-                    margin-bottom: 1.4rem !important;
-                }
-
-                .project-card h4 {
-                    font-size: 1.35rem !important;
-                    line-height: 1.35 !important;
-                }
-
-                .project-card p {
-                    font-size: 0.95rem;
-                }
-
-                .project-action {
-                    font-size: 0.65rem;
-                    letter-spacing: 0.08em;
-                }
-
-                .quick-dock {
-                    right: 12px;
-                    bottom: 12px;
-                    gap: 8px;
-                }
-
-                .dock-btn,
-                .back-top {
-                    width: 40px;
-                    height: 40px;
-                }
-
-                .modal-backdrop {
-                    padding: 1rem !important;
-                    align-items: flex-end;
-                }
-
-                .modal-panel {
-                    width: 100%;
-                    max-height: calc(100vh - 2rem);
-                    overflow-y: auto;
-                    border-radius: 1.5rem !important;
-                    padding: 1.35rem !important;
-                }
-
-                #modal-title {
-                    font-size: 1.45rem !important;
-                    line-height: 1.25 !important;
-                }
-
-                #modal-close {
-                    flex: 0 0 auto;
-                }
-
-                .toast {
-                    width: calc(100% - 2rem);
-                    text-align: center;
-                    bottom: 18px;
-                    border-radius: 1rem;
-                }
-
-                footer {
-                    padding-top: 4rem !important;
-                    padding-bottom: 4rem !important;
-                }
-
-                footer .md\:items-end {
-                    align-items: flex-start !important;
-                }
-
-                footer a.group {
-                    width: 100%;
-                    align-items: flex-start !important;
-                    justify-content: space-between;
-                    gap: 1rem;
-                }
-
-                footer a.group span:last-child {
-                    overflow-wrap: anywhere;
-                    text-align: right;
-                }
-            }
-
-            @media (max-width: 480px) {
-                .hero-title {
-                    font-size: clamp(2.35rem, 17vw, 3.35rem);
-                    min-height: 2.05em;
-                }
-
-                #about {
-                    padding-top: 6.75rem !important;
-                }
-
-                #about .inline-flex {
-                    font-size: 9px !important;
-                    padding-left: 0.85rem !important;
-                    padding-right: 0.85rem !important;
-                }
-
-                #about p.text-xl {
-                    font-size: 1rem !important;
-                }
-
-                .profile-container {
-                    max-width: 235px;
-                }
-
-                .glass-card {
-                    padding: 1.15rem !important;
-                }
-
-                .project-card .w-14,
-                .project-card .h-14 {
-                    width: 3rem !important;
-                    height: 3rem !important;
-                }
-
-                .project-card .text-2xl {
-                    font-size: 1.2rem !important;
-                }
-
-                .ctf-category-badge {
-                    font-size: 8px;
-                    letter-spacing: 0.12em;
-                }
-
-                .dock-btn,
-                .back-top {
-                    width: 38px;
-                    height: 38px;
-                }
-
-                footer a.group {
-                    flex-direction: column;
-                    gap: 0.35rem;
-                }
-
-                footer a.group span:last-child {
-                    text-align: left;
-                }
-            }
-
-        
-
-            .security-project-card { min-height: 350px; }
-            .document-view-btn {
-                background: transparent;
-                margin-top: auto;
-                border-left: 0;
-                border-right: 0;
-                border-bottom: 0;
-                cursor: pointer;
-                text-align: left;
-                transition: color 0.25s ease;
-            }
-            .document-view-btn:hover,
-            .document-view-btn:focus-visible { color: var(--accent); outline: none; }
-            .document-modal {
-                position: fixed;
-                inset: 0;
-                z-index: 120;
-                display: none;
-                align-items: center;
-                justify-content: center;
-                padding: 1.25rem;
-                background: rgba(0, 0, 0, 0.88);
-                backdrop-filter: blur(16px);
-            }
-            .document-modal.open { display: flex; }
-            .document-modal-panel {
-                width: min(96vw, 1100px);
-                max-height: 94vh;
-                overflow: hidden;
-                border-radius: 1.5rem;
-                border: 1px solid rgba(255,255,255,0.16);
-                background: rgba(12,12,12,0.96);
-                box-shadow: 0 35px 120px rgba(0,0,0,0.78);
-            }
-            .document-modal-header {
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                gap: 1rem;
-                padding: 1rem 1.2rem;
-                border-bottom: 1px solid rgba(255,255,255,0.1);
-            }
-            .document-modal-title {
-                color: white;
-                font-size: 0.95rem;
-                font-weight: 800;
-            }
-            .document-modal-close {
-                width: 40px;
-                height: 40px;
-                flex: 0 0 40px;
-                border-radius: 9999px;
-                border: 1px solid rgba(255,255,255,0.14);
-                background: rgba(255,255,255,0.05);
-                color: white;
-                font-size: 1.5rem;
-                line-height: 1;
-                cursor: pointer;
-            }
-            .document-modal-close:hover { border-color: rgba(0,255,65,0.5); color: var(--accent); }
-            .document-modal-stage {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                max-height: calc(94vh - 74px);
-                padding: 1rem;
-                overflow: auto;
-                background: #0a0a0a;
-            }
-            .document-modal-image {
-                display: block;
-                width: auto;
-                max-width: 100%;
-                max-height: calc(94vh - 110px);
-                object-fit: contain;
-                border-radius: 0.75rem;
-            }
-            @media (max-width: 640px) {
-                .security-project-card { min-height: 0; }
-                .document-modal { padding: 0.5rem; }
-                .document-modal-panel { border-radius: 1rem; }
-                .document-modal-title { font-size: 0.82rem; }
-                .document-modal-stage { padding: 0.5rem; }
-            }
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#090909">
+  <title>Song Hyeongrok — Security Research Archive</title>
+  <meta name="description" content="송형록의 보안 연구, CTF, 프로젝트 및 교육 기록 아카이브">
+  <style>
+
+:root{
+  --bg:#090909;
+  --panel:#0f0f0f;
+  --ink:#f0efe9;
+  --muted:#8b8b84;
+  --line:#292924;
+  --line-strong:#4a4a42;
+  --signal:#c7ff00;
+  --max:1420px;
+  --pad:clamp(20px,4vw,64px);
+  --sans:Inter, Pretendard, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", Arial, sans-serif;
+  --mono:"SFMono-Regular",Consolas,"Liberation Mono",Menlo,monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;background:var(--bg)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+button{font:inherit}
+img{max-width:100%;display:block}
+::selection{background:var(--signal);color:#000}
+.wrap{width:min(var(--max),calc(100% - (var(--pad) * 2)));margin:0 auto}
+.mono{font-family:var(--mono)}
+.signal{color:var(--signal)}
+.muted{color:var(--muted)}
+.rule{border-top:1px solid var(--line)}
+.eyebrow{font:600 11px/1.2 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+
+.site-header{position:sticky;top:0;z-index:50;background:rgba(9,9,9,.93);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.header-row{height:72px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:24px}
+.brand{font:700 13px/1 var(--mono);letter-spacing:.04em}
+.brand b{color:var(--signal);font-weight:700}
+.nav{display:flex;gap:28px;font:600 11px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.nav a:hover,.nav a:focus{color:var(--ink)}
+.header-meta{justify-self:end;font:500 10px/1.2 var(--mono);letter-spacing:.09em;text-transform:uppercase;color:var(--muted);text-align:right}
+.mobile-nav{display:none}
+
+.hero{min-height:calc(100vh - 72px);display:flex;align-items:center;padding:clamp(60px,9vw,140px) 0 80px}
+.hero-grid{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(280px,.55fr);gap:clamp(48px,7vw,120px);align-items:end}
+.hero-kicker{display:flex;gap:18px;align-items:center;margin-bottom:32px}
+.hero-kicker::before{content:"";width:42px;height:1px;background:var(--signal)}
+.hero h1{font-size:clamp(58px,10vw,158px);line-height:.78;letter-spacing:-.075em;margin:0;text-transform:uppercase;font-weight:800}
+.hero h1 span{display:block}
+.hero h1 .outline{-webkit-text-stroke:1px #5a5a55;color:transparent}
+.hero-copy{max-width:720px;margin:42px 0 0;font-size:clamp(18px,2vw,26px);line-height:1.45;letter-spacing:-.03em;color:#d7d6d0}
+.hero-side{align-self:stretch;display:flex;flex-direction:column;justify-content:flex-end;border-left:1px solid var(--line);padding-left:28px}
+.hero-index{display:grid;gap:0;border-top:1px solid var(--line-strong)}
+.hero-index div{display:grid;grid-template-columns:42px 1fr;gap:16px;padding:14px 0;border-bottom:1px solid var(--line);font-size:13px}
+.hero-index span:first-child{font:500 10px/1.4 var(--mono);color:var(--signal)}
+.hero-foot{display:flex;justify-content:space-between;gap:32px;margin-top:32px;font:500 10px/1.5 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+
+.section{padding:clamp(80px,10vw,160px) 0}
+.section-head{display:grid;grid-template-columns:160px 1fr;gap:32px;margin-bottom:clamp(50px,6vw,88px);align-items:start}
+.section-head h2{margin:-8px 0 0;font-size:clamp(42px,6vw,86px);line-height:.95;letter-spacing:-.055em;font-weight:750}
+.section-head p{max-width:760px;color:var(--muted);margin:20px 0 0;font-size:17px}
+
+.work-list{border-top:1px solid var(--line-strong)}
+.work-item{display:grid;grid-template-columns:120px minmax(260px,.75fr) minmax(420px,1.25fr);gap:clamp(24px,4vw,64px);padding:48px 0 48px 14px;border-bottom:1px solid var(--line);align-items:start}
+.work-id{font:600 11px/1.4 var(--mono);letter-spacing:.12em;color:var(--signal)}
+.work-title h3{font-size:clamp(30px,3.2vw,54px);line-height:1;letter-spacing:-.045em;margin:0 0 16px;font-weight:720}
+.work-title p{margin:0;color:var(--muted);max-width:420px}
+.work-meta{display:flex;gap:10px;flex-wrap:wrap;margin-top:26px;font:500 10px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:#b0b0aa}
+.work-meta span{border:1px solid var(--line);padding:8px 10px}
+.work-visual{background:#111;border:1px solid var(--line);min-height:300px;position:relative;overflow:hidden}
+.work-visual img{width:100%;height:100%;object-fit:cover;filter:saturate(.82) contrast(1.03);transition:transform .45s ease,filter .45s ease}
+.work-item:hover img{transform:scale(1.018);filter:saturate(1) contrast(1.03)}
+.work-link{display:inline-flex;align-items:center;gap:12px;margin-top:28px;font:700 11px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase}
+.work-link::after{content:"↗";color:var(--signal);font-size:15px}
+.ids-visual{min-height:360px;padding:32px;background:#0d0d0d;display:grid;grid-template-columns:1fr 32px 1fr 32px 1fr;gap:10px;align-items:center}
+.ids-node{border:1px solid var(--line-strong);padding:20px;min-height:150px;display:flex;flex-direction:column;justify-content:space-between}
+.ids-node strong{font-size:20px;letter-spacing:-.03em}
+.ids-node small{font:500 10px/1.4 var(--mono);color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+.ids-arrow{text-align:center;color:var(--signal);font:700 20px/1 var(--mono)}
+
+.records{display:grid;grid-template-columns:1fr 1fr;gap:clamp(40px,6vw,90px)}
+.record-block h3{font-size:30px;letter-spacing:-.04em;margin:0 0 26px}
+.record-row{display:grid;grid-template-columns:110px 1fr auto;gap:18px;padding:18px 0;border-top:1px solid var(--line);align-items:start}
+.record-row:last-child{border-bottom:1px solid var(--line)}
+.record-date{font:500 10px/1.5 var(--mono);color:var(--muted);letter-spacing:.05em;text-transform:uppercase}
+.record-name{font-size:15px;font-weight:650}
+.record-note{font-size:13px;color:var(--muted);margin-top:3px}
+.record-status{font:600 9px/1 var(--mono);letter-spacing:.09em;text-transform:uppercase;border:1px solid var(--line);padding:7px 8px;color:#bbb}
+.doc-btn{border:0;background:none;color:var(--ink);padding:0;cursor:pointer;text-align:left}
+.doc-btn:hover .record-name{color:var(--signal)}
+
+.ctf-feature{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(300px,.9fr);gap:clamp(32px,5vw,80px);align-items:start}
+.ctf-copy{position:sticky;top:110px}
+.ctf-rank{font-size:clamp(84px,12vw,190px);line-height:.75;letter-spacing:-.07em;margin:24px 0 28px;font-weight:800}
+.ctf-rank sup{font:600 12px/1 var(--mono);letter-spacing:.1em;color:var(--signal);vertical-align:top;margin-left:10px}
+.ctf-copy h3{font-size:clamp(34px,4vw,62px);line-height:1;letter-spacing:-.05em;margin:0 0 20px}
+.ctf-copy p{color:var(--muted);max-width:620px}
+.certificate-frame{border:1px solid var(--line);background:#0e0e0e;padding:12px;cursor:zoom-in}
+.certificate-frame img{width:100%}
+.ctf-table{margin-top:60px;border-top:1px solid var(--line-strong)}
+.ctf-row{display:grid;grid-template-columns:120px 1.2fr .7fr .8fr;gap:24px;padding:16px 0;border-bottom:1px solid var(--line);font-size:13px;align-items:center}
+.ctf-row .pos{font-family:var(--mono);color:var(--signal)}
+.bounty-block{margin-top:72px}.bounty-label{margin-bottom:18px}.bounty-table{margin-top:0}
+
+.footer{border-top:1px solid var(--line);padding:44px 0 58px}
+.footer-grid{display:grid;grid-template-columns:1fr auto;gap:40px;align-items:end}
+.footer h2{font-size:clamp(34px,5vw,72px);line-height:.9;letter-spacing:-.055em;margin:0 0 24px}
+.footer-links{display:flex;gap:22px;flex-wrap:wrap;font:600 11px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase}
+.mascot{width:58px;height:58px;object-fit:contain;opacity:.88}
+
+
+.case-hero{padding:clamp(70px,8vw,120px) 0 60px;border-bottom:1px solid var(--line)}
+.case-topline{display:flex;justify-content:space-between;gap:24px;margin-bottom:56px}
+.case-title{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(250px,.55fr);gap:clamp(36px,6vw,100px);align-items:end}
+.case-title h1{font-size:clamp(60px,9vw,142px);line-height:.82;letter-spacing:-.07em;margin:0;font-weight:800}
+.case-lead{font-size:clamp(18px,2vw,26px);line-height:1.45;color:#d6d5cf;max-width:700px;margin:0}
+.case-meta{border-top:1px solid var(--line-strong);margin-top:32px}
+.case-meta-row{display:grid;grid-template-columns:90px 1fr;gap:16px;padding:12px 0;border-bottom:1px solid var(--line);font-size:12px}
+.case-meta-row b{font:500 9px/1.4 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.case-visual{padding:40px 0 0}
+.case-screen{border:1px solid var(--line);background:#101010;padding:12px}
+.case-screen img{width:100%;height:auto}
+.case-layout{display:grid;grid-template-columns:220px minmax(0,1fr);gap:clamp(40px,6vw,100px);padding:clamp(80px,9vw,140px) 0}
+.case-toc{position:sticky;top:110px;height:max-content;border-top:1px solid var(--line-strong)}
+.case-toc a{display:block;padding:11px 0;border-bottom:1px solid var(--line);font:500 10px/1.3 var(--mono);letter-spacing:.06em;color:var(--muted)}
+.case-toc a:hover{color:var(--signal)}
+.case-content{max-width:920px}
+.case-section{padding:0 0 96px;scroll-margin-top:110px}
+.case-section:last-child{padding-bottom:0}
+.case-num{font:600 10px/1 var(--mono);letter-spacing:.11em;color:var(--signal);margin-bottom:18px}
+.case-section h2{font-size:clamp(34px,4.5vw,68px);line-height:.96;letter-spacing:-.055em;margin:0 0 28px}
+.case-section h3{font-size:22px;letter-spacing:-.035em;margin:34px 0 12px}
+.case-section p{font-size:18px;line-height:1.75;color:#c9c8c1;margin:0 0 20px;max-width:830px}
+.case-section ul{margin:18px 0 0;padding:0;list-style:none;border-top:1px solid var(--line)}
+.case-section li{display:grid;grid-template-columns:26px 1fr;gap:14px;padding:14px 0;border-bottom:1px solid var(--line);color:#c9c8c1}
+.case-section li::before{content:"+";font:600 12px/1.5 var(--mono);color:var(--signal)}
+.thesis{font-size:clamp(38px,5.2vw,76px)!important;line-height:1.03!important;letter-spacing:-.055em!important;color:var(--ink)!important;max-width:860px!important}
+.pipeline{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line-strong);border-bottom:1px solid var(--line-strong);margin:36px 0}
+.pipe{padding:24px 18px;border-right:1px solid var(--line);min-height:150px}
+.pipe:last-child{border-right:0}
+.pipe .n{font:600 10px/1 var(--mono);color:var(--signal);margin-bottom:40px}
+.pipe strong{display:block;font-size:16px;margin-bottom:7px}
+.pipe span{font-size:12px;color:var(--muted)}
+.metric-grid{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line-strong);border-bottom:1px solid var(--line-strong);margin:32px 0}
+.metric{padding:24px;border-right:1px solid var(--line)}
+.metric:last-child{border-right:0}
+.metric b{display:block;font-size:34px;letter-spacing:-.05em}
+.metric span{font:500 10px/1.4 var(--mono);color:var(--muted);text-transform:uppercase;letter-spacing:.07em}
+.note{border-left:2px solid var(--signal);padding:4px 0 4px 20px;margin:32px 0;color:#d7d6d0}
+.code-map{background:#0c0c0c;border:1px solid var(--line);padding:26px;font:500 12px/1.8 var(--mono);color:#bdbdb5;overflow:auto}
+.code-map .g{color:var(--signal)}
+.project-nav{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--line);margin-top:80px}
+.project-nav a{padding:34px 0;border-bottom:1px solid var(--line);font-size:18px}
+.project-nav a:last-child{text-align:right}
+.project-nav span{display:block;font:500 9px/1.4 var(--mono);text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:6px}
+
+
+.modal{position:fixed;inset:0;z-index:100;background:rgba(0,0,0,.92);display:none;align-items:center;justify-content:center;padding:28px}
+.modal.open{display:flex}
+.modal-shell{width:min(1200px,100%);max-height:94vh;display:flex;flex-direction:column}
+.modal-bar{display:flex;justify-content:space-between;align-items:center;padding:12px 0;color:#bbb;font:500 10px/1.4 var(--mono);letter-spacing:.08em;text-transform:uppercase}
+.modal-close{border:1px solid var(--line-strong);background:#101010;color:white;width:38px;height:38px;cursor:pointer}
+.modal-stage{overflow:auto;background:#111;border:1px solid var(--line);padding:12px}
+.modal-stage img{margin:auto;max-height:82vh;width:auto}
+
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
+.reveal.visible{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}.reveal{opacity:1;transform:none;transition:none}}
+
+@media(max-width:980px){
+  .header-row{grid-template-columns:1fr auto}.nav{display:none}.header-meta{display:none}.mobile-nav{display:block}
+  .hero-grid,.case-title,.ctf-feature{grid-template-columns:1fr}.hero-side{border-left:0;border-top:1px solid var(--line);padding:28px 0 0}.hero{min-height:auto}
+  .work-item{grid-template-columns:90px 1fr}.work-visual{grid-column:1/-1}.records{grid-template-columns:1fr}.ctf-copy{position:static}.case-layout{grid-template-columns:1fr}.case-toc{position:static;display:flex;overflow:auto;gap:18px;border-top:0;border-bottom:1px solid var(--line);padding-bottom:12px}.case-toc a{white-space:nowrap;border:0}.pipeline{grid-template-columns:1fr 1fr}.pipe:nth-child(2){border-right:0}.pipe:nth-child(-n+2){border-bottom:1px solid var(--line)}
+}
+@media(max-width:640px){
+  :root{--pad:20px}.site-header{position:relative}.header-row{height:62px}.hero{padding-top:72px}.hero h1{font-size:clamp(52px,19vw,86px)}.hero-copy{font-size:18px}.hero-foot{flex-direction:column}.section-head{grid-template-columns:1fr;gap:14px}.work-item{grid-template-columns:1fr;padding:34px 0 34px 12px}.work-id{margin-bottom:-10px}.ids-visual{grid-template-columns:1fr;padding:20px}.ids-arrow{transform:rotate(90deg)}.record-row{grid-template-columns:82px 1fr}.record-status{display:none}.ctf-row{grid-template-columns:80px 1fr}.ctf-row span:nth-child(3),.ctf-row span:nth-child(4){display:none}.footer-grid{grid-template-columns:1fr}.mascot{justify-self:start}.case-topline{flex-direction:column}.case-title h1{font-size:clamp(54px,18vw,88px)}.pipeline,.metric-grid{grid-template-columns:1fr}.pipe,.metric{border-right:0;border-bottom:1px solid var(--line)}.pipe:last-child,.metric:last-child{border-bottom:0}.project-nav{grid-template-columns:1fr}.project-nav a:last-child{text-align:left}.modal{padding:10px}
+}
+
+
+.scroll-progress{position:fixed;inset:0 0 auto 0;height:2px;z-index:130;pointer-events:none;background:transparent}.scroll-progress span{display:block;width:0;height:100%;background:var(--signal);box-shadow:0 0 16px rgba(199,255,0,.45)}
+.header-row{grid-template-columns:1fr auto auto auto}.search-trigger{border:1px solid var(--line);background:transparent;color:var(--ink);height:34px;padding:0 10px;display:inline-flex;align-items:center;gap:10px;font:600 10px/1 var(--mono);letter-spacing:.09em;text-transform:uppercase;cursor:pointer;transition:border-color .2s ease,color .2s ease,transform .2s ease}.search-trigger:hover{border-color:var(--signal);color:var(--signal)}.search-trigger kbd{font:500 9px/1 var(--mono);color:var(--muted);border-left:1px solid var(--line);padding-left:9px}
+
+.hero-v2{position:relative;overflow:hidden;padding-bottom:34px}.hero-v2::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--line)}.hero-v2-grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(380px,.85fr);gap:clamp(42px,6vw,96px);align-items:center;min-height:calc(100vh - 160px)}.hero-copy-block{padding:clamp(54px,8vw,108px) 0}.hero-name{font-size:clamp(64px,8.6vw,142px)!important;line-height:.79!important;letter-spacing:-.072em!important}.hero-line{display:block;overflow:hidden}.hero-line>span{display:block;min-height:.82em}.hero-line>span.is-typing::after{content:"_";display:inline-block;margin-left:.04em;color:var(--signal);-webkit-text-stroke:0;animation:typeCaret .72s steps(1,end) infinite}@keyframes typeCaret{50%{opacity:0}}.hero-actions{display:flex;gap:26px;flex-wrap:wrap;margin-top:34px}.text-action,.section-search{border:0;background:none;color:var(--ink);padding:0;cursor:pointer;font:700 10px/1.2 var(--mono);letter-spacing:.1em;text-transform:uppercase}.text-action{display:inline-flex;align-items:center;gap:12px}.text-action span{color:var(--signal);transition:transform .2s ease}.text-action:hover span{transform:translate(3px,-2px)}.section-search{margin-top:20px;color:var(--muted);border-bottom:1px solid var(--line);padding-bottom:5px}.section-search:hover{color:var(--signal);border-color:var(--signal)}
+
+.hero-stage{position:relative;aspect-ratio:1/1;min-height:520px;border:1px solid var(--line);background:radial-gradient(circle at 50% 45%,rgba(199,255,0,.055),transparent 42%),#0a0a0a;overflow:hidden;isolation:isolate}.hero-stage canvas{position:absolute;inset:0;width:100%;height:100%;z-index:2}.stage-grid{position:absolute;inset:0;z-index:0;opacity:.34;background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:42px 42px;mask-image:radial-gradient(circle at center,#000 34%,transparent 78%)}.hero-stage::before{content:"";position:absolute;inset:12%;border:1px solid rgba(199,255,0,.14);border-radius:50%;z-index:1;animation:stagePulse 5s ease-in-out infinite}@keyframes stagePulse{50%{transform:scale(1.045);opacity:.45}}.stage-corner{position:absolute;width:28px;height:28px;z-index:3;pointer-events:none}.stage-corner-a{left:14px;top:14px;border-left:1px solid var(--signal);border-top:1px solid var(--signal)}.stage-corner-b{right:14px;bottom:14px;border-right:1px solid var(--signal);border-bottom:1px solid var(--signal)}.stage-caption{position:absolute;left:18px;right:18px;bottom:16px;z-index:4;display:flex;justify-content:space-between;gap:20px;font:500 9px/1.4 var(--mono);letter-spacing:.08em;color:var(--muted);text-transform:uppercase}.stage-status{position:absolute;right:18px;top:16px;z-index:4;font:600 9px/1 var(--mono);letter-spacing:.08em;color:var(--muted)}.stage-status i{display:inline-block;width:6px;height:6px;background:var(--signal);border-radius:50%;margin-right:7px;box-shadow:0 0 12px rgba(199,255,0,.7)}.hero-3d-fallback{position:absolute;inset:0;z-index:1;display:grid;place-items:center;perspective:900px}.fallback-cube{width:150px;height:150px;position:relative;transform-style:preserve-3d;animation:fallbackSpin 12s linear infinite}.fallback-cube i{position:absolute;inset:0;border:1px solid rgba(199,255,0,.32);background:rgba(199,255,0,.015)}.fallback-cube i:nth-child(1){transform:translateZ(75px)}.fallback-cube i:nth-child(2){transform:rotateY(180deg) translateZ(75px)}.fallback-cube i:nth-child(3){transform:rotateY(90deg) translateZ(75px)}.fallback-cube i:nth-child(4){transform:rotateY(-90deg) translateZ(75px)}.fallback-cube i:nth-child(5){transform:rotateX(90deg) translateZ(75px)}.fallback-cube i:nth-child(6){transform:rotateX(-90deg) translateZ(75px)}@keyframes fallbackSpin{to{transform:rotateX(360deg) rotateY(360deg)}}.hero-stage.webgl-ready .hero-3d-fallback{opacity:0;transition:opacity .5s ease}
+.hero-index-bar{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line);margin-top:0}.hero-index-bar div{display:grid;grid-template-columns:30px 1fr;gap:10px;padding:18px 12px 0 0;border-right:1px solid var(--line);font-size:12px;color:var(--muted)}.hero-index-bar div:last-child{border-right:0}.hero-index-bar span{color:var(--signal);font:600 9px/1.5 var(--mono)}.hero-index-bar b{font-weight:550;color:#c8c7c1}
+
+.ticker{overflow:hidden;border-bottom:1px solid var(--line);background:#0b0b0b}.ticker-track{width:max-content;display:flex;align-items:center;gap:24px;padding:12px 0;animation:tickerRun 30s linear infinite;font:600 10px/1 var(--mono);letter-spacing:.12em;color:#b0b0aa;text-transform:uppercase}.ticker-track i{font-style:normal;color:var(--signal)}@keyframes tickerRun{to{transform:translateX(-50%)}}
+
+.profile-grid-v2{display:grid;grid-template-columns:minmax(360px,.8fr) minmax(0,1.2fr);gap:clamp(48px,8vw,120px);align-items:center}.profile-orbit-wrap{display:grid;place-items:center}.profile-orbit{position:relative;width:min(100%,520px);aspect-ratio:1;display:grid;place-items:center}.profile-ring{position:absolute;inset:4%;width:92%;height:92%;animation:orbitText 18s linear infinite;overflow:visible}.profile-ring text{font:600 10px/1 var(--mono);letter-spacing:3.1px;fill:#b6b6ae}.profile-orbit:hover .profile-ring{animation-play-state:paused}@keyframes orbitText{to{transform:rotate(360deg)}}.profile-core{width:44%;aspect-ratio:1;border-radius:50%;border:1px solid var(--line-strong);background:#0d0d0d;display:grid;place-items:center;position:relative;z-index:3;box-shadow:0 0 0 16px rgba(255,255,255,.018),0 0 80px rgba(199,255,0,.05)}.profile-core::before{content:"";position:absolute;inset:-14%;border:1px dashed rgba(199,255,0,.2);border-radius:50%;animation:counterOrbit 12s linear infinite}@keyframes counterOrbit{to{transform:rotate(-360deg)}}.profile-core img{width:44%;height:44%;object-fit:contain}.profile-core span{position:absolute;bottom:16%;font:700 9px/1 var(--mono);letter-spacing:.18em;color:var(--signal)}.orbit-line{position:absolute;border:1px solid rgba(255,255,255,.12);border-radius:50%;z-index:1}.orbit-line-a{inset:16%;transform:rotateX(62deg);animation:orbitWobble 7s ease-in-out infinite}.orbit-line-b{inset:24%;transform:rotateY(62deg);animation:orbitWobble 8s ease-in-out infinite reverse}@keyframes orbitWobble{50%{transform:rotateX(68deg) rotateZ(20deg)}}.orbit-dot{position:absolute;width:8px;height:8px;border-radius:50%;background:var(--signal);box-shadow:0 0 14px rgba(199,255,0,.65);z-index:4}.dot-a{top:18%;left:22%;animation:dotFloat 3.8s ease-in-out infinite}.dot-b{right:17%;bottom:26%;animation:dotFloat 4.4s ease-in-out infinite reverse}@keyframes dotFloat{50%{transform:translateY(12px) scale(.7);opacity:.55}}.profile-orbit-meta{width:min(100%,520px);display:flex;justify-content:space-between;border-top:1px solid var(--line);padding-top:12px;font:500 9px/1 var(--mono);letter-spacing:.08em;color:var(--muted)}.profile-lede{font-size:clamp(32px,4.2vw,64px);line-height:1.05;letter-spacing:-.055em;margin:0 0 44px;max-width:840px}.profile-lede em{font-style:normal;color:var(--signal)}.profile-focus{border-top:1px solid var(--line-strong)}.profile-focus>div{display:grid;grid-template-columns:44px minmax(180px,.75fr) 1fr;gap:16px;padding:18px 0;border-bottom:1px solid var(--line);align-items:start}.profile-focus span{font:600 9px/1.4 var(--mono);color:var(--signal)}.profile-focus strong{font-size:15px}.profile-focus p{margin:0;color:var(--muted);font-size:14px}.profile-stack{display:flex;flex-wrap:wrap;gap:8px;margin-top:28px}.profile-stack span{border:1px solid var(--line);padding:8px 9px;font:600 9px/1 var(--mono);letter-spacing:.08em;color:#b9b9b2}
+
+.work-item{position:relative;transition:background-color .25s ease}.work-item::before{content:"";position:absolute;left:0;top:0;bottom:0;width:0;background:var(--signal);transition:width .25s ease}.work-item:hover{background:rgba(255,255,255,.012)}.work-item:hover::before{width:2px}.work-visual{transform-style:preserve-3d;will-change:transform;transition:transform .3s cubic-bezier(.2,.8,.2,1),border-color .25s ease}.work-item:hover .work-visual{border-color:#4d4d46}.work-title h3{transition:transform .28s ease,color .28s ease}.work-item:hover .work-title h3{transform:translateX(8px);color:#fff}.certificate-frame{transition:transform .35s ease,border-color .25s ease}.certificate-frame:hover{transform:translateY(-5px) rotate(.25deg);border-color:#4f4f48}
+
+
+.search-panel{position:fixed;inset:0;z-index:120;display:none;align-items:flex-start;justify-content:center;padding:clamp(72px,10vh,120px) 20px 24px}.search-panel.open{display:flex}.search-backdrop{position:absolute;inset:0;background:rgba(0,0,0,.82);backdrop-filter:blur(12px);animation:fadeIn .2s ease}.search-shell{position:relative;z-index:1;width:min(940px,100%);max-height:min(780px,82vh);display:flex;flex-direction:column;background:#0c0c0c;border:1px solid var(--line-strong);box-shadow:0 40px 120px rgba(0,0,0,.55);animation:searchIn .28s cubic-bezier(.2,.8,.2,1)}@keyframes fadeIn{from{opacity:0}}@keyframes searchIn{from{opacity:0;transform:translateY(18px) scale(.985)}}.search-head{display:flex;justify-content:space-between;gap:20px;padding:13px 16px;border-bottom:1px solid var(--line);font:600 9px/1.4 var(--mono);letter-spacing:.11em;color:var(--muted)}.search-input-wrap{display:grid;grid-template-columns:28px 1fr;align-items:center;border-bottom:1px solid var(--line);padding:10px 16px}.search-input-wrap>span{font:600 24px/1 var(--mono);color:var(--signal)}.search-input-wrap input{width:100%;border:0;outline:0;background:transparent;color:var(--ink);font:500 clamp(22px,3vw,34px)/1.2 var(--sans);letter-spacing:-.03em;padding:10px 0}.search-input-wrap input::placeholder{color:#4f4f49}.search-scopes{display:flex;gap:8px;flex-wrap:wrap;padding:12px 16px;border-bottom:1px solid var(--line)}.search-scope{border:1px solid var(--line);background:transparent;color:var(--muted);padding:7px 9px;font:600 9px/1 var(--mono);letter-spacing:.08em;cursor:pointer}.search-scope.active{color:#000;background:var(--signal);border-color:var(--signal)}.search-summary{padding:10px 16px;font:500 9px/1.4 var(--mono);letter-spacing:.06em;color:var(--muted);border-bottom:1px solid var(--line)}.search-results{overflow:auto;padding:0 16px 12px}.search-result{width:100%;display:grid;grid-template-columns:100px 1fr auto;gap:18px;align-items:center;padding:16px 0;border:0;border-bottom:1px solid var(--line);background:transparent;color:var(--ink);text-align:left;cursor:pointer}.search-result:hover,.search-result.active{background:rgba(199,255,0,.035)}.search-result-scope{font:600 9px/1.4 var(--mono);letter-spacing:.08em;color:var(--signal)}.search-result h4{font-size:17px;line-height:1.25;letter-spacing:-.02em;margin:0 0 4px}.search-result p{margin:0;color:var(--muted);font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:600px}.search-result-arrow{color:var(--muted);font:600 12px/1 var(--mono)}.search-empty{padding:50px 0;text-align:center;color:var(--muted);font:500 11px/1.5 var(--mono)}
+
+
+@media (pointer:fine){body.cursor-on,body.cursor-on a,body.cursor-on button,body.cursor-on [data-cursor]{cursor:none}.cursor-dot,.cursor-ring{position:fixed;left:0;top:0;z-index:160;pointer-events:none;opacity:0}.cursor-dot{width:4px;height:4px;border-radius:50%;background:var(--signal);transform:translate(-50%,-50%)}.cursor-ring{width:34px;height:34px;border:1px solid rgba(199,255,0,.72);transform:translate(-50%,-50%) rotate(45deg);transition:width .18s ease,height .18s ease,border-color .18s ease,background .18s ease}.cursor-ring::before,.cursor-ring::after{content:"";position:absolute;background:rgba(199,255,0,.5)}.cursor-ring::before{width:8px;height:1px;left:50%;top:-5px;transform:translateX(-50%)}.cursor-ring::after{width:1px;height:8px;left:-5px;top:50%;transform:translateY(-50%)}.cursor-ring span{position:absolute;left:44px;top:50%;transform:translateY(-50%) rotate(-45deg);white-space:nowrap;font:600 8px/1 var(--mono);letter-spacing:.1em;color:var(--signal);opacity:0;transition:opacity .15s ease}.cursor-ring.is-interactive{width:48px;height:48px;background:rgba(199,255,0,.035);border-color:var(--signal)}.cursor-ring.is-interactive span{opacity:1}.cursor-dot.show,.cursor-ring.show{opacity:1}}
+
+
+.case-hero{position:relative;overflow:hidden}.case-hero::after{content:"";position:absolute;width:48vw;height:48vw;right:-20vw;top:-24vw;border:1px solid rgba(199,255,0,.09);border-radius:50%;box-shadow:0 0 0 8vw rgba(255,255,255,.008),0 0 0 16vw rgba(255,255,255,.006);pointer-events:none;animation:caseOrbit 18s linear infinite}@keyframes caseOrbit{to{transform:rotate(360deg)}}.case-title h1{transform:translateY(0);animation:caseTitleIn .85s cubic-bezier(.19,1,.22,1) both}@keyframes caseTitleIn{from{opacity:0;transform:translateY(44px)}}.case-screen{overflow:hidden}.case-screen img{transition:transform .2s linear;will-change:transform}.case-toc a.active{color:var(--signal)}.case-section{position:relative}.case-section::before{content:"";position:absolute;left:-30px;top:6px;width:1px;height:0;background:var(--signal);transition:height .55s ease}.case-section.in-view::before{height:42px}.pipe{transition:background .25s ease,transform .25s ease}.pipe:hover{background:rgba(199,255,0,.03);transform:translateY(-3px)}
+
+.footer-mark{display:flex;flex-direction:column;align-items:flex-end;gap:10px}.footer-mark span{font:500 8px/1 var(--mono);letter-spacing:.12em;color:var(--muted)}
+
+.reveal{opacity:0;transform:translateY(26px);filter:blur(4px);transition:opacity .7s cubic-bezier(.2,.8,.2,1),transform .7s cubic-bezier(.2,.8,.2,1),filter .7s ease}.reveal.visible{opacity:1;transform:none;filter:none}.reveal.visible[data-stagger="1"]{transition-delay:.06s}.reveal.visible[data-stagger="2"]{transition-delay:.12s}.reveal.visible[data-stagger="3"]{transition-delay:.18s}
+
+@media(max-width:1120px){.hero-v2-grid{grid-template-columns:1fr 420px}.hero-stage{min-height:420px}.profile-grid-v2{grid-template-columns:360px 1fr}.header-meta{display:none}.header-row{grid-template-columns:1fr auto auto}}
+@media(max-width:980px){.header-row{grid-template-columns:1fr auto}.search-trigger{justify-self:end}.nav,.header-meta{display:none}.hero-v2-grid{grid-template-columns:1fr}.hero-stage{min-height:0;width:min(680px,100%);justify-self:center}.hero-index-bar{grid-template-columns:1fr 1fr}.hero-index-bar div:nth-child(2){border-right:0}.profile-grid-v2{grid-template-columns:1fr}.profile-orbit{max-width:470px}.profile-copy-v2{max-width:780px}.profile-focus>div{grid-template-columns:38px 200px 1fr}.search-result{grid-template-columns:76px 1fr auto}}
+@media(max-width:640px){.header-row{height:62px}.search-trigger span{display:none}.search-trigger{padding:0 9px}.hero-copy-block{padding:56px 0 34px}.hero-v2-grid{min-height:auto}.hero-stage{aspect-ratio:1/1;min-height:0}.stage-caption{font-size:7px}.stage-status{font-size:7px}.hero-index-bar{grid-template-columns:1fr}.hero-index-bar div{border-right:0;border-bottom:1px solid var(--line);padding:13px 0}.hero-actions{gap:18px}.ticker-track{animation-duration:22s}.profile-orbit{width:min(88vw,380px)}.profile-ring text{font-size:8px;letter-spacing:2.2px}.profile-lede{font-size:clamp(30px,10vw,46px)}.profile-focus>div{grid-template-columns:32px 1fr}.profile-focus p{grid-column:2}.section-search{margin-top:14px}.search-panel{padding:14px}.search-shell{max-height:calc(100vh - 28px)}.search-result{grid-template-columns:1fr auto;gap:8px}.search-result-scope{grid-column:1/-1}.search-result p{max-width:70vw}.cursor-dot,.cursor-ring{display:none}.case-section::before{display:none}}
+@media(prefers-reduced-motion:reduce){.hero-line>span,.case-title h1{animation:none;transform:none}.ticker-track,.profile-ring,.profile-core::before,.fallback-cube,.case-hero::after,.hero-stage::before,.orbit-line,.orbit-dot{animation:none!important}.reveal{opacity:1;transform:none;filter:none;transition:none!important}}
+
+
+.contact-panel{position:fixed;inset:0;z-index:145;display:none;align-items:center;justify-content:center;padding:24px}
+.contact-panel.open{display:flex}
+.contact-backdrop{position:absolute;inset:0;background:rgba(0,0,0,.86);backdrop-filter:blur(13px);animation:fadeIn .2s ease}
+.contact-shell{position:relative;z-index:1;width:min(760px,100%);background:#0c0c0c;border:1px solid var(--line-strong);box-shadow:0 40px 120px rgba(0,0,0,.58);animation:searchIn .28s cubic-bezier(.2,.8,.2,1)}
+.contact-bar{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:14px 16px;border-bottom:1px solid var(--line);font:600 9px/1.4 var(--mono);letter-spacing:.11em;color:var(--muted);text-transform:uppercase}
+.contact-close{width:36px;height:36px;border:1px solid var(--line);background:#101010;color:var(--ink);cursor:pointer;font-size:22px;line-height:1}
+.contact-close:hover{border-color:var(--signal);color:var(--signal)}
+.contact-head{padding:28px 28px 18px;border-bottom:1px solid var(--line)}
+.contact-head .eyebrow{margin-bottom:12px}
+.contact-head h3{margin:0;font-size:clamp(34px,5vw,58px);line-height:.95;letter-spacing:-.055em}
+.contact-head p{margin:14px 0 0;color:var(--muted);font-size:13px}
+.contact-form{padding:24px 28px 28px;display:grid;gap:18px}
+.contact-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.contact-field{display:grid;gap:8px}
+.contact-field label{font:600 9px/1 var(--mono);letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
+.contact-field input,.contact-field textarea{width:100%;border:1px solid var(--line);background:#0a0a0a;color:var(--ink);outline:0;padding:13px 14px;font:500 14px/1.4 var(--sans);border-radius:0;resize:vertical;transition:border-color .2s ease,background .2s ease}
+.contact-field input:focus,.contact-field textarea:focus{border-color:var(--signal);background:#0d0f09}
+.contact-field textarea{min-height:150px}
+.contact-actions{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;padding-top:2px}
+.contact-recipient{font:500 9px/1.5 var(--mono);letter-spacing:.06em;color:var(--muted)}
+.contact-send{border:1px solid var(--signal);background:var(--signal);color:#050505;padding:12px 16px;font:700 10px/1 var(--mono);letter-spacing:.09em;text-transform:uppercase;cursor:pointer}
+.contact-send:hover{background:#efffb4}
+.contact-alt{border:1px solid var(--line);background:transparent;color:var(--ink);padding:12px 14px;font:700 10px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;cursor:pointer}
+.contact-alt:hover{border-color:var(--signal);color:var(--signal)}
+.contact-note{font-size:11px;color:var(--muted);line-height:1.5}
+@media(max-width:640px){.contact-panel{padding:12px}.contact-row{grid-template-columns:1fr}.contact-head,.contact-form{padding-left:18px;padding-right:18px}.contact-actions{align-items:stretch}.contact-send,.contact-alt{width:100%}}
+
+
+.header-contact{justify-self:end;border:1px solid var(--line);background:transparent;color:var(--ink);height:34px;padding:0 12px;font:700 10px/1 var(--mono);letter-spacing:.10em;cursor:pointer;transition:border-color .2s ease,color .2s ease,background .2s ease}
+.header-contact:hover,.header-contact:focus-visible{border-color:var(--signal);color:var(--signal);outline:none;background:rgba(199,255,0,.025)}
+.hero-name{font-size:clamp(52px,6.2vw,104px)!important;line-height:.82!important;letter-spacing:-.065em!important;max-width:100%}
+.work-item{grid-template-columns:110px minmax(300px,1fr) minmax(220px,310px);align-items:center}
+.work-result{width:100%;min-height:0!important;aspect-ratio:16/10;justify-self:end;position:relative}
+.work-result::after{content:"RESULT";position:absolute;left:10px;top:9px;z-index:4;padding:5px 7px;border:1px solid rgba(199,255,0,.35);background:rgba(9,9,9,.82);color:var(--signal);font:700 8px/1 var(--mono);letter-spacing:.11em}
+.work-result img{width:100%;height:100%;object-fit:cover}
+.work-result.ids-visual{min-height:0;padding:14px;grid-template-columns:1fr;gap:8px;align-content:center}
+.work-result.ids-visual .ids-node{min-height:0;padding:10px}
+.work-result.ids-visual .ids-node strong{font-size:13px}
+.work-result.ids-visual .ids-node small{font-size:8px}
+.work-result.ids-visual .ids-arrow{display:none}
+.bounty-empty{border-top:1px solid var(--line-strong);border-bottom:1px solid var(--line);padding:28px 0;color:var(--muted);font:600 12px/1.4 var(--mono);letter-spacing:.08em}
+@media(max-width:1120px){.hero-name{font-size:clamp(50px,7.1vw,82px)!important}.header-row{grid-template-columns:1fr auto auto auto!important;gap:16px}.work-item{grid-template-columns:88px minmax(0,1fr) 260px}}
+@media(max-width:980px){.header-row{grid-template-columns:1fr auto auto!important}.header-contact{display:inline-flex;align-items:center}.work-item{grid-template-columns:74px minmax(0,1fr)}.work-result{grid-column:2;width:min(100%,360px);justify-self:start;margin-top:8px}}
+@media(max-width:640px){.hero-name{font-size:clamp(46px,14vw,72px)!important}.header-contact{height:34px;padding:0 9px;font-size:9px}.work-item{grid-template-columns:1fr}.work-result{grid-column:1;width:min(100%,320px)}}
+
+
+.hero-index-bar{display:none!important;height:0!important;border:0!important;margin:0!important;padding:0!important}
+.hero-index-bar>*{display:none!important}
+
+.ticker{height:64px;border:0!important;background:linear-gradient(180deg,#090909 0%,#0d0d0c 48%,#090909 100%);position:relative;overflow:hidden}
+.ticker::before{content:"";position:absolute;inset:14px var(--pad);background:rgba(255,255,255,.012);border-radius:2px}
+.ticker-track{display:none!important;animation:none!important}
+.profile-core{overflow:hidden;background:#1d1d1d}
+.profile-core img{width:100%!important;height:100%!important;object-fit:cover!important;transform:none!important}
+.profile-core span{display:none!important}
+.profile-orbit-meta{justify-content:flex-start!important}
+.profile-orbit-meta span{white-space:nowrap}
+.profile-toc{border-top:1px solid var(--line-strong);margin-top:34px}
+.profile-toc a{display:grid;grid-template-columns:42px minmax(190px,.85fr) minmax(160px,1fr) 22px;gap:18px;align-items:center;padding:18px 0;border-bottom:1px solid var(--line);transition:padding-left .22s ease,color .22s ease,background .22s ease}
+.profile-toc a:hover{padding-left:8px;background:rgba(255,255,255,.012)}
+.profile-toc-num{font:600 9px/1.4 var(--mono);color:var(--signal)}
+.profile-toc strong{font-size:15px;font-weight:650}
+.profile-toc small{font:500 10px/1.5 var(--mono);letter-spacing:.05em;color:var(--muted);text-transform:uppercase}
+.profile-toc-arrow{font:600 12px/1 var(--mono);color:var(--signal);text-align:right}
+.credential-row{grid-template-columns:110px minmax(0,1fr)!important}
+.programs-block .record-row + .record-row{margin-top:18px}
+@media(max-width:640px){.profile-toc a{grid-template-columns:30px 1fr 18px;gap:12px}.profile-toc small{grid-column:2}.profile-toc-arrow{grid-column:3;grid-row:1/3}.credential-row{grid-template-columns:82px minmax(0,1fr)!important}.programs-block .record-row + .record-row{margin-top:14px}}
+
+
+.header-row{display:grid;grid-template-columns:1fr auto auto auto;align-items:center;gap:24px}
+.search-trigger{width:auto;justify-self:auto}
+
+.hero.hero-v2{display:block!important;align-items:initial!important;min-height:0!important;padding:0 0 34px!important}
+.hero-v2-grid{display:grid;width:min(var(--max),calc(100% - (var(--pad) * 2)));margin:0 auto;grid-template-columns:minmax(0,1.15fr) minmax(380px,.85fr);gap:clamp(42px,6vw,96px);align-items:center;min-height:calc(100vh - 160px)}
+.hero-stage{position:relative;aspect-ratio:1/1;min-height:520px;overflow:hidden}
+@media(max-width:1120px){.hero-v2-grid{grid-template-columns:1fr 420px}.header-row{grid-template-columns:1fr auto auto auto}}
+@media(max-width:980px){.header-row{grid-template-columns:1fr auto}.nav,.header-meta{display:none}.hero-v2-grid{grid-template-columns:1fr;min-height:0;padding:70px 0 40px}.hero-stage{width:min(680px,100%);min-height:0;justify-self:center}}
 
 </style>
 </head>
-<body class="antialiased">
-<div class="scroll-progress" id="scroll-progress"></div>
-<div class="bg-glow"></div>
-<div class="cyber-grid"></div>
-<div class="scanline-overlay"></div>
-<div class="mouse-glow" id="mouse-glow"></div>
-<nav class="fixed w-full z-50 nav-blur border-b border-white/5 px-6 md:px-8 py-5">
-<div class="max-w-7xl mx-auto flex justify-between items-center">
-<a aria-label="SLHR_INFO 홈으로 이동" class="text-xl font-black mono tracking-tighter text-white" href="#about">
-                    SLHR<span class="text-green-500">_INFO</span>
-                </a>
-<div class="hidden md:flex space-x-12 text-[10px] font-black uppercase tracking-[0.3em] text-dim">
-<a class="nav-link hover:text-white transition-colors" href="#about">About</a>
-<a class="nav-link hover:text-white transition-colors" href="#quals">Qualifications</a>
-<a class="nav-link hover:text-white transition-colors" href="#programs">Programs</a>
-<a class="nav-link hover:text-white transition-colors" href="#awards">Awards</a>
-<a class="nav-link hover:text-white transition-colors" href="#projects">Projects</a>
-</div>
-<div class="hidden md:flex items-center gap-3">
-<button class="px-4 py-2 rounded-full border border-white/10 text-[10px] font-black uppercase tracking-widest text-white hover:border-green-500/50 hover:text-green-500 transition-all" id="copy-email" type="button">
-                        Copy Email
-                    </button>
-<a class="px-4 py-2 rounded-full bg-green-500 text-black text-[10px] font-black uppercase tracking-widest hover:bg-white transition-all" href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=songhr498%40gmail.com" rel="noopener noreferrer" target="_blank">
-                        Contact
-                    </a>
-</div>
-<button aria-label="모바일 메뉴 열기" class="md:hidden w-10 h-10 rounded-full border border-white/10 text-white" id="mobile-toggle" type="button">
-<i class="fas fa-bars"></i>
-</button>
-</div>
-<div class="mobile-menu md:hidden max-w-7xl mx-auto" id="mobile-menu">
-<div class="pt-5 pb-2 space-y-3 text-xs font-black uppercase tracking-[0.25em] text-dim">
-<a class="mobile-nav-link block py-3 border-b border-white/5 hover:text-white" href="#about">About</a>
-<a class="mobile-nav-link block py-3 border-b border-white/5 hover:text-white" href="#quals">Qualifications</a>
-<a class="mobile-nav-link block py-3 border-b border-white/5 hover:text-white" href="#programs">Programs</a>
-<a class="mobile-nav-link block py-3 border-b border-white/5 hover:text-white" href="#awards">Awards</a>
-<a class="mobile-nav-link block py-3 border-b border-white/5 hover:text-white" href="#projects">Projects</a>
-<a class="block py-3 text-green-500" href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=songhr498%40gmail.com" rel="noopener noreferrer" target="_blank">Gmail Contact</a>
-</div>
-</div>
-</nav>
-<section class="min-h-screen flex items-center justify-center pt-32 pb-20 px-8" id="about">
-<div class="max-w-7xl w-full grid lg:grid-cols-12 gap-16 items-center">
-<div class="lg:col-span-7">
-<div class="inline-flex items-center space-x-3 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-green-500 text-[10px] font-bold mb-8 mono">
-<span class="relative flex h-2 w-2">
-<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-<span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
-</span>
-<span>SYSTEMS ONLINE // STUDENT SECURITY RESEARCHER</span>
-</div>
-<h1 class="hero-title mb-8" id="typewriter-name"></h1>
-<p class="text-xl md:text-2xl text-gray-400 mb-10 max-w-2xl leading-relaxed font-normal">
-                        안녕하세요.
-                        <span class="text-white font-bold underline decoration-green-500 underline-offset-4">정보보안을 공부하며 성장하는 학생</span> 송형록입니다.
-                    </p>
-</div>
-<div class="lg:col-span-5 flex justify-center">
-<div class="profile-container group">
-<div class="profile-glow"></div>
-<div class="profile-image-wrapper">
-<img alt="SLHR 캐릭터 프로필 이미지" class="w-full h-full object-cover" src="back.png"/>
-</div>
-</div>
-</div>
-</div>
+<body>
+<div class="scroll-progress" aria-hidden="true"><span></span></div>
+<header class="site-header">
+  <div class="wrap header-row">
+    <a class="brand" href="#top" data-cursor="TOP">SLHR/<b>ARCHIVE</b></a>
+    <nav class="nav" aria-label="Primary navigation">
+      <a href="#profile">Profile</a><a href="#work">Work</a><a href="#record">Record</a><a href="#ctf">CTF</a>
+    </nav>
+    <button class="search-trigger" type="button" data-search-open="ALL" data-cursor="SEARCH" aria-label="아카이브 검색 열기"><span>Search</span><kbd>/</kbd></button>
+    <button class="header-contact" type="button" data-contact-open data-cursor="MAIL" aria-label="연락하기">CONTACT</button>
+  </div>
+</header>
+
+<main id="top">
+<section class="hero hero-v2" data-search-section="PROFILE">
+  <div class="wrap hero-v2-grid">
+    <div class="hero-copy-block">
+      <div class="hero-kicker eyebrow reveal">Personal security research index</div>
+      <h1 class="hero-name" aria-label="Song Hyeongrok">
+        <span class="hero-line"><span id="type-song" data-type-text="SONG"></span></span>
+        <span class="hero-line"><span id="type-hyeongrok" class="outline" data-type-text="HYEONGROK"></span></span>
+      </h1>
+      <p class="hero-copy reveal">안녕하세요. 세명컴퓨터고등학교 송형록입니다.</p>
+      <div class="hero-actions reveal">
+        <button class="text-action" type="button" data-search-open="ALL" data-magnetic data-cursor="SEARCH">Search archive <span>↗</span></button>
+        <a class="text-action" href="#work" data-magnetic data-cursor="VIEW">Selected work <span>↓</span></a>
+      </div>
+    </div>
+
+    <div class="hero-stage reveal" id="hero-3d" data-cursor="ROTATE" aria-label="Interactive 3D computer terminal object">
+      <canvas id="hero-canvas" aria-hidden="true"></canvas>
+      <div class="hero-3d-fallback" aria-hidden="true">
+        <div class="fallback-cube"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      </div>
+      <div class="stage-grid" aria-hidden="true"></div>
+      <div class="stage-corner stage-corner-a"></div><div class="stage-corner stage-corner-b"></div>
+      <div class="stage-caption"><span>INTERACTIVE TERMINAL / 01</span><span>MOVE POINTER · ROTATE</span></div>
+      <div class="stage-status"><i></i> RENDER ACTIVE</div>
+    </div>
+  </div>
+  <div class="wrap hero-index-bar reveal" aria-hidden="true"></div>
 </section>
-<section class="pt-40 pb-10 px-8" id="quals">
-<div class="max-w-7xl mx-auto">
-<div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-8">
-<div>
-<h2 class="text-xs font-black text-blue-500 uppercase tracking-[0.4em] mb-4 mono">/ Technical Licenses</h2>
-<h3 class="text-4xl md:text-5xl font-black tracking-tight text-white">Qualifications</h3>
-</div>
-</div>
-<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 qualification-card-grid">
-<div class="glass-card qualification-card p-8 rounded-[2rem] border-t-4 border-blue-500 group flex flex-col">
-<div class="flex items-center space-x-4 mb-6">
-<div class="w-12 h-12 bg-blue-500/10 rounded-xl flex items-center justify-center group-hover:bg-blue-500 transition-colors duration-500">
-<i class="fas fa-file-contract text-blue-500 text-xl group-hover:text-black transition-colors duration-500"></i>
-</div>
-<div>
-<h4 class="text-xl elegant-title">ITQ OA Master</h4>
-<p class="text-[10px] mono text-blue-500/70 font-bold uppercase tracking-wider">KPC 한국생산성본부</p>
-</div>
-</div>
-<div class="space-y-3">
-<div class="flex items-center justify-between gap-3 text-sm text-gray-400 elegant-text">
-<span class="flex items-center min-w-0">
-<i class="fas fa-check-circle text-blue-500/50 mr-2 text-[10px]"></i> ITQ 아래한글 (Grade A)
-                                </span>
-<span class="mono text-[10px] text-blue-500/70 font-bold tracking-widest whitespace-nowrap">2025.04.03 취득</span>
-</div>
-<div class="flex items-center justify-between gap-3 text-sm text-gray-400 elegant-text">
-<span class="flex items-center min-w-0">
-<i class="fas fa-check-circle text-blue-500/50 mr-2 text-[10px]"></i> ITQ 한글엑셀 (Grade A)
-                                </span>
-<span class="mono text-[10px] text-blue-500/70 font-bold tracking-widest whitespace-nowrap">2025.06.13 취득</span>
-</div>
-<div class="flex items-center justify-between gap-3 text-sm text-gray-400 elegant-text">
-<span class="flex items-center min-w-0">
-<i class="fas fa-check-circle text-blue-500/50 mr-2 text-[10px]"></i> ITQ 한글파워포인트 (Grade A)
-                                </span>
-<span class="mono text-[10px] text-blue-500/70 font-bold tracking-widest whitespace-nowrap">2025.06.13 취득</span>
-</div>
-</div>
-<button aria-label="ITQ 자격취득 내역서 보기" class="document-view-btn project-action mono" data-document-src="ITQ_자격증_취득내역서.png" data-document-title="ITQ 자격취득 내역서" type="button"><span>View Certificate</span><i class="fas fa-expand-alt"></i></button></div>
-<div class="glass-card qualification-card p-8 rounded-[2rem] border-t-4 border-cyan-500 group flex flex-col">
-<div class="flex items-center space-x-4 mb-6">
-<div class="w-12 h-12 bg-cyan-500/10 rounded-xl flex items-center justify-center group-hover:bg-cyan-500 transition-colors duration-500">
-<i class="fas fa-desktop text-cyan-500 text-xl group-hover:text-black transition-colors duration-500"></i>
-</div>
-<div>
-<h4 class="text-xl elegant-title">컴퓨터활용능력 2급</h4>
-<p class="text-[10px] mono text-cyan-500/70 font-bold uppercase tracking-wider">대한상공회의소</p>
-</div>
-</div>
-<div class="flex flex-wrap gap-2">
-<div class="inline-flex items-center px-4 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-[10px] font-bold text-cyan-500 uppercase tracking-widest elegant-text">
-                                필기시험 합격
-                            </div>
-<div class="inline-flex items-center px-4 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-[10px] font-bold text-cyan-500 uppercase tracking-widest elegant-text">
-                                2025.08.09 취득
-                            </div>
-</div>
-<button aria-label="컴퓨터활용능력 2급 필기시험 합격 확인서 보기" class="document-view-btn project-action mono" data-document-src="컴퓨터활용능력.png" data-document-title="컴퓨터활용능력 2급 필기시험 합격 확인서" type="button"><span>View Certificate</span><i class="fas fa-expand-alt"></i></button></div>
-<div class="glass-card qualification-card p-8 rounded-[2rem] border-t-4 border-emerald-500 group flex flex-col">
-<div class="flex items-center space-x-4 mb-6">
-<div class="w-12 h-12 bg-emerald-500/10 rounded-xl flex items-center justify-center group-hover:bg-emerald-500 transition-colors duration-500">
-<i class="fas fa-network-wired text-emerald-500 text-xl group-hover:text-black transition-colors duration-500"></i>
-</div>
-<div>
-<h4 class="text-xl elegant-title">정보기기운용기능사</h4>
-<p class="text-[10px] mono text-emerald-500/70 font-bold uppercase tracking-wider">한국산업인력공단</p>
-</div>
-</div>
-<div class="flex flex-wrap gap-2">
-<div class="inline-flex items-center px-4 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-[10px] font-bold text-emerald-500 uppercase tracking-widest elegant-text">
-                                국가기술자격
-                            </div>
-<div class="inline-flex items-center px-4 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-[10px] font-bold text-emerald-500 uppercase tracking-widest elegant-text">
-                                2026.07.10 취득
-                            </div>
-</div>
-<button aria-label="정보기기운용기능사 국가기술자격증 보기" class="document-view-btn project-action mono" data-document-src="정보기기운용기능사_자격증.png" data-document-title="정보기기운용기능사 국가기술자격증" type="button"><span>View Certificate</span><i class="fas fa-expand-alt"></i></button></div>
-</div>
-</div>
-</section>
-<section class="py-20 px-8" id="programs">
-<div class="max-w-7xl mx-auto">
-<div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-8">
-<div>
-<h2 class="text-xs font-black text-purple-500 uppercase tracking-[0.4em] mb-4 mono">/ Education &amp; Programs</h2>
-<h3 class="text-4xl md:text-5xl font-black tracking-tight text-white">Training Programs</h3>
-</div>
-</div>
-<div class="grid md:grid-cols-2 gap-8">
-<div class="glass-card p-8 rounded-[2rem] border-t-4 border-green-500 group flex flex-col">
-<div class="flex items-center space-x-4 mb-6">
-<div class="w-12 h-12 bg-green-500/10 rounded-xl flex items-center justify-center group-hover:bg-green-500 transition-colors duration-500">
-<i class="fas fa-user-shield text-green-500 text-xl group-hover:text-black transition-colors duration-500"></i>
-</div>
-<div>
-<h4 class="text-xl elegant-title">현대오토에버 화이트해커 양성교육</h4>
-<p class="text-[10px] mono text-green-500/70 font-bold uppercase tracking-wider">2025.06 ~ 2025.11 (수료)</p>
-</div>
-</div>
-<p class="text-sm text-gray-400 elegant-text leading-relaxed mb-3">
-                            화이트해커 양성을 위한 차세대 보안 전문가 교육 과정 이수 및 실무 역량 강화.
-                        </p>
-<button aria-label="현대오토에버 화이트해커 양성교육 장학증서 보기" class="document-view-btn project-action mono" data-document-src="현대오토에버_장학증서.png" data-document-title="현대오토에버 화이트해커 양성교육 장학증서" type="button"><span>View Certificate</span><i class="fas fa-expand-alt"></i></button></div>
-<div class="glass-card p-8 rounded-[2rem] border-t-4 border-purple-500 group flex flex-col">
-<div class="flex items-center space-x-4 mb-6">
-<div class="w-12 h-12 bg-purple-500/10 rounded-xl flex items-center justify-center group-hover:bg-purple-500 transition-colors duration-500">
-<i class="fas fa-graduation-cap text-purple-500 text-xl group-hover:text-black transition-colors duration-500"></i>
-</div>
-<div>
-<h4 class="text-xl elegant-title">서울여대 AI정보보호 영재 교육원</h4>
-<p class="text-[10px] mono text-purple-500/70 font-bold uppercase tracking-wider">2026.04 ~ 수료 중</p>
-</div>
-</div>
-<p class="text-sm text-gray-400 elegant-text leading-relaxed mb-3">
-                            인공지능(AI)과 정보보호 융합 기술 및 심화 보안 트랙 연구를 통한 차세대 보안 리더 과정 참여.
-                        </p>
-<button aria-label="서울여자대학교 AI·정보보호영재교육원 합격증 보기" class="document-view-btn project-action mono" data-document-src="서울여대_합격증.png" data-document-title="서울여자대학교 AI·정보보호영재교육원 합격증" type="button"><span>View Certificate</span><i class="fas fa-expand-alt"></i></button></div>
-</div>
-</div>
-</section>
-<section class="py-20 px-8" id="awards">
-<div class="max-w-7xl mx-auto">
-<div class="flex flex-col md:flex-row md:items-end justify-between mb-24 gap-8">
-<div>
-<h2 class="text-xs font-black text-green-500 uppercase tracking-[0.4em] mb-4 mono">/ TRACK RECORD</h2>
-<h3 class="text-4xl md:text-5xl font-black tracking-tight text-white">Awards &amp; Achievements</h3>
-</div>
-</div>
-<div class="space-y-20">
-<div>
-<h4 class="text-lg font-black mb-10 flex items-center text-white tracking-widest uppercase">
-<span class="w-10 h-0.5 bg-green-500 mr-5"></span> Academic Honors
-                        </h4>
-<div class="grid md:grid-cols-3 gap-10 academic-honors-list">
-<div class="min-w-0">
-<div class="mb-7 pb-4 border-b border-green-500/25">
-<span class="text-[10px] mono text-green-500/70 font-black uppercase tracking-[0.22em] block mb-2">Freshman</span>
-<h5 class="text-xl md:text-2xl font-black text-white tracking-tight">1학년</h5>
-</div>
-<div class="space-y-6">
-<div class="timeline-item">
-<span class="text-[10px] mono text-green-500/70 font-black mb-1.5 block uppercase tracking-widest">2학기</span>
-<h5 class="text-lg md:text-xl elegant-title mb-1">교과 우수상 (체육)</h5>
-<p class="text-xs md:text-sm text-gray-500 leading-relaxed">학업 및 학교생활 성과 기반 교과 우수 기록</p>
-</div>
-</div>
-</div>
-<div class="min-w-0">
-<div class="mb-7 pb-4 border-b border-blue-500/25">
-<span class="text-[10px] mono text-blue-500/70 font-black uppercase tracking-[0.22em] block mb-2">Sophomore</span>
-<h5 class="text-xl md:text-2xl font-black text-white tracking-tight">2학년</h5>
-</div>
-<div class="space-y-6">
-<div class="timeline-item">
-<span class="text-[10px] mono text-blue-500/70 font-black mb-1.5 block uppercase tracking-widest">1학기</span>
-<h5 class="text-lg md:text-xl elegant-title mb-1">생명존중 글짓기 대회 우수 (2위)</h5>
-<p class="text-xs md:text-sm text-gray-500 leading-relaxed">교내 글쓰기 대회 우수상 기록</p>
-</div>
-<div class="timeline-item">
-<span class="text-[10px] mono text-blue-500/70 font-black mb-1.5 block uppercase tracking-widest">2학기</span>
-<h5 class="text-lg md:text-xl elegant-title mb-1">스마트보안솔루션 경진대회 동상 (3위)</h5>
-<p class="text-xs md:text-sm text-gray-500 leading-relaxed">보안 솔루션 설계 및 문제 해결 역량 기반 수상</p>
-</div>
-<div class="timeline-item">
-<span class="text-[10px] mono text-blue-500/70 font-black mb-1.5 block uppercase tracking-widest">2학기</span>
-<h5 class="text-lg md:text-xl elegant-title mb-1">자격증 인증제 동상 (3위)</h5>
-<p class="text-xs md:text-sm text-gray-500 leading-relaxed">기술 자격 취득 및 학습 성과 기반 수상</p>
-</div>
-<div class="timeline-item">
-<span class="text-[10px] mono text-blue-500/70 font-black mb-1.5 block uppercase tracking-widest">2학기</span>
-<h5 class="text-lg md:text-xl elegant-title mb-1">교과 우수상 (체육)</h5>
-<p class="text-xs md:text-sm text-gray-500 leading-relaxed">교과 성취 우수 기록</p>
-</div>
-<div class="timeline-item">
-<span class="text-[10px] mono text-blue-500/70 font-black mb-1.5 block uppercase tracking-widest">2학기</span>
-<h5 class="text-lg md:text-xl elegant-title mb-1">선행상 수상</h5>
-<p class="text-xs md:text-sm text-gray-500 leading-relaxed">학교생활 및 인성 부문 수상 기록</p>
-</div>
-</div>
-</div>
-<div class="min-w-0">
-<div class="mb-7 pb-4 border-b border-purple-500/25">
-<span class="text-[10px] mono text-purple-500/70 font-black uppercase tracking-[0.22em] block mb-2">Senior</span>
-<h5 class="text-xl md:text-2xl font-black text-white tracking-tight">3학년</h5>
-</div>
-<div class="space-y-6">
-<div class="timeline-item">
-<span class="text-[10px] mono text-purple-500/70 font-black mb-1.5 block uppercase tracking-widest">1학기</span>
-<h5 class="text-lg md:text-xl elegant-title mb-1">생명존중 글짓기 대회 우수상</h5>
-<p class="text-xs md:text-sm text-gray-500 leading-relaxed">교내 글쓰기 대회 우수상 기록</p>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div>
-<h4 class="text-lg font-black mb-10 flex items-center text-white tracking-widest uppercase">
-<span class="w-10 h-0.5 bg-blue-500 mr-5"></span> CTF &amp; External
-                        </h4>
-<div class="space-y-12" id="ctf-external-list">
-<div>
-<div class="ctf-category-heading">
-<span class="ctf-category-badge domestic">DOMESTIC</span>
-<h5 class="text-sm font-black text-white tracking-widest uppercase">국내 CTF</h5>
-</div>
-<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 ctf-card-grid">
-<div class="glass-card ctf-external-card p-8 rounded-3xl border-l-4 border-green-500 h-full min-h-[320px] flex flex-col">
-<div class="flex justify-between items-center mb-5 gap-4">
-<span class="bg-green-500/10 text-green-500 text-[9px] font-black px-3 py-1 rounded-full mono tracking-widest">HYUNDAI AUTOEVER</span>
-<span class="mono text-xs font-bold text-white tracking-tight">CTF 입상</span>
-</div>
-<h5 class="text-xl elegant-title mb-1">현대오토에버 화이트해커 양성교육</h5>
-<p class="mono text-[10px] font-bold text-gray-500 tracking-wider">2025.11.15</p>
-<div aria-label="CTF metadata" class="ctf-meta-grid">
-<div class="ctf-meta-item">
-<span class="ctf-meta-label">Team</span>
-<span class="ctf-meta-value">Solo</span>
-</div>
-<div class="ctf-meta-item">
-<span class="ctf-meta-label">Host Country</span>
-<span class="ctf-meta-value">대한민국</span>
-</div>
-<div class="ctf-meta-item">
-<span class="ctf-meta-label">Organizer</span>
-<span class="ctf-meta-value">현대오토에버</span>
-</div>
-</div>
-<p class="text-sm text-gray-400 elegant-text leading-relaxed mt-auto pt-4">처음으로 오프라인 대회에 참가해 입상 및 전 과정 우수 교육생 선정으로 선정되었습니다.</p>
-</div>
-<div class="glass-card ctf-external-card p-8 rounded-3xl border-l-4 border-yellow-500 h-full min-h-[320px] flex flex-col">
-<div class="flex justify-between items-center mb-5 gap-4">
-<span class="bg-yellow-500/10 text-yellow-500 text-[9px] font-black px-3 py-1 rounded-full mono tracking-widest">WaRP vs s0sCoD3 CTF</span>
-<span class="mono text-xs font-bold text-white tracking-tight">12th Place</span>
-</div>
-<h5 class="text-xl elegant-title mb-1">WaRP vs s0sCoD3 CTF</h5>
-<p class="mono text-[10px] font-bold text-gray-500 tracking-wider">2025.12.20</p>
-<div aria-label="CTF metadata" class="ctf-meta-grid">
-<div class="ctf-meta-item">
-<span class="ctf-meta-label">Team</span>
-<span class="ctf-meta-value">Solo</span>
-</div>
-<div class="ctf-meta-item">
-<span class="ctf-meta-label">Host Country</span>
-<span class="ctf-meta-value">대한민국</span>
-</div>
-<div class="ctf-meta-item">
-<span class="ctf-meta-label">Organizer</span>
-<span class="ctf-meta-value">Dreamhack</span>
-</div>
-</div>
-<p class="text-sm text-gray-400 elegant-text leading-relaxed mt-auto pt-4">경기과학고등학교와 세종과학예술영재학교가 같이 온라인으로 진행하는 CTF 대회에서 실전 취약점 분석 및 익스플로잇 설계 역량을 입증했습니다.</p>
-</div>
-<div class="glass-card ctf-external-card p-8 rounded-3xl border-l-4 border-orange-500 h-full min-h-[320px] flex flex-col">
-<div class="flex justify-between items-center mb-5 gap-4">
-<span class="bg-orange-500/10 text-orange-500 text-[9px] font-black px-3 py-1 rounded-full mono tracking-widest">DREAMHACK</span>
-<span class="mono text-xs font-bold text-white tracking-tight">25th Place</span>
-</div>
-<h5 class="text-xl elegant-title mb-1">제1회 감귤 CTF</h5>
-<p class="mono text-[10px] font-bold text-gray-500 tracking-wider">2025.12.06</p>
-<div aria-label="CTF metadata" class="ctf-meta-grid">
-<div class="ctf-meta-item">
-<span class="ctf-meta-label">Team</span>
-<span class="ctf-meta-value">Solo</span>
-</div>
-<div class="ctf-meta-item">
-<span class="ctf-meta-label">Host Country</span>
-<span class="ctf-meta-value">대한민국</span>
-</div>
-<div class="ctf-meta-item">
-<span class="ctf-meta-label">Organizer</span>
-<span class="ctf-meta-value">Dreamhack</span>
-</div>
-</div>
-<p class="text-sm text-gray-400 elegant-text leading-relaxed mt-auto pt-4">다양한 환경의 문제 해결을 통한 실전 역량 강화.</p>
-</div>
-</div>
-</div>
-<div>
-<div class="ctf-category-heading">
-<span class="ctf-category-badge international">INTERNATIONAL</span>
-<h5 class="text-sm font-black text-white tracking-widest uppercase">해외 CTF</h5>
-</div>
-<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 ctf-card-grid">
-<div class="glass-card ctf-external-card p-8 rounded-3xl border-l-4 border-purple-500 h-full min-h-[320px] flex flex-col">
-<div class="flex justify-between items-center mb-5 gap-4">
-<span class="bg-purple-500/10 text-purple-400 text-[9px] font-black px-3 py-1 rounded-full mono tracking-widest">ATHENA CTF 2026</span>
-<span class="mono text-xs font-bold text-white tracking-tight">Team 4th / Solo 1th</span>
-</div>
-<h5 class="text-xl elegant-title mb-1">Athena CTF</h5>
-<p class="mono text-[10px] font-bold text-gray-500 tracking-wider">2026.07.18</p>
-<div aria-label="CTF metadata" class="ctf-meta-grid">
-<div class="ctf-meta-item">
-<span class="ctf-meta-label">Team</span>
-<span class="ctf-meta-value">Duo</span>
-</div>
-<div class="ctf-meta-item">
-<span class="ctf-meta-label">Host Country</span>
-<span class="ctf-meta-value">인도</span>
-</div>
-<div class="ctf-meta-item">
-<span class="ctf-meta-label">Organizer</span>
-<span class="ctf-meta-value">AstraQ</span>
-</div>
-</div>
-<p class="text-sm text-gray-400 elegant-text leading-relaxed pt-4">인도 AstraQ Cyber Defence가 주최한 Athena CTF 2026에 2인 팀으로 참가하여 전체 4위 입상 및 솔로 기준 1위를 기록.</p>
-<button aria-label="Athena CTF 2026 입상장 보기" class="document-view-btn project-action mono" data-document-src="Athena_CTF_2026_Certificate.png" data-document-title="Athena CTF 2026 입상장" type="button"><span>View Certificate</span><i class="fas fa-expand-alt"></i></button>
-</div>
-<div class="glass-card ctf-external-card p-8 rounded-3xl border-l-4 border-sky-400 h-full min-h-[320px] flex flex-col">
-<div class="flex justify-between items-center mb-5 gap-4">
-<span class="bg-sky-400/10 text-sky-400 text-[9px] font-black px-3 py-1 rounded-full mono tracking-widest">BORO CTF 2026</span>
-<span class="mono text-xs font-bold text-white tracking-tight">HS 34th Place</span>
-</div>
-<h5 class="text-xl elegant-title mb-1">boroCTF</h5>
-<p class="mono text-[10px] font-bold text-gray-500 tracking-wider">2026.06.13</p>
-<div aria-label="CTF metadata" class="ctf-meta-grid">
-<div class="ctf-meta-item">
-<span class="ctf-meta-label">Team</span>
-<span class="ctf-meta-value">Solo</span>
-</div>
-<div class="ctf-meta-item">
-<span class="ctf-meta-label">Host Country</span>
-<span class="ctf-meta-value">미국</span>
-</div>
-<div class="ctf-meta-item">
-<span class="ctf-meta-label">Organizer</span>
-<span class="ctf-meta-value">KyteBytes</span>
-</div>
-</div>
-<p class="text-sm text-gray-400 elegant-text leading-relaxed mt-auto pt-4">미국 KyteBytes가 주최한 온라인 해외 CTF에 SLHR로 참가하여 HS Division 174팀 중 34등 및 상위 19.5%를 기록했습니다.</p>
-</div>
-<div class="glass-card ctf-external-card p-8 rounded-3xl border-l-4 border-cyan-400 h-full min-h-[320px] flex flex-col">
-<div class="flex justify-between items-center mb-5 gap-4">
-<span class="bg-cyan-400/10 text-cyan-400 text-[9px] font-black px-3 py-1 rounded-full mono tracking-widest">GRAY CAT CTF 2026</span>
-<span class="mono text-xs font-bold text-white tracking-tight">25th Place</span>
-</div>
-<h5 class="text-xl elegant-title mb-1">Grey Cat CTF</h5>
-<p class="mono text-[10px] font-bold text-gray-500 tracking-wider">2026.05.30</p>
-<div aria-label="CTF metadata" class="ctf-meta-grid">
-<div class="ctf-meta-item">
-<span class="ctf-meta-label">Team</span>
-<span class="ctf-meta-value">Solo</span>
-</div>
-<div class="ctf-meta-item">
-<span class="ctf-meta-label">Host Country</span>
-<span class="ctf-meta-value">싱가포르</span>
-</div>
-<div class="ctf-meta-item">
-<span class="ctf-meta-label">Organizer</span>
-<span class="ctf-meta-value">NUS Greyhats</span>
-</div>
-</div>
-<p class="text-sm text-gray-400 elegant-text leading-relaxed mt-auto pt-4">싱가포르 NUS Greyhats가 주최한 해외 CTF에 솔로 참가하여 전체 25등 및 상위 20% 기록했습니다.</p>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</section>
-<section class="py-32 bg-white/[0.02] px-8" id="projects">
-<div class="max-w-7xl mx-auto">
-<div class="flex flex-col md:flex-row md:items-end justify-between mb-20 gap-8">
-<div>
-<h2 class="text-xs font-black text-green-500 uppercase tracking-[0.4em] mb-4 mono">/ Project Archive</h2>
-<h3 class="text-4xl md:text-5xl font-black tracking-tight text-white">Security Projects</h3>
-<div class="grid md:grid-cols-2 gap-10 mt-12">
-<a aria-label="비밀번호 강도 분석기 프로젝트 상세 페이지로 이동" class="glass-card project-card security-project-card p-10 rounded-[40px] flex flex-col group" href="project-password-analyzer.html">
-<div class="mb-8">
-<div class="w-14 h-14 bg-blue-500/10 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-blue-500 transition-colors duration-500">
-<i class="fas fa-key text-blue-500 text-2xl group-hover:text-black transition-colors duration-500"></i>
-</div>
-<h4 class="text-2xl font-bold mb-4">비밀번호 강도 분석기</h4>
-<p class="text-gray-400 leading-relaxed">엔트로피 기반 패스워드 수치화 계산 및 크래킹 시뮬레이션 도구.</p>
-</div>
-<div class="mt-auto flex gap-3 flex-wrap">
-<span class="text-[10px] font-bold mono bg-white/5 px-3 py-1 rounded-full text-dim">FLASK</span>
-<span class="text-[10px] font-bold mono bg-white/5 px-3 py-1 rounded-full text-dim">ALGORITHM</span>
-<span class="text-[10px] font-bold mono bg-white/5 px-3 py-1 rounded-full text-dim">ENTROPY</span>
-</div>
-<div class="project-action mono">View Details<i class="fas fa-arrow-right"></i></div>
-</a>
-<a aria-label="WEB mini-IDS 프로젝트 상세 페이지로 이동" class="glass-card project-card security-project-card p-10 rounded-[40px] flex flex-col group" href="project-web-mini-ids.html">
-<div class="mb-8">
-<div class="w-14 h-14 bg-green-500/10 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-green-500 transition-colors duration-500">
-<i class="fas fa-shield-virus text-green-500 text-2xl group-hover:text-black transition-colors duration-500"></i>
-</div>
-<h4 class="text-2xl font-bold mb-4">WEB mini-IDS</h4>
-<p class="text-gray-400 leading-relaxed">대시보드를 포함한 시각화 및 필터를 통한 다양한 Web 공격 페이로드 <br> 탐지 IDS 애플리케이션.</p>
-</div>
-<div class="mt-auto flex gap-3 flex-wrap">
-<span class="text-[10px] font-bold mono bg-white/5 px-3 py-1 rounded-full text-dim">PYTHON</span>
-<span class="text-[10px] font-bold mono bg-white/5 px-3 py-1 rounded-full text-dim">PYSIDE6</span>
-<span class="text-[10px] font-bold mono bg-white/5 px-3 py-1 rounded-full text-dim">TRAFFIC ANALYSIS</span>
-</div>
-<div class="project-action mono">View Details<i class="fas fa-arrow-right"></i></div>
-</a>
-<a aria-label="LLM 기반 악성코드 분석 웹 앱 프로젝트 상세 페이지로 이동" class="glass-card project-card security-project-card p-10 rounded-[40px] flex flex-col group" href="project-ai-malware-detector.html">
-<div class="mb-8">
-<div class="w-14 h-14 bg-purple-500/10 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-purple-500 transition-colors duration-500">
-<i class="fas fa-shield-halved text-purple-400 text-2xl group-hover:text-black transition-colors duration-500"></i>
-</div>
-<h4 class="text-2xl font-bold mb-4">LLM 기반 악성코드 분석 웹 앱</h4>
-<p class="text-gray-400 leading-relaxed">PE 정적 분석 기능과 Random Forest 로컬 LLM을 결합한 악성코드 <br>분석 웹 애플리케이션.</p>
-</div>
-<div class="mt-auto flex gap-3 flex-wrap">
-<span class="text-[10px] font-bold mono bg-white/5 px-3 py-1 rounded-full text-dim">FASTAPI</span>
-<span class="text-[10px] font-bold mono bg-white/5 px-3 py-1 rounded-full text-dim">RANDOM FOREST</span>
-<span class="text-[10px] font-bold mono bg-white/5 px-3 py-1 rounded-full text-dim">OLLAMA</span>
-</div>
-<div class="project-action mono">View Details<i class="fas fa-arrow-right"></i></div>
-</a>
-</div>
-</div>
-</div></div></section>
-<div aria-hidden="true" class="document-modal" id="document-modal">
-<div aria-labelledby="document-modal-title" aria-modal="true" class="document-modal-panel" role="dialog">
-<div class="document-modal-header">
-<div>
-<p class="mono text-[9px] text-green-500 uppercase tracking-[0.2em] mb-1">Certificate Preview</p>
-<h3 class="document-modal-title" id="document-modal-title">증명서</h3>
-</div>
-<button aria-label="증명서 닫기" class="document-modal-close" id="document-modal-close" type="button">×</button>
-</div>
-<div class="document-modal-stage">
-<img alt="" class="document-modal-image" id="document-modal-image" src=""/>
-</div>
-</div>
-</div><div aria-label="빠른 링크" class="quick-dock">
-<a aria-label="GitHub 열기" class="dock-btn" href="https://github.com/SLRHR" rel="noopener noreferrer" target="_blank"><i class="fab fa-github"></i></a>
-<button aria-label="맨 위로 이동" class="back-top" id="back-top" type="button"><i class="fas fa-arrow-up"></i></button>
-</div>
-<div class="toast rounded-full bg-black/80 border border-green-500/30 px-5 py-3 text-sm text-white shadow-2xl backdrop-blur-xl" id="toast">
-            이메일 주소가 복사되었습니다.
+
+<div class="ticker" aria-hidden="true"></div>
+
+<section class="section rule profile-section" id="profile" data-search-section="PROFILE">
+  <div class="wrap">
+    <div class="section-head reveal"><div class="eyebrow">00 / Profile</div><div><h2>Security Researcher</h2><button class="section-search" type="button" data-search-open="PROFILE">Search profile /</button></div></div>
+    <div class="profile-grid-v2">
+      <div class="profile-orbit-wrap reveal" data-cursor="PAUSE">
+        <div class="profile-orbit" id="profile-orbit">
+          <svg class="profile-ring" viewBox="0 0 300 300" aria-hidden="true">
+            <defs><path id="profileCircle" d="M150,150 m-118,0 a118,118 0 1,1 236,0 a118,118 0 1,1 -236,0"/></defs>
+            <text><textPath href="#profileCircle" startOffset="0%">SECURITY RESEARCH • CTF • WEB • SYSTEMS • OFFENSIVE ENGINEERING • </textPath></text>
+          </svg>
+          <div class="orbit-line orbit-line-a"></div><div class="orbit-line orbit-line-b"></div>
+          <div class="orbit-dot dot-a"></div><div class="orbit-dot dot-b"></div>
+          <div class="profile-core"><img src="profile-avatar.png" alt="SLHR character"></div>
         </div>
-<footer class="py-20 border-t border-white/10 px-8">
-<div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center text-sm text-gray-500">
-<div>
-<p class="mb-2 font-bold text-white">© 2026 SONG HYEONGROK.</p>
-<p class="mono text-[10px] uppercase tracking-[0.2em] text-dim">Student Security Researcher</p>
+        <div class="profile-orbit-meta"><span>KR / SONG HYEONG ROK</span></div>
+      </div>
+      <div class="profile-copy-v2 reveal" data-search-item data-search-title="Security researcher profile">
+        <p class="profile-lede">웹·시스템 보안과 CTF를 중심으로 공부하고 있으며, 취약점 분석과 보안 도구 개발을 함께 경험하고 있습니다.</p>
+        <nav class="profile-toc" aria-label="Security research index">
+          <a href="#work"><span class="profile-toc-num">01</span><strong>Vulnerability Research</strong><small>Web / System</small><span class="profile-toc-arrow">↘</span></a>
+          <a href="#ctf"><span class="profile-toc-num">02</span><strong>CTF</strong><small>Web / Pwn / Rev</small><span class="profile-toc-arrow">↘</span></a>
+          <a href="#work"><span class="profile-toc-num">03</span><strong>Security Engineering</strong><small>Analysis / Build</small><span class="profile-toc-arrow">↘</span></a>
+          <a href="#work"><span class="profile-toc-num">04</span><strong>Tool Stack</strong><small>Python / Web / Linux / Reverse / AI × Security</small><span class="profile-toc-arrow">↘</span></a>
+        </nav>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section rule" id="work" data-search-section="WORK">
+  <div class="wrap">
+    <div class="section-head reveal"><div class="eyebrow">01 / Selected work</div><div><h2>PROJECT</h2><button class="section-search" type="button" data-search-open="WORK">Search work /</button></div></div>
+    <div class="work-list">
+      <a class="work-item reveal" href="project-ai-malware-detector.html" data-search-item data-search-title="LLM-based Malware Analysis" data-search-text="PE static analysis Random Forest Ollama FastAPI malware security project">
+        <div class="work-id">SLHR-RES-001</div><div class="work-title"><h3>LLM-based Malware Analysis</h3><p>실행 파일을 실행하지 않고 PE 구조·Import·문자열·IOC를 정적 분석한 뒤, 규칙 기반 점수와 로컬 LLM 설명을 결합한 분석 도구.</p><div class="work-meta"><span>Python</span><span>FastAPI</span><span>PE Analysis</span><span>Ollama</span></div><span class="work-link">Read case study</span></div><div class="work-visual work-result" data-tilt><img src="LLM_BASED.png" alt="LLM 기반 악성코드 분석 프로젝트 결과 화면" data-parallax></div>
+      </a>
+      <a class="work-item reveal" href="project-web-mini-ids.html" data-search-item data-search-title="WEB mini-IDS" data-search-text="web traffic SQL injection XSS path traversal PySide6 IDS detection rules">
+        <div class="work-id">SLHR-RES-002</div><div class="work-title"><h3>WEB mini-IDS</h3><p>웹 요청·로그 데이터를 정규화하고 SQL Injection, XSS, Path Traversal 패턴을 규칙 기반으로 분류해 이벤트로 보여주는 미니 IDS.</p><div class="work-meta"><span>Python</span><span>PySide6</span><span>Detection Rules</span></div><span class="work-link">Read case study</span></div><div class="work-visual work-result ids-visual" data-tilt><div class="ids-node"><small>01 / Input</small><strong>HTTP / LOG</strong><small>normalize request data</small></div><div class="ids-arrow">→</div><div class="ids-node"><small>02 / Detection</small><strong>RULE ENGINE</strong><small>SQLi · XSS · traversal</small></div><div class="ids-arrow">→</div><div class="ids-node"><small>03 / Output</small><strong>EVENT VIEW</strong><small>severity · type · detail</small></div></div>
+      </a>
+      <a class="work-item reveal" href="project-password-analyzer.html" data-search-item data-search-title="Password Strength Analyzer" data-search-text="Flask entropy password cracking simulation security analyzer">
+        <div class="work-id">SLHR-RES-003</div><div class="work-title"><h3>Password Strength Analyzer</h3><p>엔트로피와 반복·순차 패턴 감점을 함께 계산해 비밀번호 강도와 예상 크래킹 시간을 설명하는 Flask 기반 분석 도구.</p><div class="work-meta"><span>Flask</span><span>Entropy</span><span>Simulation</span></div><span class="work-link">Read case study</span></div><div class="work-visual work-result" data-tilt><img src="비밀번호_강도_분석기.png" alt="비밀번호 강도 분석기 결과 화면" data-parallax></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="section rule" id="record" data-search-section="RECORD">
+  <div class="wrap"><div class="section-head reveal"><div class="eyebrow">02 / Record</div><div><h2>TRAINING & CREDENTIALS</h2><button class="section-search" type="button" data-search-open="RECORD">Search records /</button></div></div><div class="records">
+    <div class="record-block reveal"><h3>Credentials</h3>
+      <div class="record-row credential-row" data-search-item data-search-title="ITQ OA Master"><div class="record-date">2025.04—06</div><div><div class="record-name">ITQ OA Master</div><div class="record-note">아래한글 A · 한글엑셀 A · 한글파워포인트 A / KPC</div></div></div>
+      <div class="record-row credential-row" data-search-item data-search-title="컴퓨터활용능력 2급"><div class="record-date">2025.08.09</div><div><div class="record-name">컴퓨터활용능력 2급</div><div class="record-note">필기시험 합격 / 대한상공회의소</div></div></div>
+      <div class="record-row credential-row" data-search-item data-search-title="정보기기운용기능사"><div class="record-date">2026.07.10</div><div><div class="record-name">정보기기운용기능사</div><div class="record-note">국가기술자격 / 한국산업인력공단</div></div></div>
+    </div>
+    <div class="record-block reveal programs-block"><h3>Programs</h3>
+      <button class="doc-btn record-row" data-doc="현대오토에버_장학증서.png" data-title="현대오토에버 화이트해커 양성교육 장학증서" data-search-item data-search-title="현대오토에버 화이트해커 양성교육"><div class="record-date">2025.06.27</div><div><div class="record-name">현대오토에버 화이트해커 양성교육 장학생 ↗</div><div class="record-note">2025 IT 꿈나무 성장지원 사업 화이트해커 양성교육 장학생 선발</div></div><div class="record-status">View doc</div></button>
+      <button class="doc-btn record-row" data-doc="서울여대_합격증.png" data-title="서울여대 AI·정보보호 영재교육원 합격증" data-search-item data-search-title="서울여대 AI정보보호 영재교육원"><div class="record-date">2026.04.11</div><div><div class="record-name">서울여대 AI·정보보호영재교육원 전문R&amp;E ↗</div><div class="record-note">2026학년도 서울여자대학교 AI·정보보호영재교육원 전문R&amp;E 과정 합격</div></div><div class="record-status">View doc</div></button>
+    </div>
+  </div></div>
+</section>
+
+<section class="section rule" id="ctf" data-search-section="CTF">
+  <div class="wrap"><div class="section-head reveal"><div class="eyebrow">03 / Security record</div><div><h2>CTF &amp; BUG BOUNTY</h2><button class="section-search" type="button" data-search-open="CTF">Search CTF &amp; bug bounty /</button></div></div>
+    <div class="ctf-feature"><div class="ctf-copy reveal" data-search-item data-search-title="ATHENA CTF 2026 Rank 4"><div class="eyebrow">Featured result / 2026.07.18</div><h3>ATHENA CTF 2026</h3><p>인도 AstraQ Cyber Defence가 주최한 24시간 온라인 Jeopardy 방식 대회에 2인 팀으로 참가해 전체 4위를 기록했습니다.</p><button class="doc-btn work-link" data-doc="Athena_CTF_2026_Certificate.png" data-title="ATHENA CTF 2026 — Rank #4 Certificate" data-cursor="VIEW">Open certificate</button></div><button class="certificate-frame reveal" data-doc="Athena_CTF_2026_Certificate.png" data-title="ATHENA CTF 2026 — Rank #4 Certificate" data-cursor="ZOOM"><img src="Athena_CTF_2026_Certificate.png" alt="ATHENA CTF 2026 4위 인증서" data-parallax></button></div>
+    <div class="ctf-table reveal"><div class="ctf-row" data-search-item data-search-title="boroCTF"><span class="record-date">2026.06.13</span><strong>boroCTF</strong><span class="pos">HS 34th / 174</span><span class="muted">KyteBytes · USA</span></div><div class="ctf-row" data-search-item data-search-title="Grey Cat CTF"><span class="record-date">2026.05.30</span><strong>Grey Cat CTF</strong><span class="pos">25th</span><span class="muted">NUS Greyhats · Singapore</span></div><div class="ctf-row" data-search-item data-search-title="WaRP vs s0sCoD3 CTF"><span class="record-date">2025.12.20</span><strong>WaRP vs s0sCoD3 CTF</strong><span class="pos">12th</span><span class="muted">Dreamhack · KR</span></div><div class="ctf-row" data-search-item data-search-title="제1회 감귤 CTF"><span class="record-date">2025.12.06</span><strong>제1회 감귤 CTF</strong><span class="pos">25th</span><span class="muted">Dreamhack · KR</span></div><div class="ctf-row" data-search-item data-search-title="현대오토에버 화이트해커 CTF"><span class="record-date">2025.11.15</span><strong>현대오토에버 화이트해커 CTF</strong><span class="pos">Awarded</span><span class="muted">Hyundai AutoEver · KR</span></div></div>
+    <div class="bounty-block reveal" data-search-item data-search-title="Bug Bounty">
+      <div class="eyebrow bounty-label">BUG BOUNTY</div>
+      <div class="bounty-empty">Not updated</div>
+    </div>
+  </div>
+</section>
+
+<section class="section rule" id="academic" data-search-section="ACADEMIC">
+  <div class="wrap"><div class="section-head reveal"><div class="eyebrow">04 / School record</div><div><h2>ACADEMIC NOTES</h2><button class="section-search" type="button" data-search-open="ACADEMIC">Search academic /</button></div></div><div class="records"><div class="record-block reveal"><h3>2024—2025</h3><div class="record-row" data-search-item data-search-title="교과 우수상 체육"><div class="record-date">1학년 2학기</div><div><div class="record-name">교과 우수상 (체육)</div><div class="record-note">학업 및 학교생활 성과 기반 교과 우수 기록</div></div></div><div class="record-row" data-search-item data-search-title="생명존중 글짓기 대회 우수"><div class="record-date">2학년 1학기</div><div><div class="record-name">생명존중 글짓기 대회 우수 (2위)</div><div class="record-note">교내 글쓰기 대회 우수상</div></div></div><div class="record-row" data-search-item data-search-title="스마트보안솔루션 경진대회 동상"><div class="record-date">2학년 2학기</div><div><div class="record-name">스마트보안솔루션 경진대회 동상 (3위)</div><div class="record-note">보안 솔루션 설계 및 문제 해결 역량 기반 수상</div></div></div></div><div class="record-block reveal"><h3>2025—2026</h3><div class="record-row" data-search-item data-search-title="자격증 인증제 동상"><div class="record-date">2학년 2학기</div><div><div class="record-name">자격증 인증제 동상 (3위)</div><div class="record-note">기술 자격 취득 및 학습 성과</div></div></div><div class="record-row" data-search-item data-search-title="교과 우수상 체육 선행상"><div class="record-date">2학년 2학기</div><div><div class="record-name">교과 우수상 (체육) · 선행상</div><div class="record-note">교과 성취 및 학교생활 부문 수상</div></div></div><div class="record-row" data-search-item data-search-title="생명존중 글짓기 대회 우수상"><div class="record-date">3학년 1학기</div><div><div class="record-name">생명존중 글짓기 대회 우수상</div><div class="record-note">교내 글쓰기 대회 우수상</div></div></div></div></div></div>
+</section>
+</main>
+
+<footer class="footer" id="contact"><div class="wrap footer-grid"><div><div class="footer-links"><a href="#contact-compose" data-contact-open data-cursor="MAIL">Email</a><a href="#top" data-cursor="TOP">Back to index ↑</a></div></div><div class="footer-mark"><span>END / ARCHIVE 2026</span></div></div></footer>
+
+<div class="modal" id="doc-modal" aria-hidden="true"><div class="modal-shell"><div class="modal-bar"><span id="doc-title">Document</span><button class="modal-close" id="doc-close" aria-label="Close">×</button></div><div class="modal-stage"><img id="doc-image" alt=""></div></div></div>
+
+<div class="search-panel" id="search-panel" aria-hidden="true">
+  <div class="search-backdrop" data-search-close></div>
+  <div class="search-shell" role="dialog" aria-modal="true" aria-labelledby="search-heading">
+    <div class="search-head"><span id="search-heading">SEARCH / ARCHIVE</span><span>ESC TO CLOSE</span></div>
+    <label class="search-input-wrap"><span>›</span><input id="archive-search" type="search" autocomplete="off" spellcheck="false" placeholder="Search" aria-label="아카이브 검색"></label>
+    <div class="search-scopes" id="search-scopes" aria-label="검색 섹션"></div>
+    <div class="search-summary" id="search-summary">Type to search the archive.</div>
+    <div class="search-results" id="search-results"></div>
+  </div>
 </div>
-<div class="flex flex-col md:items-end space-y-4">
-<a aria-label="Gmail로 송형록에게 이메일 보내기" class="group flex items-center space-x-4 transition-all" href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=songhr498%40gmail.com" rel="noopener noreferrer" target="_blank">
-<span class="mono text-[9px] font-black text-dim tracking-widest uppercase group-hover:text-green-500">Gmail</span>
-<span class="text-white font-medium border-b border-white/5 group-hover:border-green-500/50 pb-0.5">songhr498@gmail.com</span>
-</a>
-<a class="group flex items-center space-x-4 transition-all" href="https://github.com/SLRHR" target="_blank">
-<span class="mono text-[9px] font-black text-dim tracking-widest uppercase group-hover:text-green-500">GitHub</span>
-<span class="text-white font-medium border-b border-white/5 group-hover:border-green-500/50 pb-0.5">github.com/SLRHR</span>
-</a>
-<a class="group flex items-center space-x-4 transition-all" href="https://dreamhack.io/users/81132" target="_blank">
-<span class="mono text-[9px] font-black text-dim tracking-widest uppercase group-hover:text-green-500">Dreamhack</span>
-<span class="text-white font-medium border-b border-white/5 group-hover:border-green-500/50 pb-0.5">dreamhack.io/SLHR</span>
-</a>
+
+
+<div class="contact-panel" id="contact-compose" aria-hidden="true">
+  <div class="contact-backdrop" data-contact-close></div>
+  <div class="contact-shell" role="dialog" aria-modal="true" aria-labelledby="contact-title">
+    <div class="contact-bar"><span>CONTACT / MESSAGE COMPOSER</span><button class="contact-close" type="button" data-contact-close aria-label="닫기">×</button></div>
+    <div class="contact-head">
+      <div class="eyebrow">Direct message</div>
+      <h3 id="contact-title">SEND A MESSAGE.</h3>
+      <p>내용을 작성한 뒤 보내기를 누르면 Gmail 작성 창이 열리고 수신자·제목·본문이 자동으로 입력됩니다.</p>
+    </div>
+    <form class="contact-form" id="contact-form">
+      <div class="contact-row">
+        <div class="contact-field"><label for="contact-name">Name</label><input id="contact-name" name="name" type="text" autocomplete="name" placeholder="Your name"></div>
+        <div class="contact-field"><label for="contact-email">Reply email</label><input id="contact-email" name="email" type="email" autocomplete="email" placeholder="you@example.com"></div>
+      </div>
+      <div class="contact-field"><label for="contact-subject">Subject</label><input id="contact-subject" name="subject" type="text" placeholder="Portfolio contact"></div>
+      <div class="contact-field"><label for="contact-message">Message</label><textarea id="contact-message" name="message" placeholder="Write your message..."></textarea></div>
+      <div class="contact-actions">
+        <div><div class="contact-recipient">TO / songhr498@gmail.com</div><div class="contact-note">이 페이지 자체에서 메일을 전송하지는 않으며, Gmail 또는 기본 메일 앱으로 작성 내용을 넘깁니다.</div></div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap"><button class="contact-alt" type="button" id="contact-mailto">Mail app</button><button class="contact-send" type="submit">Open Gmail ↗</button></div>
+      </div>
+    </form>
+  </div>
 </div>
-</div>
-</footer>
+
+<div class="cursor-dot" aria-hidden="true"></div><div class="cursor-ring" aria-hidden="true"><span></span></div>
 <script>
-            const EMAIL = 'songhr498@gmail.com';
+(() => {
+  'use strict';
 
-            const mouseGlow = document.getElementById('mouse-glow');
-            const canUseMouseGlow = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-            if (mouseGlow && canUseMouseGlow) {
-                window.addEventListener('mousemove', (e) => {
-                    mouseGlow.style.opacity = '1';
-                    mouseGlow.style.left = e.clientX + 'px';
-                    mouseGlow.style.top = e.clientY + 'px';
-                }, { passive: true });
-            }
+  const q = (s, ctx = document) => ctx.querySelector(s);
+  const qa = (s, ctx = document) => [...ctx.querySelectorAll(s)];
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const finePointer = window.matchMedia('(pointer:fine)').matches;
 
-            const scrollProgress = document.getElementById('scroll-progress');
-            const backTop = document.getElementById('back-top');
-            function updateScrollUi() {
-                const scrollTop = window.scrollY;
-                const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-                const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-                scrollProgress.style.width = progress + '%';
-                backTop.classList.toggle('visible', scrollTop > 600);
-            }
-            window.addEventListener('scroll', updateScrollUi, { passive: true });
-            backTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
-            updateScrollUi();
+  
+  const typeSequence = async () => {
+    const fields = [q('#type-song'), q('#type-hyeongrok')].filter(Boolean);
+    if (!fields.length) return;
+    if (reduceMotion) {
+      fields.forEach(el => { el.textContent = el.dataset.typeText || ''; });
+      return;
+    }
+    const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
+    await wait(260);
+    for (let fieldIndex = 0; fieldIndex < fields.length; fieldIndex++) {
+      const el = fields[fieldIndex];
+      const text = el.dataset.typeText || '';
+      el.textContent = '';
+      el.classList.add('is-typing');
+      for (let i = 0; i < text.length; i++) {
+        el.textContent += text[i];
+        const char = text[i];
+        await wait(char === ' ' ? 90 : 82 + Math.random() * 46);
+      }
+      await wait(fieldIndex === fields.length - 1 ? 420 : 160);
+      el.classList.remove('is-typing');
+    }
+  };
+  typeSequence();
 
-            const mobileToggle = document.getElementById('mobile-toggle');
-            const mobileMenu = document.getElementById('mobile-menu');
-            function setMobileMenuState(isOpen) {
-                mobileMenu.classList.toggle('open', isOpen);
-                mobileToggle.setAttribute('aria-expanded', String(isOpen));
-                const icon = mobileToggle.querySelector('i');
-                icon.classList.toggle('fa-bars', !isOpen);
-                icon.classList.toggle('fa-times', isOpen);
-            }
 
-            mobileToggle.setAttribute('aria-expanded', 'false');
-            mobileToggle.addEventListener('click', () => {
-                setMobileMenuState(!mobileMenu.classList.contains('open'));
-            });
-            document.querySelectorAll('.mobile-nav-link').forEach(link => {
-                link.addEventListener('click', () => setMobileMenuState(false));
-            });
+  
+  const contactPanel = q('#contact-compose');
+  const contactForm = q('#contact-form');
+  const contactName = q('#contact-name');
+  const contactEmail = q('#contact-email');
+  const contactSubject = q('#contact-subject');
+  const contactMessage = q('#contact-message');
+  let contactLastFocused = null;
+  const contactRecipient = 'songhr498@gmail.com';
+  const openContact = () => {
+    if (!contactPanel) return;
+    contactLastFocused = document.activeElement;
+    contactPanel.classList.add('open');
+    contactPanel.setAttribute('aria-hidden','false');
+    document.body.style.overflow='hidden';
+    setTimeout(() => contactName?.focus(), 30);
+  };
+  const closeContact = () => {
+    if (!contactPanel) return;
+    contactPanel.classList.remove('open');
+    contactPanel.setAttribute('aria-hidden','true');
+    document.body.style.overflow='';
+    contactLastFocused?.focus?.();
+  };
+  qa('[data-contact-open]').forEach(el => el.addEventListener('click', e => { e.preventDefault(); openContact(); }));
+  qa('[data-contact-close]').forEach(el => el.addEventListener('click', closeContact));
+  const composeBody = () => {
+    const parts = [];
+    const name = cleanText?.(contactName?.value) || (contactName?.value || '').trim();
+    const reply = (contactEmail?.value || '').trim();
+    const message = (contactMessage?.value || '').trim();
+    if (name) parts.push(`Name: ${name}`);
+    if (reply) parts.push(`Reply email: ${reply}`);
+    if (name || reply) parts.push('');
+    parts.push(message || 'Hello, I am contacting you through your portfolio.');
+    return parts.join('\n');
+  };
+  contactForm?.addEventListener('submit', e => {
+    e.preventDefault();
+    const subject = (contactSubject?.value || '').trim() || 'Portfolio contact';
+    const body = composeBody();
+    const gmail = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(contactRecipient)}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    window.open(gmail, '_blank', 'noopener,noreferrer');
+  });
+  q('#contact-mailto')?.addEventListener('click', () => {
+    const subject = (contactSubject?.value || '').trim() || 'Portfolio contact';
+    const body = composeBody();
+    location.href = `mailto:${contactRecipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  });
 
-            const toast = document.getElementById('toast');
-            function showToast(message) {
-                toast.textContent = message;
-                toast.classList.add('show');
-                clearTimeout(window.__toastTimer);
-                window.__toastTimer = setTimeout(() => toast.classList.remove('show'), 1800);
-            }
-            const copyBtn = document.getElementById('copy-email');
-            if (copyBtn) {
-                copyBtn.addEventListener('click', async () => {
-                    try {
-                        await navigator.clipboard.writeText(EMAIL);
-                        showToast('이메일 주소가 복사되었습니다.');
-                    } catch (err) {
-                        showToast(EMAIL);
-                    }
-                });
-            }
+  
+  const modal = q('#doc-modal');
+  const docImage = q('#doc-image');
+  const docTitle = q('#doc-title');
+  const openDoc = (src, title) => {
+    if (!modal || !docImage || !docTitle) return;
+    docImage.src = src;
+    docImage.alt = title || 'Document preview';
+    docTitle.textContent = title || 'Document';
+    modal.classList.add('open');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  };
+  const closeDoc = () => {
+    if (!modal) return;
+    modal.classList.remove('open');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    if (docImage) setTimeout(() => { docImage.src = ''; }, 150);
+  };
+  qa('[data-doc]').forEach(el => el.addEventListener('click', e => {
+    e.preventDefault();
+    openDoc(el.dataset.doc, el.dataset.title);
+  }));
+  q('#doc-close')?.addEventListener('click', closeDoc);
+  modal?.addEventListener('click', e => { if (e.target === modal) closeDoc(); });
 
-            const nameElement = document.getElementById('typewriter-name');
-            const fullText = "SONG HYEONGROK";
-            let currentIndex = 0;
-            let isDeleting = false;
+  
+  const revealObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add('visible');
+      revealObserver.unobserve(entry.target);
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -4% 0px' });
+  qa('.reveal').forEach((el, index) => {
+    el.dataset.stagger = String(index % 4);
+    revealObserver.observe(el);
+  });
 
-            function updateTypewriter() {
-                const currentText = fullText.substring(0, currentIndex);
-                if (currentIndex <= 4) {
-                    nameElement.innerHTML = currentText;
-                } else {
-                    nameElement.innerHTML = `SONG<br><span class="text-white/10">${fullText.substring(5, currentIndex)}</span>`;
-                }
+  const caseObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => entry.target.classList.toggle('in-view', entry.isIntersecting));
+  }, { threshold: 0.16, rootMargin: '-12% 0px -52% 0px' });
+  qa('.case-section').forEach(el => caseObserver.observe(el));
 
-                let nextSpeed = isDeleting ? 75 : 150;
-                if (!isDeleting && currentIndex === fullText.length) {
-                    isDeleting = true;
-                    nextSpeed = 5000;
-                } else if (isDeleting && currentIndex === 0) {
-                    isDeleting = false;
-                    nextSpeed = 1000;
-                }
+  
+  const progressBar = q('.scroll-progress span');
+  const parallaxEls = qa('[data-parallax], .case-screen img');
+  let scrollTicking = false;
+  const onScrollFrame = () => {
+    const max = Math.max(1, document.documentElement.scrollHeight - innerHeight);
+    if (progressBar) progressBar.style.width = `${Math.min(100, (scrollY / max) * 100)}%`;
+    if (!reduceMotion) {
+      parallaxEls.forEach(el => {
+        const r = el.getBoundingClientRect();
+        if (r.bottom < 0 || r.top > innerHeight) return;
+        const centerDelta = (r.top + r.height / 2 - innerHeight / 2) / innerHeight;
+        el.style.transform = `translate3d(0, ${centerDelta * -12}px, 0) scale(1.015)`;
+      });
+    }
+    scrollTicking = false;
+  };
+  addEventListener('scroll', () => {
+    if (!scrollTicking) {
+      scrollTicking = true;
+      requestAnimationFrame(onScrollFrame);
+    }
+  }, { passive: true });
+  onScrollFrame();
 
-                currentIndex += isDeleting ? -1 : 1;
-                setTimeout(updateTypewriter, nextSpeed);
-            }
-            window.addEventListener('DOMContentLoaded', updateTypewriter);
+  
+  const tocLinks = qa('.case-toc a');
+  if (tocLinks.length) {
+    const sectionMap = new Map(tocLinks.map(link => [link.getAttribute('href')?.slice(1), link]));
+    const tocObserver = new IntersectionObserver(entries => {
+      const visible = entries.filter(x => x.isIntersecting).sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)[0];
+      if (!visible) return;
+      tocLinks.forEach(x => x.classList.remove('active'));
+      sectionMap.get(visible.target.id)?.classList.add('active');
+    }, { rootMargin: '-18% 0px -66% 0px', threshold: 0 });
+    qa('.case-section[id]').forEach(sec => tocObserver.observe(sec));
+  }
 
-            const observerOptions = { threshold: 0.1 };
-            const revealObserver = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('opacity-100');
-                        entry.target.classList.remove('opacity-0');
-                        entry.target.style.transform = 'translateY(0)';
-                    }
-                });
-            }, observerOptions);
+  
+  const searchPanel = q('#search-panel');
+  let searchInput = q('#archive-search');
+  let searchScopes = q('#search-scopes');
+  let searchResults = q('#search-results');
+  let searchSummary = q('#search-summary');
 
-            document.querySelectorAll('section').forEach(section => {
-                section.classList.add('transition-all', 'duration-1000', 'opacity-0');
-                section.style.transform = 'translateY(20px)';
-                revealObserver.observe(section);
-            });
+  const ensureSearchPanel = () => {
+    if (searchPanel || q('#search-panel')) return q('#search-panel');
+    const panel = document.createElement('div');
+    panel.className = 'search-panel';
+    panel.id = 'search-panel';
+    panel.setAttribute('aria-hidden', 'true');
+    panel.innerHTML = `
+      <div class="search-backdrop" data-search-close></div>
+      <div class="search-shell" role="dialog" aria-modal="true" aria-labelledby="search-heading">
+        <div class="search-head"><span id="search-heading">SEARCH / CASE STUDY</span><span>ESC TO CLOSE</span></div>
+        <label class="search-input-wrap"><span>›</span><input id="archive-search" type="search" autocomplete="off" spellcheck="false" placeholder="section, architecture, result..." aria-label="페이지 검색"></label>
+        <div class="search-scopes" id="search-scopes"></div>
+        <div class="search-summary" id="search-summary">Type to search this case study.</div>
+        <div class="search-results" id="search-results"></div>
+      </div>`;
+    document.body.appendChild(panel);
+    return panel;
+  };
 
-            const navLinks = [...document.querySelectorAll('.nav-link')];
-            const sectionObserver = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        navLinks.forEach(link => {
-                            link.classList.toggle('active', link.getAttribute('href') === `#${entry.target.id}`);
-                        });
-                    }
-                });
-            }, { rootMargin: '-35% 0px -55% 0px', threshold: 0.01 });
-            document.querySelectorAll('section[id]').forEach(section => sectionObserver.observe(section));
+  let panel = ensureSearchPanel();
+  searchInput = q('#archive-search'); searchScopes = q('#search-scopes'); searchResults = q('#search-results'); searchSummary = q('#search-summary');
 
-        
+  if (!q('.search-trigger')) {
+    const header = q('.header-row');
+    const meta = q('.header-meta');
+    if (header) {
+      const btn = document.createElement('button');
+      btn.className = 'search-trigger';
+      btn.type = 'button';
+      btn.dataset.searchOpen = 'ALL';
+      btn.dataset.cursor = 'SEARCH';
+      btn.innerHTML = '<span>Search</span><kbd>/</kbd>';
+      header.insertBefore(btn, meta || null);
+    }
+  }
 
-            const documentModal = document.getElementById('document-modal');
-            const documentModalImage = document.getElementById('document-modal-image');
-            const documentModalTitle = document.getElementById('document-modal-title');
-            const documentModalClose = document.getElementById('document-modal-close');
-            let documentModalTrigger = null;
+  const cleanText = s => (s || '').replace(/\s+/g, ' ').trim();
+  const items = [];
 
-            function openDocumentModal(button) {
-                documentModalTrigger = button;
-                const source = button.dataset.documentSrc;
-                const title = button.dataset.documentTitle || '증명서';
-                documentModalImage.src = source;
-                documentModalImage.alt = title;
-                documentModalTitle.textContent = title;
-                documentModal.classList.add('open');
-                documentModal.setAttribute('aria-hidden', 'false');
-                document.body.style.overflow = 'hidden';
-                documentModalClose.focus();
-            }
+  qa('[data-search-section]').forEach(section => {
+    const scope = (section.dataset.searchSection || 'PAGE').toUpperCase();
+    const children = qa('[data-search-item]', section);
+    if (children.length) {
+      children.forEach(el => {
+        const title = el.dataset.searchTitle || cleanText(q('h3,h4,.record-name,strong', el)?.textContent) || scope;
+        const text = el.dataset.searchText || cleanText(el.textContent);
+        let href = el.dataset.searchHref || (el.matches('a[href]') ? el.getAttribute('href') : q('a[href]', el)?.getAttribute('href'));
+        if (!href && section.id) href = `#${section.id}`;
+        items.push({ scope, title, text, href, el });
+      });
+    } else {
+      const title = cleanText(q('h2,h1', section)?.textContent) || scope;
+      items.push({ scope, title, text: cleanText(section.textContent), href: section.id ? `#${section.id}` : '#top', el: section });
+    }
+  });
 
-            function closeDocumentModal() {
-                if (!documentModal.classList.contains('open')) return;
-                documentModal.classList.remove('open');
-                documentModal.setAttribute('aria-hidden', 'true');
-                documentModalImage.src = '';
-                document.body.style.overflow = '';
-                if (documentModalTrigger) documentModalTrigger.focus();
-            }
+  qa('.case-section').forEach(section => {
+    const scope = cleanText(q('.case-num', section)?.textContent).replace(/^\d+\s*\/\s*/, '') || 'CASE';
+    const title = cleanText(q('h2', section)?.textContent) || scope;
+    items.push({ scope: scope.toUpperCase(), title, text: cleanText(section.textContent), href: `#${section.id}`, el: section });
+  });
 
-            document.querySelectorAll('.document-view-btn').forEach((button) => {
-                button.addEventListener('click', () => openDocumentModal(button));
-            });
-            documentModalClose.addEventListener('click', closeDocumentModal);
-            documentModal.addEventListener('click', (event) => {
-                if (event.target === documentModal) closeDocumentModal();
-            });
-            document.addEventListener('keydown', (event) => {
-                if (event.key === 'Escape') closeDocumentModal();
-            });
+  if (!items.length) {
+    qa('main section[id]').forEach(section => {
+      const scope = section.id.toUpperCase();
+      const title = cleanText(q('h1,h2,h3', section)?.textContent) || scope;
+      items.push({ scope, title, text: cleanText(section.textContent), href: `#${section.id}`, el: section });
+    });
+  }
+
+  const scopes = ['ALL', ...new Set(items.map(i => i.scope))];
+  let activeScope = 'ALL';
+  let activeResult = -1;
+  let lastFocused = null;
+
+  const renderScopes = () => {
+    if (!searchScopes) return;
+    searchScopes.innerHTML = scopes.map(scope => `<button class="search-scope${scope === activeScope ? ' active' : ''}" type="button" data-scope="${scope.replace(/"/g, '&quot;')}">${scope}</button>`).join('');
+    qa('.search-scope', searchScopes).forEach(btn => btn.addEventListener('click', () => {
+      activeScope = btn.dataset.scope;
+      renderScopes();
+      renderResults();
+    }));
+  };
+
+  const snippet = (text, query) => {
+    if (!query) return text.slice(0, 130);
+    const idx = text.toLowerCase().indexOf(query.toLowerCase());
+    if (idx < 0) return text.slice(0, 130);
+    return `${idx > 40 ? '…' : ''}${text.slice(Math.max(0, idx - 40), idx + query.length + 82)}${idx + query.length + 82 < text.length ? '…' : ''}`;
+  };
+
+  const getMatches = () => {
+    const query = cleanText(searchInput?.value).toLowerCase();
+    const words = query.split(' ').filter(Boolean);
+    return items.filter(item => {
+      if (activeScope !== 'ALL' && item.scope !== activeScope) return false;
+      if (!words.length) return true;
+      const hay = `${item.title} ${item.text}`.toLowerCase();
+      return words.every(word => hay.includes(word));
+    }).slice(0, 40);
+  };
+
+  const navigateResult = item => {
+    closeSearch();
+    if (!item.href) return;
+    if (item.href.startsWith('#')) {
+      const target = q(item.href);
+      target?.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
+    } else {
+      location.href = item.href;
+    }
+  };
+
+  const renderResults = () => {
+    if (!searchResults || !searchSummary) return;
+    const query = cleanText(searchInput?.value);
+    const matches = getMatches();
+    activeResult = matches.length ? 0 : -1;
+    searchSummary.textContent = `${activeScope} / ${matches.length} result${matches.length === 1 ? '' : 's'}${query ? ` for “${query}”` : ''}`;
+    if (!matches.length) {
+      searchResults.innerHTML = '<div class="search-empty">NO MATCHES / TRY ANOTHER TERM</div>';
+      return;
+    }
+    searchResults.innerHTML = matches.map((item, index) => `
+      <button class="search-result${index === activeResult ? ' active' : ''}" type="button" data-result="${index}">
+        <span class="search-result-scope">${item.scope}</span>
+        <span><h4>${item.title}</h4><p>${snippet(item.text, query)}</p></span>
+        <span class="search-result-arrow">↗</span>
+      </button>`).join('');
+    qa('.search-result', searchResults).forEach((btn, idx) => btn.addEventListener('click', () => navigateResult(matches[idx])));
+  };
+
+  const openSearch = scope => {
+    panel = q('#search-panel');
+    if (!panel) return;
+    lastFocused = document.activeElement;
+    activeScope = scopes.includes((scope || '').toUpperCase()) ? scope.toUpperCase() : 'ALL';
+    panel.classList.add('open');
+    panel.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    renderScopes();
+    renderResults();
+    setTimeout(() => searchInput?.focus(), 20);
+  };
+  const closeSearch = () => {
+    panel?.classList.remove('open');
+    panel?.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    lastFocused?.focus?.();
+  };
+
+  qa('[data-search-open]').forEach(btn => btn.addEventListener('click', () => openSearch(btn.dataset.searchOpen)));
+  qa('[data-search-close]').forEach(btn => btn.addEventListener('click', closeSearch));
+  searchInput?.addEventListener('input', renderResults);
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') { closeDoc(); closeSearch(); closeContact(); return; }
+    const tag = document.activeElement?.tagName;
+    const typing = tag === 'INPUT' || tag === 'TEXTAREA' || document.activeElement?.isContentEditable;
+    if ((e.key === '/' && !typing) || ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k')) {
+      e.preventDefault(); openSearch('ALL'); return;
+    }
+    if (panel?.classList.contains('open') && (e.key === 'ArrowDown' || e.key === 'ArrowUp' || e.key === 'Enter')) {
+      const matches = getMatches();
+      if (!matches.length) return;
+      if (e.key === 'ArrowDown') activeResult = Math.min(matches.length - 1, activeResult + 1);
+      if (e.key === 'ArrowUp') activeResult = Math.max(0, activeResult - 1);
+      if (e.key === 'Enter') { e.preventDefault(); navigateResult(matches[Math.max(0, activeResult)]); return; }
+      e.preventDefault();
+      qa('.search-result', searchResults).forEach((el, i) => el.classList.toggle('active', i === activeResult));
+      q(`.search-result[data-result="${activeResult}"]`, searchResults)?.scrollIntoView({ block: 'nearest' });
+    }
+  });
+
+  renderScopes();
+  renderResults();
+
+  
+  if (finePointer) {
+    const dot = q('.cursor-dot') || (() => { const e = document.createElement('div'); e.className = 'cursor-dot'; document.body.appendChild(e); return e; })();
+    const ring = q('.cursor-ring') || (() => { const e = document.createElement('div'); e.className = 'cursor-ring'; e.innerHTML = '<span></span>'; document.body.appendChild(e); return e; })();
+    const label = q('span', ring);
+    document.body.classList.add('cursor-on');
+    let mx = innerWidth / 2, my = innerHeight / 2, rx = mx, ry = my;
+    addEventListener('mousemove', e => {
+      mx = e.clientX; my = e.clientY;
+      dot.style.left = `${mx}px`; dot.style.top = `${my}px`;
+      dot.classList.add('show'); ring.classList.add('show');
+    }, { passive: true });
+    const animateCursor = () => {
+      rx += (mx - rx) * 0.16; ry += (my - ry) * 0.16;
+      ring.style.left = `${rx}px`; ring.style.top = `${ry}px`;
+      requestAnimationFrame(animateCursor);
+    };
+    animateCursor();
+    document.addEventListener('mouseover', e => {
+      const target = e.target.closest('a,button,[data-cursor],input');
+      if (!target) return;
+      const text = target.dataset.cursor || (target.matches('input') ? 'TYPE' : target.matches('button') ? 'ACTION' : 'OPEN');
+      label.textContent = text;
+      ring.classList.add('is-interactive');
+    });
+    document.addEventListener('mouseout', e => {
+      if (!e.target.closest('a,button,[data-cursor],input')) return;
+      ring.classList.remove('is-interactive');
+    });
+  }
+
+  
+  if (finePointer && !reduceMotion) {
+    qa('[data-magnetic]').forEach(el => {
+      el.addEventListener('mousemove', e => {
+        const r = el.getBoundingClientRect();
+        const x = e.clientX - (r.left + r.width / 2);
+        const y = e.clientY - (r.top + r.height / 2);
+        el.style.transform = `translate(${x * 0.08}px,${y * 0.08}px)`;
+      });
+      el.addEventListener('mouseleave', () => { el.style.transform = ''; });
+    });
+
+    qa('[data-tilt]').forEach(el => {
+      const parent = el.closest('.work-item') || el;
+      parent.addEventListener('mousemove', e => {
+        const r = el.getBoundingClientRect();
+        const px = (e.clientX - r.left) / r.width - 0.5;
+        const py = (e.clientY - r.top) / r.height - 0.5;
+        el.style.transform = `perspective(900px) rotateX(${py * -3.2}deg) rotateY(${px * 4.2}deg) translateZ(0)`;
+      });
+      parent.addEventListener('mouseleave', () => { el.style.transform = ''; });
+    });
+  }
+
+  
+  const stage = q('#hero-3d');
+  const canvas = q('#hero-canvas');
+  const canRender3D = stage && canvas && !reduceMotion && innerWidth >= 760;
+
+  const loadThree = async () => {
+    try {
+      return await import('https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js');
+    } catch (_) {
+      try { return await import('https://unpkg.com/three@0.160.0/build/three.module.js'); }
+      catch (err) { console.warn('3D module unavailable; CSS fallback remains active.', err); return null; }
+    }
+  };
+
+  const init3D = async () => {
+    if (!canRender3D) return;
+    const THREE = await loadThree();
+    if (!THREE) return;
+
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: 'high-performance' });
+    renderer.setPixelRatio(Math.min(devicePixelRatio, 1.7));
+    renderer.setClearColor(0x000000, 0);
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(36, 1, 0.1, 100);
+    camera.position.set(0, 0.1, 8.3);
+
+    const root = new THREE.Group();
+    scene.add(root);
+
+    const signal = new THREE.Color(0xc7ff00);
+    const bone = new THREE.Color(0xe8e7df);
+    const darkMetal = new THREE.MeshStandardMaterial({ color: 0x151515, metalness: 0.76, roughness: 0.26, emissive: 0x090a05, emissiveIntensity: 0.26 });
+    const lineMetal = new THREE.MeshBasicMaterial({ color: signal, wireframe: true, transparent: true, opacity: 0.25 });
+
+    const terminal = new THREE.Group();
+    root.add(terminal);
+
+    const monitor = new THREE.Group();
+    const monitorFrame = new THREE.Mesh(new THREE.BoxGeometry(2.78, 1.82, 0.16), darkMetal);
+    monitor.add(monitorFrame);
+
+    const screenMat = new THREE.MeshStandardMaterial({ color: 0x122100, emissive: 0x98ff1d, emissiveIntensity: 1.45, roughness: 0.18, metalness: 0.08 });
+    const screen = new THREE.Mesh(new THREE.PlaneGeometry(2.36, 1.38), screenMat);
+    screen.position.z = 0.086;
+    monitor.add(screen);
+
+    const scanCanvas = document.createElement('canvas');
+    scanCanvas.width = 1024; scanCanvas.height = 512;
+    const sctx = scanCanvas.getContext('2d');
+    sctx.fillStyle = '#071100';
+    sctx.fillRect(0, 0, scanCanvas.width, scanCanvas.height);
+    for (let y = 0; y < scanCanvas.height; y += 6) {
+      sctx.fillStyle = y % 12 === 0 ? 'rgba(199,255,0,0.18)' : 'rgba(199,255,0,0.08)';
+      sctx.fillRect(0, y, scanCanvas.width, 2);
+    }
+    sctx.strokeStyle = 'rgba(210,255,180,0.75)';
+    sctx.lineWidth = 8;
+    sctx.strokeRect(28, 28, scanCanvas.width - 56, scanCanvas.height - 56);
+    sctx.fillStyle = 'rgba(220,255,220,0.92)';
+    sctx.font = 'bold 92px monospace';
+    sctx.fillText('SLHR', 92, 168);
+    sctx.font = '36px monospace';
+    sctx.fillStyle = 'rgba(199,255,0,0.95)';
+    sctx.fillText('> security_archive.boot()', 92, 246);
+    sctx.fillText('> status: online', 92, 306);
+    sctx.fillText('> mode: case-study interface', 92, 366);
+    sctx.fillText('> pointer: rotate terminal', 92, 426);
+    const scanTexture = new THREE.CanvasTexture(scanCanvas);
+    scanTexture.colorSpace = THREE.SRGBColorSpace;
+    const screenOverlay = new THREE.Mesh(
+      new THREE.PlaneGeometry(2.28, 1.30),
+      new THREE.MeshBasicMaterial({ map: scanTexture, transparent: true, opacity: 0.96 })
+    );
+    screenOverlay.position.z = 0.091;
+    monitor.add(screenOverlay);
+
+    const bezel = new THREE.Mesh(new THREE.BoxGeometry(2.92, 1.96, 0.19), lineMetal);
+    bezel.scale.setScalar(1.01);
+    monitor.add(bezel);
+
+    const standNeck = new THREE.Mesh(new THREE.BoxGeometry(0.22, 0.64, 0.14), darkMetal);
+    standNeck.position.set(0, -1.18, -0.03);
+    monitor.add(standNeck);
+    const standJoint = new THREE.Mesh(new THREE.CylinderGeometry(0.14, 0.18, 0.22, 24), darkMetal);
+    standJoint.rotation.z = Math.PI / 2;
+    standJoint.position.set(0, -0.99, -0.03);
+    monitor.add(standJoint);
+    const base = new THREE.Mesh(new THREE.CylinderGeometry(0.76, 0.94, 0.08, 32), darkMetal);
+    base.position.set(0, -1.54, 0.02);
+    monitor.add(base);
+    terminal.add(monitor);
+
+    const tower = new THREE.Group();
+    const towerBody = new THREE.Mesh(new THREE.BoxGeometry(0.86, 1.85, 1.05), darkMetal);
+    tower.add(towerBody);
+    const towerWire = new THREE.Mesh(towerBody.geometry, lineMetal);
+    towerWire.scale.setScalar(1.012);
+    tower.add(towerWire);
+    tower.position.set(-2.18, -0.18, -0.14);
+    terminal.add(tower);
+
+    const driveSlot = new THREE.Mesh(new THREE.BoxGeometry(0.50, 0.04, 0.05), new THREE.MeshBasicMaterial({ color: 0xb7b7af }));
+    driveSlot.position.set(0, 0.42, 0.53);
+    tower.add(driveSlot);
+    const powerRing = new THREE.Mesh(new THREE.TorusGeometry(0.10, 0.018, 10, 40), new THREE.MeshBasicMaterial({ color: signal }));
+    powerRing.position.set(0.23, -0.58, 0.53);
+    tower.add(powerRing);
+
+    const keyboard = new THREE.Group();
+    const keyboardBase = new THREE.Mesh(new THREE.BoxGeometry(2.34, 0.16, 0.9), darkMetal);
+    keyboard.add(keyboardBase);
+    const keyboardWire = new THREE.Mesh(keyboardBase.geometry, lineMetal);
+    keyboardWire.scale.setScalar(1.012);
+    keyboard.add(keyboardWire);
+    keyboard.position.set(0.12, -1.95, 1.34);
+    keyboard.rotation.x = -0.64;
+    terminal.add(keyboard);
+
+    const keyGeo = new THREE.BoxGeometry(0.14, 0.024, 0.12);
+    const keyMat = new THREE.MeshBasicMaterial({ color: 0xe1e0d7, transparent: true, opacity: 0.9 });
+    for (let row = 0; row < 4; row++) {
+      for (let col = 0; col < 9; col++) {
+        const key = new THREE.Mesh(keyGeo, keyMat);
+        key.position.set(-0.58 + col * 0.145, 0.095, -0.24 + row * 0.145);
+        if (row === 3 && col > 6) key.scale.x = 1.7;
+        keyboard.add(key);
+      }
+    }
+
+    const ringGroup = new THREE.Group();
+    [3.1, 3.55].forEach((radius, i) => {
+      const ring = new THREE.Mesh(
+        new THREE.TorusGeometry(radius, 0.012 + i * 0.004, 8, 220),
+        new THREE.MeshBasicMaterial({ color: i === 0 ? signal : 0x4d4d46, transparent: true, opacity: i === 0 ? 0.36 : 0.18 })
+      );
+      ring.rotation.set(i === 0 ? 0.84 : 1.16, i === 0 ? 0.22 : -0.42, i * 0.15);
+      ringGroup.add(ring);
+    });
+    root.add(ringGroup);
+
+    const nodeGroup = new THREE.Group();
+    for (let i = 0; i < 6; i++) {
+      const isSignal = i % 2 === 0;
+      const node = new THREE.Mesh(
+        isSignal ? new THREE.BoxGeometry(0.18, 0.18, 0.18) : new THREE.OctahedronGeometry(0.11),
+        new THREE.MeshBasicMaterial({ color: isSignal ? signal : 0x8b8b84, wireframe: true, transparent: true, opacity: 0.82 })
+      );
+      const a = (i / 6) * Math.PI * 2;
+      const r = 2.8 + (i % 2) * 0.38;
+      node.position.set(Math.cos(a) * r, Math.sin(a * 1.22) * 1.05, Math.sin(a) * r * 0.56);
+      node.userData.phase = a;
+      nodeGroup.add(node);
+    }
+    root.add(nodeGroup);
+
+    const count = 420;
+    const pos = new Float32Array(count * 3);
+    for (let i = 0; i < count; i++) {
+      const radius = 3.2 + Math.random() * 2.0;
+      const theta = Math.random() * Math.PI * 2;
+      const phi = Math.acos(2 * Math.random() - 1);
+      pos[i * 3] = radius * Math.sin(phi) * Math.cos(theta);
+      pos[i * 3 + 1] = radius * Math.cos(phi) * 0.72;
+      pos[i * 3 + 2] = radius * Math.sin(phi) * Math.sin(theta);
+    }
+    const particlesGeo = new THREE.BufferGeometry();
+    particlesGeo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+    const particles = new THREE.Points(particlesGeo, new THREE.PointsMaterial({ color: 0x6f6f68, size: 0.018, transparent: true, opacity: 0.48 }));
+    scene.add(particles);
+
+    scene.add(new THREE.AmbientLight(0xffffff, 0.62));
+    const key = new THREE.PointLight(signal, 18, 12);
+    key.position.set(3.5, 2.2, 4.2);
+    scene.add(key);
+    const rim = new THREE.PointLight(0xffffff, 7, 12);
+    rim.position.set(-3.8, -2.5, 3.2);
+    scene.add(rim);
+
+    let pointerX = 0, pointerY = 0, targetX = 0, targetY = 0;
+    let dragX = 0, dragY = 0, dragging = false, lastX = 0, lastY = 0;
+    stage.addEventListener('pointermove', e => {
+      const r = stage.getBoundingClientRect();
+      targetX = ((e.clientX - r.left) / r.width - 0.5) * 2;
+      targetY = ((e.clientY - r.top) / r.height - 0.5) * 2;
+      if (dragging) {
+        dragY += (e.clientX - lastX) * 0.005;
+        dragX += (e.clientY - lastY) * 0.005;
+        lastX = e.clientX; lastY = e.clientY;
+      }
+    });
+    stage.addEventListener('pointerdown', e => { dragging = true; lastX = e.clientX; lastY = e.clientY; stage.setPointerCapture?.(e.pointerId); });
+    stage.addEventListener('pointerup', e => { dragging = false; stage.releasePointerCapture?.(e.pointerId); });
+    stage.addEventListener('pointerleave', () => { dragging = false; targetX = 0; targetY = 0; });
+
+    const resize = () => {
+      const r = stage.getBoundingClientRect();
+      if (!r.width || !r.height) return;
+      renderer.setSize(r.width, r.height, false);
+      camera.aspect = r.width / r.height;
+      camera.updateProjectionMatrix();
+    };
+    resize();
+    const resizeObserver = new ResizeObserver(resize);
+    resizeObserver.observe(stage);
+
+    let running = true;
+    const visibilityObserver = new IntersectionObserver(([entry]) => { running = entry.isIntersecting; }, { threshold: 0.02 });
+    visibilityObserver.observe(stage);
+
+    const clock = new THREE.Clock();
+    const render = () => {
+      requestAnimationFrame(render);
+      if (!running || document.hidden) return;
+      const t = clock.getElapsedTime();
+      pointerX += (targetX - pointerX) * 0.045;
+      pointerY += (targetY - pointerY) * 0.045;
+      root.rotation.x = -pointerY * 0.15 + dragX + Math.sin(t * 0.24) * 0.04;
+      root.rotation.y = pointerX * 0.20 + dragY + t * 0.08;
+      root.rotation.z = Math.sin(t * 0.18) * 0.04;
+      terminal.rotation.y = Math.sin(t * 0.42) * 0.05;
+      monitor.rotation.x = Math.sin(t * 0.62) * 0.015;
+      tower.rotation.y = -Math.sin(t * 0.48) * 0.04;
+      keyboard.position.y = -1.95 + Math.sin(t * 1.1) * 0.02;
+      ringGroup.rotation.z = t * 0.036;
+      ringGroup.rotation.x = Math.sin(t * 0.22) * 0.08;
+      particles.rotation.y = -t * 0.012;
+      screen.material.emissiveIntensity = 1.28 + Math.sin(t * 1.8) * 0.12;
+      screenOverlay.material.opacity = 0.92 + Math.sin(t * 1.4) * 0.04;
+      nodeGroup.children.forEach((node, i) => {
+        node.rotation.x = t * (0.28 + i * 0.015);
+        node.rotation.y = -t * (0.18 + i * 0.02);
+        const baseY = Math.sin(t * 0.82 + node.userData.phase) * 1.02;
+        node.position.y = Math.sin(node.userData.phase * 1.22) * 1.05 + Math.sin(t * 0.82 + node.userData.phase) * 0.10;
+      });
+      renderer.render(scene, camera);
+    };
+
+    stage.classList.add('webgl-ready');
+    render();
+  };
+  init3D();
+
+  
+  qa('a[href^="#"]').forEach(a => a.addEventListener('click', () => {
+    const id = a.getAttribute('href');
+    if (id?.length > 1) setTimeout(() => q(id)?.focus?.({ preventScroll: true }), 450);
+  }));
+})();
 
 </script>
 </body>
