@@ -1,12 +1,142 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>WEB mini-IDS — SLHR</title><link rel="stylesheet" href="styles.css"></head><body>
-<header class="site-header"><div class="wrap header-row"><a class="brand" href="index.html">SLHR/<b>ARCHIVE</b></a><nav class="nav"><a href="index.html#work">Work</a><a href="#overview">Overview</a><a href="#rules">Rules</a><a href="#result">Result</a></nav><div class="header-meta">SLHR-RES-002<br>2026</div></div></header>
-<main><section class="case-hero"><div class="wrap"><div class="case-topline eyebrow"><span>Project / Web IDS</span><span>Python · PySide6 · Traffic analysis · Rules</span></div><div class="case-title"><div><h1>WEB<br>MINI-IDS</h1></div><div><p class="case-lead">웹 요청과 로그에서 SQL Injection, XSS, Path Traversal 같은 패턴을 찾아 이벤트로 정리하고 화면에서 확인할 수 있게 만든 미니 IDS입니다.</p><div class="case-meta"><div class="case-meta-row"><b>Role</b><span>기획 · 설계 · 구현</span></div><div class="case-meta-row"><b>Type</b><span>개인 프로젝트</span></div><div class="case-meta-row"><b>Focus</b><span>Rule-based detection / event view</span></div></div></div></div><div class="case-visual reveal"><div class="work-visual ids-visual" style="min-height:460px"><div class="ids-node"><small>Input</small><strong>REQUEST / LOG</strong><small>path · params · encoding</small></div><div class="ids-arrow">→</div><div class="ids-node"><small>Detection</small><strong>RULE MATCH</strong><small>SQLi · XSS · traversal</small></div><div class="ids-arrow">→</div><div class="ids-node"><small>Output</small><strong>EVENT VIEW</strong><small>type · severity · detail</small></div></div></div></div></section>
-<div class="wrap case-layout"><aside class="case-toc"><a href="#overview">01 Overview</a><a href="#flow">02 Flow</a><a href="#rules">03 Rules</a><a href="#ui">04 UI</a><a href="#result">05 Result</a><a href="#next">06 Next</a></aside><article class="case-content">
-<section class="case-section" id="overview"><div class="case-num">01 / OVERVIEW</div><h2>웹 요청에서 자주 보이는 공격 패턴을 규칙으로 분리했습니다.</h2><p>웹 요청 로그나 트래픽 데이터를 입력받아 SQL Injection, XSS, Path Traversal 등 주요 패턴을 확인합니다. 탐지 결과는 공격 유형, 위험도, 근거를 포함한 이벤트 형태로 정리해 GUI에서 볼 수 있도록 구성했습니다.</p></section>
-<section class="case-section" id="flow"><div class="case-num">02 / FLOW</div><h2>입력부터 이벤트 표시까지 한 흐름으로 연결했습니다.</h2><div class="pipeline"><div class="pipe"><div class="n">01</div><strong>Input</strong><span>로그 또는 요청 데이터 정규화</span></div><div class="pipe"><div class="n">02</div><strong>Detection</strong><span>정규표현식과 키워드 규칙 적용</span></div><div class="pipe"><div class="n">03</div><strong>Scoring</strong><span>패턴 종류와 개수로 위험도 계산</span></div><div class="pipe"><div class="n">04</div><strong>Dashboard</strong><span>탐지 이벤트와 상세 내용 표시</span></div></div></section>
-<section class="case-section" id="rules"><div class="case-num">03 / RULES</div><h2>한 단어보다 요청 안의 여러 특징을 같이 봅니다.</h2><p>정상 요청이 공격으로 분류되는 경우를 줄이기 위해 경로, 파라미터, 특수문자 조합, 인코딩 흔적 등을 함께 확인하는 방식으로 규칙을 구성했습니다.</p><ul><li>SQL Injection, XSS, Path Traversal 규칙 분리</li><li>입력 파싱과 탐지 규칙을 별도 로직으로 구성</li><li>탐지 결과에 유형과 위험도 저장</li><li>규칙을 추가할 때 UI 코드를 수정하지 않도록 분리</li></ul></section>
-<section class="case-section" id="ui"><div class="case-num">04 / UI</div><h2>탐지 이벤트를 확인할 수 있는 화면을 만들었습니다.</h2><p>PySide6 기반 화면에서 로그와 탐지 결과를 확인할 수 있게 구성했습니다. 탐지 로직과 UI를 분리해 규칙을 수정하거나 추가해도 화면 쪽 코드를 크게 건드리지 않도록 했습니다.</p><div class="code-map"><span class="g">event</span> {<br>&nbsp;&nbsp;type: "SQLI | XSS | TRAVERSAL",<br>&nbsp;&nbsp;severity: "...",<br>&nbsp;&nbsp;source: "request path / parameter",<br>&nbsp;&nbsp;evidence: "matched signal"<br>}</div></section>
-<section class="case-section" id="result"><div class="case-num">05 / RESULT</div><h2>기본적인 탐지 흐름을 직접 구현했습니다.</h2><p>요청 데이터를 읽고, 규칙을 적용하고, 결과를 이벤트로 정리해 화면에 표시하는 흐름을 한 프로젝트 안에서 구현했습니다. 규칙 기반 탐지에서 어떤 조건을 넣느냐에 따라 오탐이 달라진다는 점도 확인할 수 있었습니다.</p></section>
-<section class="case-section" id="next"><div class="case-num">06 / NEXT</div><h2>추가로 개선할 부분</h2><ul><li>탐지 규칙 편집 기능 추가</li><li>CSV/JSON 리포트 내보내기</li><li>실시간 프록시 로그 연동</li><li>정탐·오탐 샘플을 이용한 규칙 조정</li></ul></section>
-<div class="project-nav"><a href="project-ai-malware-detector.html"><span>Previous</span>LLM Malware Analysis</a><a href="project-password-analyzer.html"><span>Next</span>Password Strength Analyzer</a></div>
-</article></div></main><footer class="footer simple-project-footer"><div class="wrap"><div class="footer-links"><a href="index.html#work">← Back to projects</a></div></div></footer><script src="script.js"></script></body></html>
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="규칙 기반 WEB mini-IDS 프로젝트 기록">
+  <title>WEB mini-IDS — SLHR</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="blog-page">
+<header class="site-header">
+  <div class="wrap header-row">
+    <a class="brand" href="index.html">SLHR/<b>ARCHIVE</b></a>
+    <nav class="nav" aria-label="문서 이동"><a href="index.html#work">Project</a><a href="project-ai-malware-detector.html">이전 기록</a></nav>
+    <div class="header-meta">SLHR-RES-002</div>
+  </div>
+</header>
+
+<main class="blog-shell">
+  <a class="blog-back" href="index.html#work">← PROJECT</a>
+
+  <article class="blog-article">
+    <header class="blog-heading">
+      <div class="blog-label">PERSONAL PROJECT · 2026</div>
+      <h1>WEB mini-IDS</h1>
+      <p>웹 요청 로그에서 SQL Injection, XSS와 Path Traversal 흔적을 찾아 이벤트로 정리하는 연습용 도구입니다.</p>
+    </header>
+
+    <dl class="blog-properties">
+      <div><dt>형태</dt><dd>개인 보안 프로젝트</dd></div>
+      <div><dt>역할</dt><dd>기획 · 설계 · 구현</dd></div>
+      <div><dt>기술</dt><dd>Python · PySide6 · 정규표현식 · 규칙 기반 탐지</dd></div>
+      <div><dt>입력</dt><dd>웹 요청 · 로그 데이터</dd></div>
+      <div><dt>출력</dt><dd>공격 유형 · 위험도 · 탐지 근거</dd></div>
+    </dl>
+
+    <section class="blog-section">
+      <h2>만든 이유</h2>
+      <p>웹 로그를 눈으로 확인하다 보면 긴 요청 사이에 섞인 공격 흔적을 놓치기 쉬웠습니다. 자주 접하는 SQL Injection, XSS, Path Traversal 패턴을 직접 규칙으로 정리하고, 어떤 입력이 어떤 이유로 탐지됐는지 한 화면에서 확인하려고 만들었습니다.</p>
+      <p>목표는 실제 상용 IDS를 대신하는 것이 아니라 요청을 파싱하고 규칙을 적용해 이벤트로 만드는 기본 흐름을 직접 구현해 보는 것이었습니다.</p>
+    </section>
+
+    <section class="blog-section">
+      <h2>전체 처리 흐름</h2>
+      <div class="blog-code">
+        <div class="blog-code-head">구조를 단순화한 예시</div>
+        <pre><code>request = parse_input(raw_log)
+normalized = normalize(request)
+
+matches = detect(normalized, rules)
+severity = calculate_severity(matches)
+
+event = build_event(request, matches, severity)
+event_view.add(event)</code></pre>
+      </div>
+      <p>입력 파싱, 정규화, 규칙 검사, 위험도 계산, 화면 표시를 각각 분리했습니다. 규칙을 수정해도 GUI 코드를 같이 바꾸지 않도록 탐지 결과를 공통 이벤트 형식으로 넘깁니다.</p>
+    </section>
+
+    <section class="blog-section">
+      <h2>요청을 먼저 정규화했습니다</h2>
+      <div class="blog-code">
+        <div class="blog-code-head">정규화 과정 · 예시</div>
+        <pre><code>def normalize(value: str) -&gt; str:
+    value = url_decode(value)
+    value = html_unescape(value)
+    value = value.lower()
+    return collapse_whitespace(value)</code></pre>
+      </div>
+      <p>같은 입력도 URL 인코딩, 대소문자와 공백에 따라 모양이 달라질 수 있습니다. 원본 요청은 그대로 보관하고, 탐지용 복사본만 디코딩하고 정리해 규칙에 전달했습니다.</p>
+      <aside class="blog-callout"><strong>구분</strong><span>화면에는 원본 요청과 정규화된 탐지 근거를 따로 표시해 어떤 변환 뒤에 규칙이 맞았는지 확인할 수 있게 했습니다.</span></aside>
+    </section>
+
+    <section class="blog-section">
+      <h2>규칙을 나눈 방식</h2>
+      <div class="blog-code">
+        <div class="blog-code-head">규칙 정의 · 예시</div>
+        <pre><code>rules = [
+    Rule("SQLI", check_sqli, severity="high"),
+    Rule("XSS", check_xss, severity="medium"),
+    Rule("TRAVERSAL", check_traversal, severity="high"),
+]
+
+for rule in rules:
+    result = rule.check(normalized_request)
+    if result.matched:
+        matches.append(result)</code></pre>
+      </div>
+      <p>공격 유형마다 규칙을 분리하고, 탐지 함수는 일치 여부와 근거를 함께 반환하도록 했습니다. 단순 키워드 하나만 찾기보다 경로, 파라미터, 특수문자 조합과 인코딩 흔적을 같이 확인했습니다.</p>
+      <ol class="blog-steps">
+        <li><b>SQL Injection</b><span>쿼리 문법, 주석, 논리 연산자와 특수문자의 조합을 확인합니다.</span></li>
+        <li><b>XSS</b><span>태그, 이벤트 속성과 스크립트 실행에 사용되는 패턴을 확인합니다.</span></li>
+        <li><b>Path Traversal</b><span>상위 경로 이동과 인코딩된 경로 구분자를 확인합니다.</span></li>
+        <li><b>위험도</b><span>일치한 규칙의 종류와 개수를 기준으로 이벤트 우선순위를 정합니다.</span></li>
+      </ol>
+    </section>
+
+    <section class="blog-section">
+      <h2>탐지 결과 형식</h2>
+      <div class="blog-code">
+        <div class="blog-code-head">event.json · 예시</div>
+        <pre><code>{
+  "type": "SQLI",
+  "severity": "high",
+  "source": "query.username",
+  "evidence": "논리 연산자와 주석 패턴 일치",
+  "request": "원본 요청 데이터"
+}</code></pre>
+      </div>
+      <p>탐지 결과에는 공격 유형과 위험도만 넣지 않고, 요청의 어느 부분에서 어떤 신호가 발견됐는지도 함께 저장했습니다. 이벤트를 클릭하면 원본 요청과 탐지 근거를 같이 확인할 수 있게 했습니다.</p>
+    </section>
+
+    <section class="blog-section">
+      <h2>PySide6 화면</h2>
+      <p>왼쪽에는 입력한 로그를, 오른쪽에는 탐지된 이벤트를 표시하도록 구성했습니다. 이벤트 목록에서 항목을 선택하면 공격 유형, 위험도와 일치한 규칙을 확인할 수 있습니다.</p>
+      <div class="blog-code">
+        <div class="blog-code-head">화면으로 전달되는 데이터</div>
+        <pre><code>detector.detect(request)
+        ↓
+DetectionEvent(type, severity, source, evidence)
+        ↓
+EventTableModel
+        ↓
+PySide6 event view</code></pre>
+      </div>
+    </section>
+
+    <section class="blog-section">
+      <h2>만들면서 확인한 점</h2>
+      <p>규칙 기반 탐지는 결과의 이유를 설명하기 쉽지만 입력 형태가 조금만 달라져도 놓치거나 정상 요청을 공격으로 판단할 수 있습니다. 탐지 규칙을 늘리는 것보다 정탐과 오탐 샘플을 같이 모으고 기준을 조정하는 과정이 중요했습니다.</p>
+      <p>다음 단계에서는 실제 프록시 로그 연결, 규칙 편집 화면, CSV·JSON 내보내기 기능을 추가하고 테스트 샘플을 이용해 각 규칙의 오탐률을 확인할 예정입니다.</p>
+    </section>
+
+    <div class="blog-links">
+      <a href="project-ai-malware-detector.html">← 이전 글: LLM 악성코드 분석</a>
+      <a href="index.html#work">프로젝트 목록 →</a>
+    </div>
+  </article>
+</main>
+
+<footer class="footer simple-project-footer"><div class="wrap"><div class="footer-links"><a href="index.html#work">← 목록으로</a></div></div></footer>
+</body>
+</html>
