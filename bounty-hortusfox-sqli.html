@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="HortusFox identifier-position SQL Injection 분석 기록">
+  <title>HortusFox Identifier SQL Injection — SLHR</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="blog-page">
+<header class="site-header">
+  <div class="wrap header-row">
+    <a class="brand" href="index.html">SLHR/<b>ARCHIVE</b></a>
+    <nav class="nav" aria-label="문서 이동"><a href="index.html#ctf">CTF &amp; Bug Bounty</a><a href="bounty-hortusfox-csrf.html">다음 기록</a></nav>
+    <div class="header-meta">GHSA-8RWP-2337-54MM</div>
+  </div>
+</header>
+
+<main class="blog-shell">
+  <a class="blog-back" href="index.html#ctf">← CTF &amp; Bug Bounty</a>
+
+  <article class="blog-article">
+    <header class="blog-heading">
+      <div class="blog-label">BUG BOUNTY · 2026.10.03</div>
+      <h1>HortusFox SQL Injection 분석</h1>
+      <p>관리자 환경설정 API의 요청값이 SQL 컬럼 이름으로 사용되는 문제를 분석한 기록입니다.</p>
+    </header>
+
+    <dl class="blog-properties">
+      <div><dt>대상</dt><dd>HortusFox ≤ 6.2</dd></div>
+      <div><dt>심각도</dt><dd><span class="blog-high">High</span> · CVSS 8.1</dd></div>
+      <div><dt>취약점</dt><dd>Identifier-position SQL Injection</dd></div>
+      <div><dt>분류</dt><dd>CWE-89 · SQL Injection</dd></div>
+      <div><dt>상태</dt><dd>GitHub Advisory 공개 · CVE 발급 진행 중</dd></div>
+      <div><dt>Reporter</dt><dd>SLRHR</dd></div>
+    </dl>
+
+    <section class="blog-section">
+      <h2>확인한 내용</h2>
+      <p>관리자 환경설정 라우트를 확인하면서 <code>name</code> 파라미터가 어디까지 전달되는지 추적했습니다. 이 값은 설정 이름으로 사용된 뒤 <code>AppModel::updateSingle()</code>의 첫 번째 인자로 들어갑니다.</p>
+      <p>문제는 값이 들어가는 자리가 아니라 컬럼 이름 자리였습니다. 쿼리의 값은 PDO 파라미터로 바인딩되어 있었지만 컬럼 이름은 문자열로 연결되고 있었습니다.</p>
+    </section>
+
+    <section class="blog-section">
+      <h2>요청값이 들어오는 부분</h2>
+      <div class="blog-code">
+        <div class="blog-code-head">app/controller/admin.php</div>
+        <pre><code>public function toggle_boolean_value($request)
+{
+    $name = $request-&gt;params()-&gt;query('name');
+    $value = (bool) app($name, 0);
+    $value = !$value;
+
+    AppModel::updateSingle($name, $value);
+}</code></pre>
+      </div>
+      <p><code>name</code>은 요청 쿼리에서 가져온 값입니다. 이 함수 안에는 허용된 설정 이름인지 확인하는 코드가 없고 그대로 모델 함수에 전달됩니다.</p>
+    </section>
+
+    <section class="blog-section">
+      <h2>SQL이 만들어지는 부분</h2>
+      <div class="blog-code">
+        <div class="blog-code-head">app/models/AppModel.php</div>
+        <pre><code>public static function updateSingle($name, $value)
+{
+    static::raw(
+        'UPDATE `@THIS` SET ' . $name . ' = ?',
+        [$value]
+    );
+}</code></pre>
+      </div>
+      <p><code>$value</code>는 <code>?</code>에 바인딩되므로 이 부분은 직접 조작할 수 없습니다. 반면 <code>$name</code>은 SQL 문자열에 그대로 붙습니다. 식별자에 사용할 수 있는 이름을 서버에서 고정하지 않았기 때문에 SQL 표현식과 조건절이 들어갈 수 있습니다.</p>
+      <aside class="blog-callout"><strong>핵심</strong><span>값 바인딩만으로는 컬럼명처럼 SQL 구조를 만드는 부분을 보호할 수 없습니다. 이런 값은 허용 목록으로 제한해야 합니다.</span></aside>
+    </section>
+
+    <section class="blog-section">
+      <h2>라우트 확인</h2>
+      <div class="blog-code">
+        <div class="blog-code-head">app/config/routes.php</div>
+        <pre><code>array(
+    '/admin/environment/boolean/toggle',
+    'ANY',
+    'admin@toggle_boolean_value'
+),</code></pre>
+      </div>
+      <p>해당 기능은 <code>ANY</code>로 등록되어 GET 요청으로도 실행할 수 있었습니다. 별도로 확인한 CSRF 검증 누락과 연결하면 로그인한 관리자가 링크를 여는 동작만으로 요청이 전달될 수 있습니다.</p>
+    </section>
+
+    <section class="blog-section">
+      <h2>어떻게 확인했는지</h2>
+      <ol class="blog-steps">
+        <li><b>입력 추적</b><span><code>name</code> 파라미터가 컨트롤러에서 모델까지 전달되는 흐름을 확인했습니다.</span></li>
+        <li><b>호출 지점 검색</b><span><code>updateSingle</code>과 유사 함수를 전부 검색했습니다. 다른 호출부는 고정된 컬럼명을 사용했고, 요청값을 넘기는 곳은 이 경로였습니다.</span></li>
+        <li><b>로컬 검증</b><span>Docker 테스트 환경에서 SQL 표현식 평가, 조건절 제어, 다른 테이블 값 조회를 각각 나눠 확인했습니다.</span></li>
+        <li><b>영향 확인</b><span>프록시 인증 관련 설정이 변경될 경우 관리자 비밀번호 없이 접근 가능한 상태까지 이어지는 것을 별도 브라우저 세션에서 확인했습니다.</span></li>
+      </ol>
+      <p class="blog-small">재현용 전체 페이로드는 이 페이지에 싣지 않았습니다. 공개 Advisory에서 원인, 검증 결과와 영향 범위를 확인할 수 있습니다.</p>
+    </section>
+
+    <section class="blog-section">
+      <h2>영향</h2>
+      <p>설정 테이블의 임의 값 수정과 서브쿼리를 통한 데이터 조회가 가능합니다. 프록시 인증 설정을 함께 변경하면 비밀번호 없는 관리자 접근으로 이어질 수 있어 High, CVSS 8.1로 공개됐습니다.</p>
+    </section>
+
+    <section class="blog-section">
+      <h2>수정 방향</h2>
+      <div class="blog-code">
+        <div class="blog-code-head">허용 목록을 사용하는 형태</div>
+        <pre><code>$allowed = [
+    'registration_enabled',
+    'auth_proxy_enable',
+    // 실제 변경을 허용할 설정만 명시
+];
+
+if (!in_array($name, $allowed, true)) {
+    throw new InvalidArgumentException('Invalid setting');
+}</code></pre>
+      </div>
+      <p>컬럼 이름은 파라미터 바인딩으로 처리할 수 없으므로, 클라이언트가 보낸 문자열을 그대로 사용하지 않고 서버에 정의한 허용 목록과 매핑해야 합니다. 상태 변경 라우트는 POST로 제한하고 CSRF 검사도 함께 적용해야 합니다.</p>
+    </section>
+
+    <div class="blog-links">
+      <a href="https://github.com/danielbrendel/hortusfox-web/security/advisories/GHSA-8rwp-2337-54mm" target="_blank" rel="noopener noreferrer">GitHub Advisory 열기 ↗</a>
+      <a href="bounty-hortusfox-csrf.html">다음 글: AdminController CSRF →</a>
+    </div>
+  </article>
+</main>
+
+<footer class="footer simple-project-footer"><div class="wrap"><div class="footer-links"><a href="index.html#ctf">← 목록으로</a></div></div></footer>
+</body>
+</html>
