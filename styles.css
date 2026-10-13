@@ -171,3 +171,43 @@ img{max-width:100%;display:block}
 
 
 .simple-project-footer{padding:26px 0 34px}.simple-project-footer .footer-links{justify-content:flex-start}.simple-project-footer .footer-links a{color:var(--muted)}.simple-project-footer .footer-links a:hover{color:var(--signal)}
+@media(max-width:640px){.finding-title{font-size:clamp(40px,14vw,58px)!important;letter-spacing:-.06em!important}}
+
+/* Bug bounty notes */
+.blog-page{background:#0b0b0a}
+.blog-shell{width:min(860px,calc(100% - 40px));margin:0 auto;padding:48px 0 100px}
+.blog-back{display:inline-block;margin-bottom:54px;font:600 10px/1 var(--mono);letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+.blog-back:hover{color:var(--signal)}
+.blog-heading{padding-bottom:34px;border-bottom:1px solid var(--line)}
+.blog-label{margin-bottom:18px;font:600 10px/1.4 var(--mono);letter-spacing:.1em;color:var(--signal)}
+.blog-heading h1{max-width:760px;margin:0;font-size:clamp(32px,4.5vw,46px);line-height:1.14;letter-spacing:-.035em;word-break:keep-all;overflow-wrap:break-word}
+.blog-heading>p{max-width:680px;margin:22px 0 0;color:#b8b7b0;font-size:17px;line-height:1.7}
+.blog-properties{margin:0 0 64px;padding:18px 0;border-bottom:1px solid var(--line)}
+.blog-properties>div{display:grid;grid-template-columns:110px 1fr;gap:18px;padding:7px 0}
+.blog-properties dt{font:500 10px/1.6 var(--mono);color:var(--muted)}
+.blog-properties dd{margin:0;color:#d4d3cc;font-size:13px}
+.blog-high{color:#ff8e78}
+.blog-section{margin:0 0 58px;scroll-margin-top:100px}
+.blog-section h2{margin:0 0 18px;font-size:25px;line-height:1.35;letter-spacing:-.025em}
+.blog-section p{margin:0 0 16px;color:#c7c6bf;font-size:16px;line-height:1.82}
+.blog-section p code,.blog-steps code{padding:2px 5px;border:1px solid #32322d;border-radius:4px;background:#151513;color:#e6e5de;font:500 .86em/1.4 var(--mono)}
+.blog-code{margin:22px 0;border:1px solid #30302b;border-radius:7px;overflow:hidden;background:#111110}
+.blog-code-head{padding:10px 14px;border-bottom:1px solid #30302b;background:#161614;color:#8f8f87;font:500 10px/1.4 var(--mono)}
+.blog-code pre{margin:0;padding:20px 22px;overflow:auto;color:#d9d8d1;font:500 12px/1.75 var(--mono);tab-size:4}
+.blog-code code{font:inherit}
+.blog-callout{display:grid;grid-template-columns:70px 1fr;gap:16px;margin:24px 0;padding:18px 20px;border-left:3px solid var(--signal);background:#121310;color:#c9c8c1;font-size:14px;line-height:1.7}
+.blog-callout strong{color:var(--signal);font:600 10px/1.7 var(--mono);letter-spacing:.07em}
+.blog-steps{margin:20px 0 0;padding:0;list-style:none;counter-reset:blog-step}
+.blog-steps li{counter-increment:blog-step;display:grid;grid-template-columns:28px 110px 1fr;gap:14px;padding:15px 0;border-bottom:1px solid var(--line);color:#c7c6bf;font-size:14px;line-height:1.65}
+.blog-steps li:first-child{border-top:1px solid var(--line)}
+.blog-steps li::before{content:counter(blog-step,decimal-leading-zero);color:var(--muted);font:500 10px/1.8 var(--mono)}
+.blog-steps b{color:#e8e7e0;font-size:14px}
+.blog-small{margin-top:18px!important;color:var(--muted)!important;font-size:13px!important}
+.blog-figure{margin:22px 0 26px;border:1px solid #30302b;border-radius:7px;overflow:hidden;background:#111110}
+.blog-figure img{display:block;width:100%;height:auto}
+.blog-figure figcaption{padding:11px 14px;border-top:1px solid #30302b;color:var(--muted);font:500 10px/1.6 var(--mono)}
+.blog-links{display:flex;justify-content:space-between;gap:24px;margin-top:76px;padding-top:24px;border-top:1px solid var(--line);font:600 11px/1.5 var(--mono);color:#c7c6bf}
+.blog-links a:hover{color:var(--signal)}
+@media(max-width:640px){
+  .blog-shell{width:min(100% - 36px,860px);padding-top:34px}.blog-back{margin-bottom:38px}.blog-heading h1{font-size:30px}.blog-heading>p{font-size:15px}.blog-properties{margin-bottom:48px}.blog-properties>div{grid-template-columns:82px 1fr}.blog-section{margin-bottom:48px}.blog-section h2{font-size:22px}.blog-section p{font-size:15px}.blog-code pre{padding:17px 16px;font-size:11px}.blog-callout{grid-template-columns:1fr;gap:6px}.blog-steps li{grid-template-columns:26px 1fr}.blog-steps li span{grid-column:2}.blog-links{flex-direction:column}.blog-links a:last-child{text-align:left}
+}
