@@ -212,6 +212,11 @@ img{max-width:100%;display:block}
 @media(max-width:980px){.header-row{grid-template-columns:1fr auto}.search-trigger{justify-self:end}.nav,.header-meta{display:none}.hero-v2-grid{grid-template-columns:1fr}.hero-stage{min-height:0;width:min(680px,100%);justify-self:center}.hero-index-bar{grid-template-columns:1fr 1fr}.hero-index-bar div:nth-child(2){border-right:0}.profile-grid-v2{grid-template-columns:1fr}.profile-orbit{max-width:470px}.profile-copy-v2{max-width:780px}.profile-focus>div{grid-template-columns:38px 200px 1fr}.search-result{grid-template-columns:76px 1fr auto}}
 @media(max-width:640px){.header-row{height:62px}.search-trigger span{display:none}.search-trigger{padding:0 9px}.hero-copy-block{padding:56px 0 34px}.hero-v2-grid{min-height:auto}.hero-stage{aspect-ratio:1/1;min-height:0}.stage-caption{font-size:7px}.stage-status{font-size:7px}.hero-index-bar{grid-template-columns:1fr}.hero-index-bar div{border-right:0;border-bottom:1px solid var(--line);padding:13px 0}.hero-actions{gap:18px}.ticker-track{animation-duration:22s}.profile-orbit{width:min(88vw,380px)}.profile-ring text{font-size:8px;letter-spacing:2.2px}.profile-lede{font-size:clamp(30px,10vw,46px)}.profile-focus>div{grid-template-columns:32px 1fr}.profile-focus p{grid-column:2}.section-search{margin-top:14px}.search-panel{padding:14px}.search-shell{max-height:calc(100vh - 28px)}.search-result{grid-template-columns:1fr auto;gap:8px}.search-result-scope{grid-column:1/-1}.search-result p{max-width:70vw}.cursor-dot,.cursor-ring{display:none}.case-section::before{display:none}}
 @media(prefers-reduced-motion:reduce){.hero-line>span,.case-title h1{animation:none;transform:none}.ticker-track,.profile-ring,.profile-core::before,.fallback-cube,.case-hero::after,.hero-stage::before,.orbit-line,.orbit-dot{animation:none!important}.reveal{opacity:1;transform:none;filter:none;transition:none!important}}
+.section{content-visibility:auto;contain-intrinsic-size:auto 920px}
+html[data-render-quality="low"] .site-header{backdrop-filter:none;background:rgba(9,9,9,.98)}
+html[data-render-quality="low"] .hero-stage{box-shadow:inset 0 0 0 1px rgba(255,255,255,.02),0 18px 44px rgba(0,0,0,.3)}
+html[data-render-quality="low"] .stage-grid{opacity:.11}
+html[data-render-quality="low"] .cursor-dot,html[data-render-quality="low"] .cursor-ring{display:none}
 
 
 .contact-panel{position:fixed;inset:0;z-index:145;display:none;align-items:center;justify-content:center;padding:24px}
@@ -254,7 +259,15 @@ img{max-width:100%;display:block}
 .work-result.ids-visual .ids-node strong{font-size:13px}
 .work-result.ids-visual .ids-node small{font-size:8px}
 .work-result.ids-visual .ids-arrow{display:none}
-.bounty-empty{border-top:1px solid var(--line-strong);border-bottom:1px solid var(--line);padding:28px 0;color:var(--muted);font:600 12px/1.4 var(--mono);letter-spacing:.08em}
+.bounty-list{border-top:1px solid var(--line-strong);margin-top:14px}
+.bounty-row{display:grid;grid-template-columns:96px minmax(0,1fr) 92px 126px 18px;gap:18px;align-items:center;padding:17px 4px;border-bottom:1px solid var(--line);transition:background .2s ease,padding .2s ease}
+.bounty-row:hover{background:#0d0e0b;padding-left:12px;padding-right:12px}
+.bounty-date{font:500 10px/1.4 var(--mono);color:var(--muted);letter-spacing:.04em}
+.bounty-main{min-width:0}.bounty-main strong{display:block;font-size:15px;line-height:1.35}.bounty-main small{display:block;margin-top:4px;font:500 9px/1.35 var(--mono);letter-spacing:.04em;color:var(--muted)}
+.bounty-severity{font:650 10px/1.35 var(--mono);color:#d3d2cb;text-transform:uppercase}
+.bounty-pending{font:600 9px/1.25 var(--mono);letter-spacing:.04em;color:var(--signal)}
+.bounty-arrow{color:var(--signal);text-align:right}
+@media(max-width:720px){.bounty-row{grid-template-columns:78px minmax(0,1fr) 18px;gap:12px}.bounty-severity,.bounty-pending{display:none}.bounty-main strong{font-size:13px}.bounty-main small{font-size:8px}}
 @media(max-width:1120px){.hero-name{font-size:clamp(50px,7.1vw,82px)!important}.header-row{grid-template-columns:1fr auto auto!important;gap:16px}.work-item{grid-template-columns:88px minmax(0,1fr) 260px}}
 @media(max-width:980px){.header-row{grid-template-columns:1fr auto!important}.header-contact{display:inline-flex;align-items:center}.work-item{grid-template-columns:74px minmax(0,1fr)}.work-result{grid-column:2;width:min(100%,360px);justify-self:start;margin-top:8px}}
 @media(max-width:640px){.hero-name{font-size:clamp(46px,14vw,72px)!important}.header-contact{height:34px;padding:0 9px;font-size:9px}.work-item{grid-template-columns:1fr}.work-result{grid-column:1;width:min(100%,320px)}}
@@ -291,6 +304,7 @@ img{max-width:100%;display:block}
 .hero-stage{position:relative;aspect-ratio:1.12/1;min-height:560px;overflow:hidden}
 @media(max-width:1120px){.hero-v2-grid{grid-template-columns:minmax(0,1fr) 500px}.header-row{grid-template-columns:1fr auto auto}}
 @media(max-width:980px){.header-row{grid-template-columns:1fr auto}.nav,.header-meta{display:none}.hero-v2-grid{grid-template-columns:1fr;min-height:0;padding:70px 0 40px}.hero-stage{width:min(680px,100%);min-height:0;justify-self:center}}
+@media(min-width:981px) and (max-width:1120px){.hero-v2-grid{grid-template-columns:minmax(0,1fr) minmax(0,500px)}.hero-stage{min-width:0;min-height:0;aspect-ratio:1.12/1}}
 
 
 .hero-3d-fallback{position:absolute;inset:0;z-index:1;display:grid;place-items:center;perspective:1200px;padding:7%;pointer-events:auto}.fallback-computer{position:relative;width:min(92%,560px);aspect-ratio:1.08/1;transform-style:preserve-3d;transform:rotateX(5deg) rotateY(-8deg);animation:fallbackComputerFloat 7s ease-in-out infinite}.fallback-monitor{position:absolute;left:22%;top:10%;width:58%;height:52%;transform-style:preserve-3d}.fallback-monitor-shell{position:absolute;inset:0;background:linear-gradient(145deg,#202020,#0c0c0c 70%);border:1px solid rgba(255,255,255,.14);box-shadow:inset 0 0 0 1px rgba(199,255,0,.08),18px 24px 44px rgba(0,0,0,.48);transform:translateZ(42px)}.fallback-monitor-shell::before{content:"";position:absolute;inset:-4px;border:1px solid rgba(199,255,0,.18);transform:translateZ(-5px)}.fallback-screen{position:absolute;left:6.5%;right:6.5%;top:8%;bottom:12%;padding:9% 7%;overflow:hidden;background:radial-gradient(circle at 50% 18%,rgba(199,255,0,.12),transparent 40%),repeating-linear-gradient(180deg,rgba(199,255,0,.035) 0 2px,transparent 2px 5px),#061000;border:1px solid rgba(199,255,0,.34);box-shadow:inset 0 0 24px rgba(199,255,0,.08),0 0 24px rgba(199,255,0,.05)}.fallback-screen::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 0 48%,rgba(199,255,0,.05) 50%,transparent 52%);background-size:100% 18px;pointer-events:none;animation:fallbackScan 3.2s linear infinite}.fallback-screen-head{display:flex;justify-content:space-between;gap:10px;margin-bottom:13%;font:700 9px/1 var(--mono);letter-spacing:.12em;color:rgba(224,245,204,.8)}.fallback-search-form{position:relative;z-index:2;display:grid;grid-template-columns:18px 1fr;align-items:center;border:1px solid rgba(199,255,0,.58);background:rgba(0,0,0,.44);height:38px}.fallback-prompt{padding-left:8px;color:var(--signal);font:700 13px/1 var(--mono)}.fallback-search-form input{min-width:0;width:100%;height:100%;padding:0 8px;border:0;outline:0;background:transparent;color:#e8f4da;font:600 12px/1 var(--mono);caret-color:var(--signal)}.fallback-search-form input::placeholder{color:#718065}.fallback-screen-lines{display:grid;gap:7px;margin-top:11%;font:600 8px/1 var(--mono);letter-spacing:.1em;color:#8ea17b}.fallback-monitor-led{position:absolute;right:5%;bottom:3.5%;width:5px;height:5px;border-radius:50%;background:var(--signal);box-shadow:0 0 12px rgba(199,255,0,.75)}.fallback-neck{position:absolute;left:46%;top:100%;width:9%;height:34%;background:linear-gradient(90deg,#0b0b0b,#272727,#0b0b0b);border:1px solid rgba(255,255,255,.1);transform:translateZ(24px)}.fallback-base{position:absolute;left:29%;top:128%;width:44%;height:7%;border-radius:50%;background:linear-gradient(#2a2a2a,#0b0b0b);border:1px solid rgba(255,255,255,.1);box-shadow:0 10px 25px rgba(0,0,0,.45);transform:translateZ(22px)}.fallback-tower{position:absolute;left:3%;top:28%;width:18%;height:43%;background:linear-gradient(145deg,#1e1e1e,#090909 74%);border:1px solid rgba(255,255,255,.13);box-shadow:14px 18px 30px rgba(0,0,0,.42);transform:translateZ(14px) rotateY(5deg)}.fallback-tower::after{content:"";position:absolute;right:-8px;top:5%;width:8px;height:90%;background:linear-gradient(180deg,rgba(199,255,0,.24),rgba(199,255,0,.02))}.fallback-tower-panel{position:absolute;left:11%;right:11%;top:7%;bottom:7%;border:1px solid rgba(255,255,255,.07);background:linear-gradient(180deg,rgba(255,255,255,.02),transparent)}.fallback-vents{position:absolute;left:20%;right:20%;top:21%;display:grid;gap:7px}.fallback-vents i{height:2px;background:rgba(199,255,0,.48)}.fallback-power{position:absolute;right:17%;bottom:12%;width:13px;height:13px;border-radius:50%;border:2px solid var(--signal);box-shadow:0 0 11px rgba(199,255,0,.42)}.fallback-keyboard{position:absolute;left:28%;top:72%;width:47%;height:17%;border:1px solid rgba(255,255,255,.12);background:linear-gradient(160deg,#242424,#0a0a0a);box-shadow:0 18px 30px rgba(0,0,0,.38);transform:translateZ(65px) rotateX(58deg)}.fallback-keys{position:absolute;inset:13% 8%;display:grid;grid-template-columns:repeat(10,1fr);gap:4px}.fallback-keys i{display:block;min-width:0;border:1px solid rgba(255,255,255,.16);background:linear-gradient(180deg,#e2e0d8,#8f9089);box-shadow:0 1px 0 rgba(255,255,255,.18)}.fallback-mouse{position:absolute;right:11%;top:75%;width:9%;height:13%;border-radius:50% 50% 42% 42%;background:linear-gradient(145deg,#272727,#0b0b0b);border:1px solid rgba(255,255,255,.12);box-shadow:0 14px 25px rgba(0,0,0,.35);transform:translateZ(62px) rotateX(58deg)}.fallback-mouse::before{content:"";position:absolute;left:49%;top:7%;width:2px;height:34%;background:rgba(199,255,0,.7)}@keyframes fallbackComputerFloat{0%,100%{transform:rotateX(5deg) rotateY(-8deg) translateY(0)}50%{transform:rotateX(7deg) rotateY(-4deg) translateY(-8px)}}@keyframes fallbackScan{from{transform:translateY(-30%)}to{transform:translateY(30%)}}.hero-stage.webgl-ready .hero-3d-fallback{opacity:0;pointer-events:none;transition:opacity .5s ease}@media(max-width:640px){.hero-3d-fallback{padding:5%}.fallback-screen-head{font-size:7px}.fallback-search-form{height:32px}.fallback-search-form input{font-size:10px}.fallback-screen-lines{font-size:7px}}
@@ -400,6 +414,7 @@ img{max-width:100%;display:block}
 }
 
 </style>
+<link rel="stylesheet" href="mascot-guide.css">
 </head>
 <body>
 <div class="scroll-progress" aria-hidden="true"><span></span></div>
@@ -422,45 +437,31 @@ img{max-width:100%;display:block}
         <span class="hero-line"><span id="type-song" data-type-text="SONG"></span></span>
         <span class="hero-line"><span id="type-hyeongrok" class="outline" data-type-text="HYEONGROK"></span></span>
       </h1>
-      <p class="hero-copy reveal">안녕하세요. 세명컴퓨터고등학교 송형록입니다.</p>
     </div>
 
-    <div class="hero-stage reveal" id="hero-3d" data-cursor="ROTATE" aria-label="Interactive 3D computer terminal object">
-      <canvas id="hero-canvas" aria-hidden="true"></canvas>
-      <div class="hero-3d-fallback" aria-label="Interactive computer fallback">
-        <div class="fallback-computer">
-          <div class="fallback-monitor">
-            <div class="fallback-monitor-shell">
-              <div class="fallback-screen">
-                <div class="fallback-screen-head"><span>SLHR TERMINAL</span><span></span></div>
-                <form class="fallback-search-form" id="fallback-search-form">
-                  <span class="fallback-prompt">&gt;</span>
-                  <input id="fallback-search-input" type="search" autocomplete="off" spellcheck="false" placeholder="Search archive" aria-label="Search archive from computer screen">
-                </form>
-                
-              </div>
-              <div class="fallback-monitor-led"></div>
-            </div>
-            <div class="fallback-neck"></div>
-            <div class="fallback-base"></div>
-          </div>
-          <div class="fallback-tower">
-            <div class="fallback-tower-panel"></div>
-            <div class="fallback-vents"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
-            <div class="fallback-power"></div>
-          </div>
-          <div class="fallback-keyboard"><div class="fallback-keys"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
-          <div class="fallback-mouse"></div>
-          
-        </div>
-      </div>
+    <div class="hero-stage mascot-stage reveal" id="hero-3d" data-cursor="CHAT" aria-label="송형록을 소개하는 3D 캐릭터 챗봇">
+      <canvas id="hero-canvas" role="button" tabindex="0" aria-label="3D 캐릭터와 대화하기" aria-expanded="false" aria-controls="mascot-chat-panel"></canvas>
       <div class="stage-grid" aria-hidden="true"></div>
       <div class="stage-corner stage-corner-a"></div><div class="stage-corner stage-corner-b"></div>
-      <div class="stage-caption"><span>INTERACTIVE TERMINAL</span><span></span></div>
-      <div class="monitor-esc-hint" aria-hidden="true">ESC TO CLOSE</div>
-      <div class="stage-status"><i></i> RENDER ACTIVE</div>
-      <button class="monitor-mobile-exit" id="monitor-mobile-exit" type="button" aria-label="Exit monitor search">BACK</button>
-      <input class="hero-monitor-keyboard-input" id="hero-monitor-input" type="search" inputmode="search" enterkeyhint="search" autocomplete="off" autocapitalize="none" spellcheck="false" aria-label="3D monitor archive search">
+      <div class="mascot-speech" id="mascot-speech" role="button" tabindex="0" aria-label="캐릭터와 대화하기" aria-expanded="false" aria-controls="mascot-chat-panel"><span>SLHR / GUIDE</span><p>안녕. 궁금한 기록이 있어?</p></div>
+      <button class="mascot-replay" id="mascot-replay" type="button" aria-label="걸어 나와 인사하는 모습 다시 보기" title="인사 다시 보기">↻</button>
+      <section class="mascot-chat-panel" id="mascot-chat-panel" aria-label="송형록 소개 챗봇" aria-hidden="true">
+        <header class="mascot-chat-head"><div><span>SLHR GUIDE</span><small>송형록의 기록 안내</small></div><button id="mascot-chat-close" type="button" aria-label="챗봇 닫기">×</button></header>
+        <div class="mascot-chat-log" id="mascot-chat-log" aria-live="polite" aria-relevant="additions">
+          <div class="chat-message bot">안녕. 송형록의 프로젝트와 보안 기록을 소개해 줄게. 무엇이 궁금해?</div>
+        </div>
+        <div class="mascot-chat-chips" id="mascot-chat-chips">
+          <button type="button" data-chat-question="송형록 소개">소개</button>
+          <button type="button" data-chat-question="프로젝트 알려줘">프로젝트</button>
+          <button type="button" data-chat-question="CTF 기록">CTF</button>
+          <button type="button" data-chat-question="버그바운티 기록">버그바운티</button>
+        </div>
+        <form class="mascot-chat-form" id="mascot-chat-form">
+          <input id="mascot-chat-input" type="text" autocomplete="off" maxlength="120" placeholder="질문을 입력하세요" aria-label="송형록에 대해 질문하기">
+          <button type="submit" aria-label="질문 보내기">↗</button>
+        </form>
+      </section>
+      <div class="stage-caption"><span>SLHR ARCHIVE</span></div>
     </div>
   </div>
   <div class="wrap hero-index-bar reveal" aria-hidden="true"></div>
@@ -480,12 +481,11 @@ img{max-width:100%;display:block}
           </svg>
           <div class="orbit-line orbit-line-a"></div><div class="orbit-line orbit-line-b"></div>
           <div class="orbit-dot dot-a"></div><div class="orbit-dot dot-b"></div>
-          <div class="profile-core"><img src="profile-avatar.png" alt="SLHR character"></div>
+          <div class="profile-core"><img src="profile-avatar.png" alt="SLHR character" decoding="async"></div>
         </div>
         <div class="profile-orbit-meta"><span>KR / SONG HYEONG ROK</span></div>
       </div>
       <div class="profile-copy-v2 reveal" data-search-item data-search-title="Security researcher profile">
-        <p class="profile-lede">웹·시스템 보안과 CTF를 중심으로 공부하고 있으며, 취약점 분석과 보안 도구 개발을 함께 경험하고 있습니다.</p>
         <nav class="profile-toc" aria-label="Security research index">
           <a href="#work"><span class="profile-toc-num">01</span><strong>Vulnerability Research</strong><small>Web / System</small><span class="profile-toc-arrow">↘</span></a>
           <a href="#ctf"><span class="profile-toc-num">02</span><strong>CTF</strong><small>Web / Pwn / Rev</small><span class="profile-toc-arrow">↘</span></a>
@@ -502,13 +502,10 @@ img{max-width:100%;display:block}
     <div class="section-head reveal"><div class="eyebrow">01 / Selected work</div><div><h2>PROJECT</h2></div></div>
     <div class="work-list">
       <a class="work-item reveal" href="project-ai-malware-detector.html" data-search-item data-search-title="LLM-based Malware Analysis" data-search-text="PE static analysis Random Forest Ollama FastAPI malware security project">
-        <div class="work-id">SLHR-RES-001</div><div class="work-title"><h3>LLM-based Malware Analysis</h3><p>실행 파일을 실행하지 않고 PE 구조·Import·문자열·IOC를 정적 분석한 뒤, 규칙 기반 점수와 로컬 LLM 설명을 결합한 분석 도구.</p><div class="work-meta"><span>Python</span><span>FastAPI</span><span>PE Analysis</span><span>Ollama</span></div><span class="work-link">Read case study</span></div><div class="work-visual work-result" data-tilt><img src="LLM_BASED.png" alt="LLM 기반 악성코드 분석 프로젝트 결과 화면" data-parallax></div>
+        <div class="work-id">SLHR-RES-001</div><div class="work-title"><h3>LLM-based Malware Analysis</h3><p>수상한 실행 파일을 받았을 때 어디부터 확인해야 할지 정리해 보고 싶어서 시작했습니다. PE 구조와 문자열을 먼저 분석하고, 결과를 로컬 LLM이 읽기 쉽게 풀어줍니다.</p><div class="work-meta"><span>Python</span><span>FastAPI</span><span>PE Analysis</span><span>Ollama</span></div><span class="work-link">Read case study</span></div><div class="work-visual work-result" data-tilt><img src="LLM_BASED.png" alt="LLM 기반 악성코드 분석 프로젝트 결과 화면" data-parallax loading="lazy" decoding="async"></div>
       </a>
       <a class="work-item reveal" href="project-web-mini-ids.html" data-search-item data-search-title="WEB mini-IDS" data-search-text="web traffic SQL injection XSS path traversal PySide6 IDS detection rules">
-        <div class="work-id">SLHR-RES-002</div><div class="work-title"><h3>WEB mini-IDS</h3><p>웹 요청·로그 데이터를 정규화하고 SQL Injection, XSS, Path Traversal 패턴을 규칙 기반으로 분류해 이벤트로 보여주는 미니 IDS.</p><div class="work-meta"><span>Python</span><span>PySide6</span><span>Detection Rules</span></div><span class="work-link">Read case study</span></div><div class="work-visual work-result ids-visual" data-tilt><div class="ids-node"><small>01 / Input</small><strong>HTTP / LOG</strong><small>normalize request data</small></div><div class="ids-arrow">→</div><div class="ids-node"><small>02 / Detection</small><strong>RULE ENGINE</strong><small>SQLi · XSS · traversal</small></div><div class="ids-arrow">→</div><div class="ids-node"><small>03 / Output</small><strong>EVENT VIEW</strong><small>severity · type · detail</small></div></div>
-      </a>
-      <a class="work-item reveal" href="project-password-analyzer.html" data-search-item data-search-title="Password Strength Analyzer" data-search-text="Flask entropy password cracking simulation security analyzer">
-        <div class="work-id">SLHR-RES-003</div><div class="work-title"><h3>Password Strength Analyzer</h3><p>엔트로피와 반복·순차 패턴 감점을 함께 계산해 비밀번호 강도와 예상 크래킹 시간을 설명하는 Flask 기반 분석 도구.</p><div class="work-meta"><span>Flask</span><span>Entropy</span><span>Simulation</span></div><span class="work-link">Read case study</span></div><div class="work-visual work-result" data-tilt><img src="비밀번호_강도_분석기.png" alt="비밀번호 강도 분석기 결과 화면" data-parallax></div>
+        <div class="work-id">SLHR-RES-002</div><div class="work-title"><h3>WEB mini-IDS</h3><p>웹 로그를 눈으로만 넘기면 공격 흔적을 놓치기 쉬웠습니다. 그래서 자주 보이는 SQL Injection, XSS, Path Traversal 패턴을 규칙으로 만들고 한 화면에서 확인하도록 구성했습니다.</p><div class="work-meta"><span>Python</span><span>PySide6</span><span>Detection Rules</span></div><span class="work-link">Read case study</span></div><div class="work-visual work-result ids-visual" data-tilt><div class="ids-node"><small>01 / Input</small><strong>HTTP / LOG</strong><small>normalize request data</small></div><div class="ids-arrow">→</div><div class="ids-node"><small>02 / Detection</small><strong>RULE ENGINE</strong><small>SQLi · XSS · traversal</small></div><div class="ids-arrow">→</div><div class="ids-node"><small>03 / Output</small><strong>EVENT VIEW</strong><small>severity · type · detail</small></div></div>
       </a>
     </div>
   </div>
@@ -530,11 +527,26 @@ img{max-width:100%;display:block}
 
 <section class="section rule" id="ctf" data-search-section="CTF">
   <div class="wrap"><div class="section-head reveal"><div class="eyebrow">03 / Security record</div><div><h2>CTF &amp; BUG BOUNTY</h2></div></div>
-    <div class="ctf-feature"><div class="ctf-copy reveal" data-search-item data-search-title="ATHENA CTF 2026 Rank 4"><div class="eyebrow">Featured result / 2026.07.18</div><h3>ATHENA CTF 2026</h3><p>인도 AstraQ Cyber Defence가 주최한 24시간 온라인 Jeopardy 방식 대회에 2인 팀으로 참가해 전체 4위를 기록했습니다.</p><button class="doc-btn work-link" data-doc="Athena_CTF_2026_Certificate.png" data-title="ATHENA CTF 2026 — Rank #4 Certificate" data-cursor="VIEW">Open certificate</button></div><button class="certificate-frame reveal" data-doc="Athena_CTF_2026_Certificate.png" data-title="ATHENA CTF 2026 — Rank #4 Certificate" data-cursor="ZOOM"><img src="Athena_CTF_2026_Certificate.png" alt="ATHENA CTF 2026 4위 인증서" data-parallax></button></div>
+    <div class="ctf-feature"><div class="ctf-copy reveal" data-search-item data-search-title="ATHENA CTF 2026 Rank 4"><div class="eyebrow">Featured result / 2026.07.18</div><h3>ATHENA CTF 2026</h3><button class="doc-btn work-link" data-doc="Athena_CTF_2026_Certificate.png" data-title="ATHENA CTF 2026 — Rank #4 Certificate" data-cursor="VIEW">Open certificate</button></div><button class="certificate-frame reveal" data-doc="Athena_CTF_2026_Certificate.png" data-title="ATHENA CTF 2026 — Rank #4 Certificate" data-cursor="ZOOM"><img src="Athena_CTF_2026_Certificate.png" alt="ATHENA CTF 2026 4위 인증서" data-parallax loading="lazy" decoding="async"></button></div>
     <div class="ctf-table reveal"><div class="ctf-row" data-search-item data-search-title="boroCTF"><span class="record-date">2026.06.13</span><strong>boroCTF</strong><span class="pos">HS 34th / 174</span><span class="muted">KyteBytes · USA</span></div><div class="ctf-row" data-search-item data-search-title="Grey Cat CTF"><span class="record-date">2026.05.30</span><strong>Grey Cat CTF</strong><span class="pos">25th</span><span class="muted">NUS Greyhats · Singapore</span></div><div class="ctf-row" data-search-item data-search-title="WaRP vs s0sCoD3 CTF"><span class="record-date">2025.12.20</span><strong>WaRP vs s0sCoD3 CTF</strong><span class="pos">12th</span><span class="muted">Dreamhack · KR</span></div><div class="ctf-row" data-search-item data-search-title="제1회 감귤 CTF"><span class="record-date">2025.12.06</span><strong>제1회 감귤 CTF</strong><span class="pos">25th</span><span class="muted">Dreamhack · KR</span></div><div class="ctf-row" data-search-item data-search-title="현대오토에버 화이트해커 CTF"><span class="record-date">2025.11.15</span><strong>현대오토에버 화이트해커 CTF</strong><span class="pos">Awarded</span><span class="muted">Hyundai AutoEver · KR</span></div></div>
-    <div class="bounty-block reveal" data-search-item data-search-title="Bug Bounty">
+    <div class="bounty-block reveal" data-search-item data-search-title="HortusFox Bug Bounty">
       <div class="eyebrow bounty-label">BUG BOUNTY</div>
-      <div class="bounty-empty">Not updated</div>
+      <div class="bounty-list">
+        <a class="bounty-row" href="bounty-hortusfox-sqli.html" data-search-item data-search-title="HortusFox Identifier SQL Injection">
+          <span class="bounty-date">2026.10.03</span>
+          <span class="bounty-main"><strong>Identifier-position SQL Injection</strong><small>HORTUSFOX ≤ 6.2 · GHSA-8RWP-2337-54MM</small></span>
+          <span class="bounty-severity">High · 8.1</span>
+          <span class="bounty-pending">CVE 발급 진행 중</span>
+          <span class="bounty-arrow">↗</span>
+        </a>
+        <a class="bounty-row" href="bounty-hortusfox-csrf.html" data-search-item data-search-title="HortusFox AdminController CSRF">
+          <span class="bounty-date">2026.10.03</span>
+          <span class="bounty-main"><strong>Missing CSRF Validation</strong><small>HORTUSFOX ≤ 6.2 · GHSA-PJVC-WPC6-WF73</small></span>
+          <span class="bounty-severity">High · 7.1</span>
+          <span class="bounty-pending">CVE 발급 진행 중</span>
+          <span class="bounty-arrow">↗</span>
+        </a>
+      </div>
     </div>
   </div>
 </section>
@@ -1182,518 +1194,6 @@ img{max-width:100%;display:block}
   }
 
   
-  const stage = q('#hero-3d');
-  const canvas = q('#hero-canvas');
-  const fallbackComputer = q('.fallback-computer');
-  if (fallbackComputer && stage) {
-    let fallbackDragging = false;
-    let fallbackLastX = 0;
-    let fallbackLastY = 0;
-    let fallbackRotX = 5;
-    let fallbackRotY = -8;
-    const applyFallbackRotation = () => {
-      fallbackComputer.style.transform = `rotateX(${fallbackRotX}deg) rotateY(${fallbackRotY}deg)`;
-    };
-    fallbackComputer.addEventListener('pointerdown', e => {
-      if (e.target.closest('input,button,form')) return;
-      fallbackDragging = true;
-      fallbackLastX = e.clientX;
-      fallbackLastY = e.clientY;
-      fallbackComputer.style.animation = 'none';
-      fallbackComputer.setPointerCapture?.(e.pointerId);
-    });
-    fallbackComputer.addEventListener('pointermove', e => {
-      if (!fallbackDragging) return;
-      fallbackRotY += (e.clientX - fallbackLastX) * 0.22;
-      fallbackRotX -= (e.clientY - fallbackLastY) * 0.18;
-      fallbackRotX = Math.max(-24, Math.min(24, fallbackRotX));
-      fallbackLastX = e.clientX;
-      fallbackLastY = e.clientY;
-      applyFallbackRotation();
-    });
-    fallbackComputer.addEventListener('pointerup', e => {
-      fallbackDragging = false;
-      fallbackComputer.releasePointerCapture?.(e.pointerId);
-    });
-    fallbackComputer.addEventListener('pointercancel', () => { fallbackDragging = false; });
-  }
-  const canRender3D = stage && canvas;
-
-  const loadThree = async () => {
-    try { return await import('https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js'); }
-    catch (_) {
-      try { return await import('https://unpkg.com/three@0.160.0/build/three.module.js'); }
-      catch (err) { console.warn('3D module unavailable; CSS computer fallback remains active.', err); return null; }
-    }
-  };
-
-  const init3D = async () => {
-    if (!canRender3D) return;
-    const THREE = await loadThree();
-    if (!THREE) return;
-
-    const mobile3D = window.matchMedia('(pointer: coarse)').matches || innerWidth < 760;
-    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: 'high-performance' });
-    renderer.setPixelRatio(
-      mobile3D
-        ? Math.min(Math.max(devicePixelRatio, 1.15), 1.6)
-        : Math.min(Math.max(devicePixelRatio, 1.5), 2.25)
-    );
-    renderer.setClearColor(0x000000, 0);
-    renderer.outputColorSpace = THREE.SRGBColorSpace;
-
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(32, 1, 0.1, 100);
-    camera.position.set(0, 0.08, mobile3D ? 11.35 : 12.20);
-
-    const root = new THREE.Group();
-    scene.add(root);
-
-    const signal = new THREE.Color(0xc7ff00);
-    const bone = new THREE.Color(0xe8e7df);
-    renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.12;
-
-    const shellMat = new THREE.MeshPhysicalMaterial({ color: 0x262824, metalness: 0.72, roughness: 0.28, clearcoat: 0.46, clearcoatRoughness: 0.18 });
-    const shellSoftMat = new THREE.MeshStandardMaterial({ color: 0x1a1b19, metalness: 0.42, roughness: 0.46, emissive: 0x080a05, emissiveIntensity: 0.16 });
-    const accentMat = new THREE.MeshStandardMaterial({ color: 0xc7ff00, emissive: 0x88aa00, emissiveIntensity: 0.55, metalness: 0.18, roughness: 0.34 });
-    const keyCapMat = new THREE.MeshStandardMaterial({ color: 0xe9e7df, emissive: 0x1a2206, emissiveIntensity: 0.12, metalness: 0.06, roughness: 0.4 });
-    const ghostLineMat = new THREE.MeshBasicMaterial({ color: signal, wireframe: true, transparent: true, opacity: 0.16 });
-
-    const terminal = new THREE.Group();
-    terminal.position.y = 0.04;
-    terminal.scale.setScalar(1.12);
-    root.add(terminal);
-
-    const monitor = new THREE.Group();
-    const frameOuter = new THREE.Mesh(new THREE.BoxGeometry(3.05, 1.92, 0.18), shellMat);
-    monitor.add(frameOuter);
-    const crispEdgeMat = new THREE.LineBasicMaterial({ color: 0xbec7b4, transparent: true, opacity: 0.46 });
-    const signalEdgeMat = new THREE.LineBasicMaterial({ color: signal, transparent: true, opacity: 0.34 });
-    const frameEdges = new THREE.LineSegments(new THREE.EdgesGeometry(frameOuter.geometry, 18), crispEdgeMat);
-    frameEdges.scale.setScalar(1.004);
-    monitor.add(frameEdges);
-    const frameInner = new THREE.Mesh(new THREE.BoxGeometry(2.82, 1.70, 0.08), shellSoftMat);
-    frameInner.position.z = 0.035;
-    monitor.add(frameInner);
-    const screenBack = new THREE.Mesh(new THREE.PlaneGeometry(2.54, 1.44), new THREE.MeshBasicMaterial({ color: 0x061000, transparent: true, opacity: 0.95 }));
-    screenBack.position.z = 0.095;
-    monitor.add(screenBack);
-    const screen = new THREE.Mesh(new THREE.PlaneGeometry(2.46, 1.36), new THREE.MeshPhysicalMaterial({ color: 0x102000, emissive: 0x8cff18, emissiveIntensity: 0.92, roughness: 0.08, metalness: 0.04, transparent: true, opacity: 0.98 }));
-    screen.position.z = 0.102;
-    monitor.add(screen);
-    screen.userData.searchSurface = true;
-    const raycaster = new THREE.Raycaster();
-    const rayPointer = new THREE.Vector2();
-    const monitorHitTest = e => {
-      const r = stage.getBoundingClientRect();
-      rayPointer.x = ((e.clientX - r.left) / r.width) * 2 - 1;
-      rayPointer.y = -((e.clientY - r.top) / r.height) * 2 + 1;
-      root.updateMatrixWorld(true);
-      camera.updateMatrixWorld(true);
-      raycaster.setFromCamera(rayPointer, camera);
-      return raycaster.intersectObject(screen, false).length > 0;
-    };
-    const screenGlow = new THREE.Mesh(new THREE.PlaneGeometry(2.58, 1.48), new THREE.MeshBasicMaterial({ color: signal, transparent: true, opacity: 0.11 }));
-    screenGlow.position.z = 0.089;
-    monitor.add(screenGlow);
-    const accentStrip = new THREE.Mesh(new THREE.BoxGeometry(2.66, 0.028, 0.03), accentMat);
-    accentStrip.position.set(0, -0.84, 0.08);
-    monitor.add(accentStrip);
-
-    const scanCanvas = document.createElement('canvas');
-    const screenScale = mobile3D ? 2 : 3;
-    const screenLogicalWidth = 1024;
-    const screenLogicalHeight = 512;
-    scanCanvas.width = screenLogicalWidth * screenScale;
-    scanCanvas.height = screenLogicalHeight * screenScale;
-    const sctx = scanCanvas.getContext('2d', { alpha: false });
-    sctx.setTransform(screenScale, 0, 0, screenScale, 0, 0);
-    sctx.imageSmoothingEnabled = true;
-    sctx.imageSmoothingQuality = 'high';
-    const scanTexture = new THREE.CanvasTexture(scanCanvas);
-    scanTexture.colorSpace = THREE.SRGBColorSpace;
-    scanTexture.anisotropy = Math.min(16, renderer.capabilities.getMaxAnisotropy());
-    scanTexture.minFilter = THREE.LinearFilter;
-    scanTexture.magFilter = THREE.LinearFilter;
-    scanTexture.generateMipmaps = false;
-    const screenOverlay = new THREE.Mesh(new THREE.PlaneGeometry(2.42, 1.32), new THREE.MeshBasicMaterial({ map: scanTexture, transparent: true, opacity: 0.97 }));
-    screenOverlay.position.z = 0.108;
-    monitor.add(screenOverlay);
-
-    const drawScreen = t => {
-      const searchActive = monitorMode;
-      const rawQuery = heroMonitorInput?.value || '';
-      const queryPreview = rawQuery.slice(0, 30);
-
-      sctx.clearRect(0, 0, screenLogicalWidth, screenLogicalHeight);
-      const grad = sctx.createLinearGradient(0, 0, 0, screenLogicalHeight);
-      grad.addColorStop(0, '#081400');
-      grad.addColorStop(.55, '#071100');
-      grad.addColorStop(1, '#050805');
-      sctx.fillStyle = grad;
-      sctx.fillRect(0, 0, screenLogicalWidth, screenLogicalHeight);
-
-      for (let y = 0; y < screenLogicalHeight; y += 16) {
-        sctx.fillStyle = searchActive ? 'rgba(199,255,0,0.045)' : 'rgba(199,255,0,0.02)';
-        sctx.fillRect(0, y, screenLogicalWidth, 1);
-      }
-
-      sctx.strokeStyle = 'rgba(199,255,0,0.58)';
-      sctx.lineWidth = 6;
-      sctx.strokeRect(30, 30, screenLogicalWidth - 60, screenLogicalHeight - 60);
-
-      if (!searchActive) {
-        sctx.textAlign = 'center';
-        sctx.fillStyle = 'rgba(222,255,221,0.98)';
-        sctx.font = '700 66px monospace';
-        sctx.fillText('SLHR TERMINAL', screenLogicalWidth / 2, 214);
-
-        sctx.fillStyle = 'rgba(199,255,0,0.98)';
-        sctx.font = '700 48px monospace';
-        sctx.fillText('CLICK TO SEARCH', screenLogicalWidth / 2, 310);
-        sctx.textAlign = 'left';
-      } else {
-        sctx.fillStyle = 'rgba(222,255,221,0.96)';
-        sctx.font = '700 54px monospace';
-        sctx.fillText('SLHR TERMINAL', 68, 92);
-
-        sctx.fillStyle = 'rgba(240,246,228,0.88)';
-        sctx.font = '27px monospace';
-        sctx.fillText('> query', 74, 176);
-
-        sctx.strokeStyle = 'rgba(199,255,0,0.96)';
-        sctx.lineWidth = 7;
-        sctx.strokeRect(188, 143, 748, 54);
-
-        sctx.fillStyle = 'rgba(199,255,0,0.09)';
-        sctx.fillRect(192, 147, 740, 46);
-
-        sctx.fillStyle = rawQuery ? 'rgba(232,255,222,0.98)' : 'rgba(163,180,149,0.9)';
-        const caret = (Math.floor(t * 2.3) % 2) ? '_' : '';
-        sctx.fillText((queryPreview || '') + caret, 214, 176);
-
-        if (!rawQuery) {
-          sctx.font = '24px monospace';
-          sctx.fillStyle = 'rgba(199,255,0,0.86)';
-          sctx.fillText('TYPE TO SEARCH', 74, 270);
-        } else if (!monitorMatches.length) {
-          sctx.font = '23px monospace';
-          sctx.fillStyle = 'rgba(220,230,210,0.82)';
-          sctx.fillText('NO MATCHES', 74, 278);
-        } else {
-          sctx.font = '20px monospace';
-          const visible = monitorMatches.slice(0, 4);
-          visible.forEach((item, index) => {
-            const y = 254 + index * 54;
-            const active = index === monitorSelected;
-            if (active) {
-              sctx.fillStyle = 'rgba(199,255,0,0.13)';
-              sctx.fillRect(66, y - 29, 870, 42);
-            }
-            sctx.fillStyle = active ? 'rgba(236,255,228,0.98)' : 'rgba(208,219,198,0.82)';
-            const title = `${active ? '>' : ' '} ${item.title}`.slice(0, 58);
-            sctx.fillText(title, 82, y);
-          });
-        }
-      }
-
-      scanTexture.needsUpdate = true;
-    };
-
-    const monitorWire = new THREE.Mesh(new THREE.BoxGeometry(3.14, 2.02, 0.2), ghostLineMat);
-    monitorWire.scale.setScalar(1.01);
-    monitor.add(monitorWire);
-
-    const standNeck = new THREE.Mesh(new THREE.BoxGeometry(0.24, 0.72, 0.18), shellMat);
-    standNeck.position.set(0, -1.16, -0.04);
-    monitor.add(standNeck);
-    const standJoint = new THREE.Mesh(new THREE.CylinderGeometry(0.16, 0.2, 0.24, 28), shellMat);
-    standJoint.rotation.z = Math.PI / 2;
-    standJoint.position.set(0, -0.96, -0.03);
-    monitor.add(standJoint);
-    const standBase = new THREE.Mesh(new THREE.CylinderGeometry(0.78, 0.96, 0.09, 36), shellMat);
-    standBase.position.set(0, -1.56, 0.02);
-    monitor.add(standBase);
-    const standBaseGlow = new THREE.Mesh(new THREE.RingGeometry(0.68, 0.84, 48), new THREE.MeshBasicMaterial({ color: signal, transparent: true, opacity: 0.2, side: THREE.DoubleSide }));
-    standBaseGlow.rotation.x = -Math.PI / 2;
-    standBaseGlow.position.set(0, -1.50, 0.02);
-    monitor.add(standBaseGlow);
-    monitor.position.set(0.18, 0.12, -0.22);
-    monitor.scale.setScalar(1.14);
-    terminal.add(monitor);
-
-    const tower = new THREE.Group();
-    const towerBody = new THREE.Mesh(new THREE.BoxGeometry(1.04, 2.24, 1.18), shellMat);
-    tower.add(towerBody);
-    const towerEdges = new THREE.LineSegments(new THREE.EdgesGeometry(towerBody.geometry, 18), crispEdgeMat);
-    towerEdges.scale.setScalar(1.004);
-    tower.add(towerEdges);
-    const frontPanel = new THREE.Mesh(new THREE.BoxGeometry(0.82, 2.02, 0.05), shellSoftMat);
-    frontPanel.position.set(0, 0, 0.59);
-    tower.add(frontPanel);
-    for (let row = 0; row < 11; row++) {
-      const vent = new THREE.Mesh(new THREE.BoxGeometry(0.58, 0.028, 0.02), new THREE.MeshBasicMaterial({ color: 0x9caf76, transparent: true, opacity: 0.72 }));
-      vent.position.set(-0.06, 0.72 - row * 0.1, 0.615);
-      tower.add(vent);
-    }
-    const powerRing = new THREE.Mesh(new THREE.TorusGeometry(0.11, 0.02, 12, 48), new THREE.MeshBasicMaterial({ color: signal }));
-    powerRing.position.set(0.27, -0.73, 0.615);
-    tower.add(powerRing);
-    const ioPort = new THREE.Mesh(new THREE.BoxGeometry(0.16, 0.08, 0.04), new THREE.MeshBasicMaterial({ color: 0xd9d7cf }));
-    ioPort.position.set(-0.22, -0.74, 0.615);
-    tower.add(ioPort);
-    const sideGlow = new THREE.Mesh(new THREE.BoxGeometry(0.04, 1.82, 0.96), new THREE.MeshBasicMaterial({ color: signal, transparent: true, opacity: 0.12 }));
-    sideGlow.position.set(0.5, 0.04, 0);
-    tower.add(sideGlow);
-    const towerWire = new THREE.Mesh(new THREE.BoxGeometry(1.08, 2.28, 1.22), ghostLineMat);
-    towerWire.scale.setScalar(1.01);
-    tower.add(towerWire);
-    tower.position.set(-2.26, -0.08, -0.24);
-    terminal.add(tower);
-
-    const keyboard = new THREE.Group();
-    const keyboardBase = new THREE.Mesh(new THREE.BoxGeometry(2.7, 0.18, 1.06), shellMat);
-    keyboard.add(keyboardBase);
-    const keyboardEdges = new THREE.LineSegments(new THREE.EdgesGeometry(keyboardBase.geometry, 18), crispEdgeMat);
-    keyboardEdges.scale.setScalar(1.005);
-    keyboard.add(keyboardEdges);
-    const keyboardTop = new THREE.Mesh(new THREE.BoxGeometry(2.46, 0.04, 0.84), new THREE.MeshStandardMaterial({ color: 0x171717, metalness: 0.42, roughness: 0.3 }));
-    keyboardTop.position.set(0, 0.08, -0.02);
-    keyboard.add(keyboardTop);
-    const keyGeo = new THREE.BoxGeometry(0.12, 0.035, 0.11);
-    const specialKeyGeo = new THREE.BoxGeometry(0.28, 0.035, 0.11);
-    for (let row = 0; row < 5; row++) {
-      for (let col = 0; col < 14; col++) {
-        const edgeCols = row === 4 && col > 4 && col < 10;
-        const key = new THREE.Mesh(edgeCols ? specialKeyGeo : keyGeo, keyCapMat);
-        const extra = edgeCols ? (col - 6.5) * 0.01 : 0;
-        key.position.set(-0.94 + col * 0.145 + extra, 0.11, -0.34 + row * 0.155);
-        keyboard.add(key);
-      }
-    }
-    const enterKey = new THREE.Mesh(new THREE.BoxGeometry(0.24, 0.035, 0.26), keyCapMat);
-    enterKey.position.set(0.98, 0.11, 0.06);
-    keyboard.add(enterKey);
-    const spaceBar = new THREE.Mesh(new THREE.BoxGeometry(0.82, 0.035, 0.12), keyCapMat);
-    spaceBar.position.set(0.02, 0.11, 0.28);
-    keyboard.add(spaceBar);
-    const keyboardWire = new THREE.Mesh(new THREE.BoxGeometry(2.74, 0.20, 1.10), ghostLineMat);
-    keyboard.add(keyboardWire);
-    keyboard.position.set(0.22, -1.96, 1.42);
-    keyboard.rotation.x = -0.62;
-    terminal.add(keyboard);
-
-    const mouse = new THREE.Group();
-    const mouseBody = new THREE.Mesh(new THREE.SphereGeometry(0.19, 26, 26), shellMat);
-    mouseBody.scale.set(1.18, 0.52, 1.42);
-    mouse.add(mouseBody);
-    const mouseGlow = new THREE.Mesh(new THREE.BoxGeometry(0.03, 0.01, 0.16), accentMat);
-    mouseGlow.position.set(0, 0.09, -0.02);
-    mouse.add(mouseGlow);
-    mouse.position.set(1.96, -1.92, 1.24);
-    mouse.rotation.x = -0.22;
-    terminal.add(mouse);
-
-    const cableCurve = new THREE.CatmullRomCurve3([
-      new THREE.Vector3(1.76, -1.82, 1.06),
-      new THREE.Vector3(1.46, -1.62, 0.62),
-      new THREE.Vector3(1.02, -1.1, -0.12),
-      new THREE.Vector3(0.58, -0.62, -0.42)
-    ]);
-    const cable = new THREE.Mesh(new THREE.TubeGeometry(cableCurve, 42, 0.025, 10, false), new THREE.MeshStandardMaterial({ color: 0x202020, metalness: 0.18, roughness: 0.8 }));
-    terminal.add(cable);
-
-    const hudGroup = new THREE.Group();
-    for (let i = 0; i < 4; i++) {
-      const plate = new THREE.Mesh(new THREE.BoxGeometry(0.42, 0.42, 0.02), new THREE.MeshBasicMaterial({ color: i % 2 ? 0x7f7f79 : signal, wireframe: true, transparent: true, opacity: i % 2 ? 0.26 : 0.52 }));
-      const a = (i / 4) * Math.PI * 2 + Math.PI / 8;
-      plate.position.set(Math.cos(a) * 3.1, 0.25 + Math.sin(a * 1.3) * 0.4, Math.sin(a) * 1.58);
-      plate.rotation.set(a * 0.2, a * 0.45, a * 0.1);
-      plate.userData.phase = a;
-      hudGroup.add(plate);
-    }
-    root.add(hudGroup);
-
-    const ringGroup = new THREE.Group();
-    [3.18, 3.62].forEach((radius, i) => {
-      const ring = new THREE.Mesh(new THREE.TorusGeometry(radius, 0.012 + i * 0.004, 8, mobile3D ? 112 : 160), new THREE.MeshBasicMaterial({ color: i === 0 ? signal : 0x4a4a45, transparent: true, opacity: i === 0 ? 0.20 : 0.07 }));
-      ring.rotation.set(i === 0 ? 0.84 : 1.16, i === 0 ? 0.18 : -0.42, i * 0.2);
-      ringGroup.add(ring);
-    });
-    root.add(ringGroup);
-
-    const nodeGroup = new THREE.Group();
-    for (let i = 0; i < 7; i++) {
-      const isSignal = i % 2 === 0;
-      const node = new THREE.Mesh(isSignal ? new THREE.OctahedronGeometry(0.13) : new THREE.BoxGeometry(0.17, 0.17, 0.17), new THREE.MeshBasicMaterial({ color: isSignal ? signal : 0x8b8b84, wireframe: true, transparent: true, opacity: 0.78 }));
-      const a = (i / 7) * Math.PI * 2;
-      const r = 2.85 + (i % 2) * 0.32;
-      node.position.set(Math.cos(a) * r, Math.sin(a * 1.22) * 1.02, Math.sin(a) * r * 0.54);
-      node.userData.phase = a;
-      nodeGroup.add(node);
-    }
-    root.add(nodeGroup);
-
-    const count = mobile3D ? 180 : 300;
-    const pos = new Float32Array(count * 3);
-    for (let i = 0; i < count; i++) {
-      const radius = 3.0 + Math.random() * 2.2;
-      const theta = Math.random() * Math.PI * 2;
-      const phi = Math.acos(2 * Math.random() - 1);
-      pos[i * 3] = radius * Math.sin(phi) * Math.cos(theta);
-      pos[i * 3 + 1] = radius * Math.cos(phi) * 0.72;
-      pos[i * 3 + 2] = radius * Math.sin(phi) * Math.sin(theta);
-    }
-    const particlesGeo = new THREE.BufferGeometry();
-    particlesGeo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
-    const particles = new THREE.Points(particlesGeo, new THREE.PointsMaterial({ color: 0x6f6f68, size: 0.018, transparent: true, opacity: 0.22 }));
-    scene.add(particles);
-    scene.add(new THREE.AmbientLight(0xffffff, 0.82));
-    const key = new THREE.PointLight(signal, 12, 13);
-    key.position.set(3.5, 2.2, 4.2);
-    scene.add(key);
-    const rim = new THREE.PointLight(0xffffff, 9, 13);
-    rim.position.set(-3.8, -2.5, 3.2);
-    scene.add(rim);
-    const frontFill = new THREE.PointLight(0xf0f4ea, 9.5, 14);
-    frontFill.position.set(0.6, 0.2, 5.4);
-    scene.add(frontFill);
-    const sideSignal = new THREE.PointLight(signal, 5.2, 10);
-    sideSignal.position.set(-4.2, 0.7, 1.6);
-    scene.add(sideSignal);
-    const underFill = new THREE.PointLight(0xbfdc8a, 5.5, 11);
-    underFill.position.set(0, -4.1, 2.3);
-    scene.add(underFill);
-
-    let pointerX = 0, pointerY = 0, targetX = 0, targetY = 0;
-    let dragX = 0, dragY = 0, dragging = false, lastX = 0, lastY = 0;
-    stage.addEventListener('pointermove', e => {
-      const r = stage.getBoundingClientRect();
-      targetX = ((e.clientX - r.left) / r.width - 0.5) * 2;
-      targetY = ((e.clientY - r.top) / r.height - 0.5) * 2;
-      const overScreen = monitorHitTest(e);
-      stage.style.cursor = overScreen ? 'text' : '';
-      if (dragging && !monitorMode) {
-        dragY += (e.clientX - lastX) * 0.005;
-        dragX += (e.clientY - lastY) * 0.005;
-        lastX = e.clientX; lastY = e.clientY;
-      }
-    });
-    stage.addEventListener('pointerdown', e => {
-      if (e.target.closest?.('#monitor-mobile-exit')) return;
-      if (monitorHitTest(e)) {
-        e.preventDefault();
-        dragging = false;
-        targetX = 0; targetY = 0; pointerX = 0; pointerY = 0;
-        enterMonitorMode();
-        if (e.pointerType === 'touch' || e.pointerType === 'pen') {
-          heroMonitorInput?.focus({ preventScroll: true });
-          placeMonitorCaretAtEnd();
-        }
-        return;
-      }
-      if (monitorMode) {
-        e.preventDefault();
-        dragging = false;
-        focusMonitorInput();
-        return;
-      }
-      heroMonitorInput?.blur();
-      dragging = true;
-      lastX = e.clientX;
-      lastY = e.clientY;
-      stage.setPointerCapture?.(e.pointerId);
-    });
-    stage.addEventListener('pointerup', e => {
-      dragging = false;
-      stage.releasePointerCapture?.(e.pointerId);
-      if (monitorMode && (e.pointerType === 'touch' || e.pointerType === 'pen') && monitorHitTest(e)) {
-        heroMonitorInput?.focus({ preventScroll: true });
-        placeMonitorCaretAtEnd();
-      }
-    });
-    stage.addEventListener('click', e => {
-      if (!monitorMode) return;
-      e.preventDefault();
-      focusMonitorInput();
-    });
-    stage.addEventListener('pointerleave', () => { dragging = false; targetX = 0; targetY = 0; stage.style.cursor = ''; });
-
-    const resize = () => {
-      const r = stage.getBoundingClientRect();
-      if (!r.width || !r.height) return;
-      renderer.setSize(r.width, r.height, false);
-      camera.aspect = r.width / r.height;
-      camera.updateProjectionMatrix();
-    };
-    resize();
-    const resizeObserver = new ResizeObserver(resize);
-    resizeObserver.observe(stage);
-    window.visualViewport?.addEventListener('resize', resize);
-
-    let running = true;
-    const visibilityObserver = new IntersectionObserver(([entry]) => { running = entry.isIntersecting; }, { threshold: 0.02 });
-    visibilityObserver.observe(stage);
-
-    const clock = new THREE.Clock();
-    const screenDrawInterval = 1 / 15;
-    const render = () => {
-      requestAnimationFrame(render);
-      if (!running || document.hidden) return;
-      const t = clock.getElapsedTime();
-      pointerX += (targetX - pointerX) * 0.045;
-      pointerY += (targetY - pointerY) * 0.045;
-      const targetCameraZ = monitorMode ? (mobile3D ? 6.15 : 5.70) : (mobile3D ? 11.35 : 12.20);
-      const targetCameraX = monitorMode ? (mobile3D ? 0.12 : 0.18) : 0;
-      const targetCameraY = monitorMode ? (mobile3D ? 0.02 : -0.02) : 0.08;
-      camera.position.x += (targetCameraX - camera.position.x) * 0.09;
-      camera.position.y += (targetCameraY - camera.position.y) * 0.09;
-      camera.position.z += (targetCameraZ - camera.position.z) * 0.09;
-      if (monitorMode) {
-        root.rotation.x += (0 - root.rotation.x) * 0.11;
-        root.rotation.y += (0 - root.rotation.y) * 0.11;
-        root.rotation.z += (0 - root.rotation.z) * 0.11;
-        terminal.rotation.y += (0 - terminal.rotation.y) * 0.12;
-        monitor.rotation.x += (0 - monitor.rotation.x) * 0.12;
-      } else {
-        root.rotation.x = -pointerY * 0.04 + dragX + Math.sin(t * 0.34) * 0.006;
-        root.rotation.y = pointerX * 0.055 + dragY + Math.sin(t * 0.22) * 0.014;
-        root.rotation.z = Math.sin(t * 0.20) * 0.022;
-        terminal.rotation.y = Math.sin(t * 0.38) * 0.025;
-        monitor.rotation.x = Math.sin(t * 0.56) * 0.008;
-      }
-      tower.rotation.y = monitorMode ? 0 : -Math.sin(t * 0.48) * 0.04;
-      tower.position.y = monitorMode ? -0.08 : -0.08 + Math.sin(t * 0.92) * 0.015;
-      keyboard.position.y = monitorMode ? -1.96 : -1.96 + Math.sin(t * 1.1) * 0.02;
-      ringGroup.rotation.z = t * 0.036;
-      ringGroup.rotation.x = Math.sin(t * 0.22) * 0.08;
-      particles.rotation.y = -t * 0.012;
-      screen.material.emissiveIntensity = (monitorMode ? 1.18 : 1.48) + Math.sin(t * 1.8) * 0.06;
-      screenOverlay.material.opacity = 0.985;
-      screenGlow.material.opacity = (monitorMode ? 0.18 : 0.22) + Math.sin(t * 1.7) * 0.012;
-      if (lastScreenDraw < 0 || t - lastScreenDraw >= screenDrawInterval) {
-        drawScreen(t);
-        lastScreenDraw = t;
-      }
-      hudGroup.children.forEach((plate, i) => {
-        plate.rotation.x = t * (0.12 + i * 0.018);
-        plate.rotation.y = -t * (0.15 + i * 0.022);
-        plate.position.y = 0.25 + Math.sin(plate.userData.phase * 1.3) * 0.4 + Math.sin(t * 0.9 + plate.userData.phase) * 0.04;
-      });
-      nodeGroup.children.forEach((node, i) => {
-        node.rotation.x = t * (0.28 + i * 0.015);
-        node.rotation.y = -t * (0.18 + i * 0.02);
-        const baseY = Math.sin(t * 0.82 + node.userData.phase) * 1.02;
-        node.position.y = Math.sin(node.userData.phase * 1.22) * 1.05 + Math.sin(t * 0.82 + node.userData.phase) * 0.10;
-      });
-      renderer.render(scene, camera);
-    };
-
-    stage.classList.add('webgl-ready');
-    render();
-  };
-  init3D();
 
   
   qa('a[href^="#"]').forEach(a => a.addEventListener('click', () => {
@@ -1703,5 +1203,6 @@ img{max-width:100%;display:block}
 })();
 
 </script>
+<script src="mascot-chat.js"></script>
 </body>
 </html>
