@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="HortusFox AdminController CSRF 분석 기록">
+  <title>HortusFox AdminController CSRF — SLHR</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="blog-page">
+<header class="site-header">
+  <div class="wrap header-row">
+    <a class="brand" href="index.html">SLHR/<b>ARCHIVE</b></a>
+    <nav class="nav" aria-label="문서 이동"><a href="index.html#ctf">CTF &amp; Bug Bounty</a><a href="bounty-hortusfox-sqli.html">이전 기록</a></nav>
+    <div class="header-meta">GHSA-PJVC-WPC6-WF73</div>
+  </div>
+</header>
+
+<main class="blog-shell">
+  <a class="blog-back" href="index.html#ctf">← CTF &amp; Bug Bounty</a>
+
+  <article class="blog-article">
+    <header class="blog-heading">
+      <div class="blog-label">BUG BOUNTY · 2026.10.03</div>
+      <h1>HortusFox 관리자 CSRF 분석</h1>
+      <p>관리자 기능에 CSRF 검사가 없고 상태 변경 라우트가 GET 요청을 받는 문제를 분석한 기록입니다.</p>
+    </header>
+
+    <dl class="blog-properties">
+      <div><dt>대상</dt><dd>HortusFox ≤ 6.2</dd></div>
+      <div><dt>심각도</dt><dd><span class="blog-high">High</span> · CVSS 7.1</dd></div>
+      <div><dt>취약점</dt><dd>Missing CSRF Validation</dd></div>
+      <div><dt>분류</dt><dd>CWE-352 · CWE-650</dd></div>
+      <div><dt>상태</dt><dd>GitHub Advisory 공개 · CVE 발급 진행 중</dd></div>
+      <div><dt>Reporter</dt><dd>SLRHR</dd></div>
+    </dl>
+
+    <section class="blog-section">
+      <h2>확인한 내용</h2>
+      <p>관리자 환경설정 기능을 확인할 때 라우트가 <code>ANY</code>로 등록된 것을 먼저 봤습니다. 상태를 바꾸는 요청이 GET으로도 처리되고 있어 CSRF 토큰 검사가 실제 서버에서 실행되는지 확인했습니다.</p>
+      <p>템플릿에는 토큰 필드가 있었지만, 관리자 컨트롤러에서는 프레임워크의 <code>PostValidator</code>를 호출하지 않았습니다. 토큰을 만들어 폼에 넣는 것과 서버에서 검증하는 것은 별개의 과정입니다.</p>
+    </section>
+
+    <section class="blog-section">
+      <h2>프레임워크의 검증 코드</h2>
+      <div class="blog-code">
+        <div class="blog-code-head">asatru-php-framework / controller.php</div>
+        <pre><code>if (
+    (!isset($_POST['csrf_token'])) ||
+    ($_POST['csrf_token'] !== $_SESSION['csrf_token'])
+) {
+    // validation failed
+}</code></pre>
+      </div>
+      <p>프로젝트에서 CSRF 토큰을 검사하는 부분은 <code>PostValidator</code> 안에 있습니다. Plants, Tasks, User 컨트롤러는 상태 변경 전에 이 검증기를 사용하지만 AdminController에는 같은 호출이 없었습니다.</p>
+      <aside class="blog-callout"><strong>확인 기준</strong><span>HTML에 CSRF 토큰이 보이는지만 확인하지 않고, 요청을 처리하는 컨트롤러가 실제 검증 코드를 호출하는지까지 확인했습니다.</span></aside>
+    </section>
+
+    <section class="blog-section">
+      <h2>GET으로 실행되는 관리자 기능</h2>
+      <div class="blog-code">
+        <div class="blog-code-head">app/config/routes.php · 일부</div>
+        <pre><code>array('/admin/environment/boolean/toggle', 'ANY', ...),
+array('/admin/user/remove',               'ANY', ...),
+array('/admin/api/add',                   'ANY', ...),
+array('/admin/api/{token}/remove',        'ANY', ...),
+array('/admin/api/{id}/toggle',           'ANY', ...),
+array('/admin/cache/clear',               'ANY', ...),</code></pre>
+      </div>
+      <p>사용자 삭제, API 키 생성·삭제, 캐시 초기화처럼 상태를 변경하는 작업이 <code>ANY</code>로 등록되어 있었습니다. POST만 받도록 제한되지 않았기 때문에 일반 링크를 통한 최상위 GET 이동으로도 요청이 실행됩니다.</p>
+    </section>
+
+    <section class="blog-section">
+      <h2>어떻게 확인했는지</h2>
+      <ol class="blog-steps">
+        <li><b>정상 코드와 비교</b><span>Plants, Tasks, User 컨트롤러에서 <code>PostValidator</code>를 호출하는 위치를 찾고 AdminController와 비교했습니다.</span></li>
+        <li><b>라우트 분류</b><span>관리자 라우트 중 데이터를 바꾸는 기능을 추린 뒤 허용된 HTTP 메서드를 확인했습니다.</span></li>
+        <li><b>실제 브라우저 사용</b><span>관리자가 로그인한 Chromium과 다른 출처의 테스트 페이지를 사용했습니다. 쿠키를 curl에 직접 붙이는 방식은 사용하지 않았습니다.</span></li>
+        <li><b>요청 방식 분리</b><span>최상위 GET 이동, 이미지 요청, cross-site fetch, POST 폼을 각각 실행하고 데이터베이스 상태가 바뀌는지 확인했습니다.</span></li>
+      </ol>
+    </section>
+
+    <section class="blog-section">
+      <h2>브라우저에서 나온 결과</h2>
+      <div class="blog-code">
+        <div class="blog-code-head">Chromium 검증 결과</div>
+        <pre><code>top-level cross-site GET   → cookie sent / action executed
+cross-site image request   → cookie blocked
+cross-site fetch           → cookie blocked
+cross-site POST            → steady state에서 cookie blocked</code></pre>
+      </div>
+      <p>세션 쿠키에 명시적인 SameSite 속성이 없어 Chromium의 기본 Lax 정책이 적용됐습니다. 일반적인 상태에서는 최상위 GET 이동에 쿠키가 포함되므로, <code>ANY</code>로 등록된 관리자 작업은 링크를 여는 방식으로 재현할 수 있었습니다.</p>
+      <p>반대로 이미지 요청과 cross-site fetch는 차단됐습니다. POST는 로그인 직후의 제한적인 조건을 제외하면 차단되어, 보고서의 핵심 재현 경로에서는 제외했습니다.</p>
+    </section>
+
+    <section class="blog-section">
+      <h2>영향</h2>
+      <p>로그인한 관리자가 외부 링크를 열면 사용자 삭제, API 키 변경, 캐시 초기화 같은 작업이 관리자 세션으로 실행될 수 있습니다. 별도로 제보한 SQL Injection 경로와 연결될 경우 관리자 접근으로 영향이 커질 수 있습니다.</p>
+    </section>
+
+    <section class="blog-section">
+      <h2>수정 방향</h2>
+      <div class="blog-code">
+        <div class="blog-code-head">처리 원칙</div>
+        <pre><code>// 상태 변경은 POST 등 의도한 메서드만 허용
+// 모든 관리자 작업에서 서버 측 CSRF 토큰 검증
+// 쿠키에 SameSite, HttpOnly, Secure 속성 명시</code></pre>
+      </div>
+      <p>상태를 변경하는 라우트에서 GET을 제거하고, AdminController의 모든 관련 작업에 서버 측 CSRF 검증을 적용해야 합니다. 쿠키 속성은 보조 방어로 명시하되 CSRF 검증을 대신하는 수단으로 사용하면 안 됩니다.</p>
+    </section>
+
+    <div class="blog-links">
+      <a href="https://github.com/danielbrendel/hortusfox-web/security/advisories/GHSA-pjvc-wpc6-wf73" target="_blank" rel="noopener noreferrer">GitHub Advisory 열기 ↗</a>
+      <a href="bounty-hortusfox-sqli.html">← 이전 글: Identifier SQL Injection</a>
+    </div>
+  </article>
+</main>
+
+<footer class="footer simple-project-footer"><div class="wrap"><div class="footer-links"><a href="index.html#ctf">← 목록으로</a></div></div></footer>
+</body>
+</html>
