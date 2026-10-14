@@ -84,12 +84,20 @@
         links: [{ label: 'CTF 기록 보기', href: '#ctf' }]
       };
     }
-    if (/버그|바운티|취약점|cve|hortus|sqli|csrf/.test(question)) {
+    if (/web3|디파이|defi|tari|ootle|유동성|lp 토큰/.test(question)) {
       return {
-        text: 'HortusFox에서 Identifier-position SQL Injection과 AdminController CSRF를 찾아 제보했어. 두 건 모두 High 등급으로 공개됐고 CVE 발급 절차가 진행 중이야.',
+        text: 'Web3 보안 기록에는 Tari Ootle의 공개 유동성 풀 문제를 따로 정리해 뒀어. LP 토큰 발행 권한 때문에 준비금 없이 만든 토큰을 환급할 수 있었고, CVE는 발급 중이야.',
+        links: [{ label: 'Web3 · Tari 기록', href: 'bounty-tari-liquidity-pool.html' }]
+      };
+    }
+    if (/버그|바운티|취약점|cve|hortus|sqli|csrf|envd|toctou|레이스/.test(question)) {
+      return {
+        text: '버그바운티 기록에는 envd의 경로 이탈·TOCTOU, HortusFox의 SQL Injection과 CSRF를 정리해 뒀어. Tari Ootle의 유동성 풀 문제는 Web3 보안 기록으로 분리했어. 네 건 모두 CVE 발급 중이야.',
         links: [
+          { label: 'envd 기록', href: 'bounty-envd-requirements.html' },
           { label: 'SQL Injection 기록', href: 'bounty-hortusfox-sqli.html' },
-          { label: 'CSRF 기록', href: 'bounty-hortusfox-csrf.html' }
+          { label: 'CSRF 기록', href: 'bounty-hortusfox-csrf.html' },
+          { label: 'Web3 · Tari 기록', href: 'bounty-tari-liquidity-pool.html' }
         ]
       };
     }
