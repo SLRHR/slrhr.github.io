@@ -90,10 +90,11 @@
         links: [{ label: 'Web3 · Tari 기록', href: 'bounty-tari-liquidity-pool.html' }]
       };
     }
-    if (/버그|바운티|취약점|cve|hortus|sqli|csrf|envd|toctou|레이스/.test(question)) {
+    if (/버그|바운티|취약점|cve|hortus|sqli|csrf|envd|toctou|레이스|oro|checkout|체크아웃/.test(question)) {
       return {
-        text: '버그바운티 기록에는 envd의 경로 이탈·TOCTOU, HortusFox의 SQL Injection과 CSRF를 정리해 뒀어. Tari Ootle의 유동성 풀 문제는 Web3 보안 기록으로 분리했어. 네 건 모두 CVE 발급 중이야.',
+        text: '버그바운티 기록에는 OroCommerce의 체크아웃 권한 문제, envd의 경로 이탈·TOCTOU, HortusFox의 SQL Injection과 CSRF가 있어. OroCommerce 건은 이메일로 제보했고 공개 어드바이저리와 CVE는 없어. 나머지 세 건은 CVE 발급 중이고, Tari Ootle은 Web3 보안 기록으로 분리했어.',
         links: [
+          { label: 'OroCommerce 기록', href: 'bounty-orocommerce-checkout.html' },
           { label: 'envd 기록', href: 'bounty-envd-requirements.html' },
           { label: 'SQL Injection 기록', href: 'bounty-hortusfox-sqli.html' },
           { label: 'CSRF 기록', href: 'bounty-hortusfox-csrf.html' },
