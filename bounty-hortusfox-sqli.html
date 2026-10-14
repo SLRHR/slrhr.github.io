@@ -3,11 +3,14 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="icon" href="favicon.ico?v=20261014-small-head" sizes="16x16 32x32 48x48">
+  <link rel="icon" href="favicon.svg?v=20261014-small-head" type="image/svg+xml" sizes="any">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png?v=20261014-small-head">
   <meta name="description" content="HortusFox identifier-position SQL Injection 분석 기록">
   <title>HortusFox Identifier SQL Injection — SLHR</title>
   <link rel="stylesheet" href="styles.css">
 </head>
-<body class="blog-page">
+<body class="blog-page bounty-note">
 <header class="site-header">
   <div class="wrap header-row">
     <a class="brand" href="index.html">SLHR/<b>ARCHIVE</b></a>
@@ -22,8 +25,8 @@
   <article class="blog-article">
     <header class="blog-heading">
       <div class="blog-label">BUG BOUNTY · 2026.10.03</div>
-      <h1>HortusFox SQL Injection 분석</h1>
-      <p>관리자 환경설정 API의 요청값이 SQL 컬럼 이름으로 사용되는 문제를 분석한 기록입니다.</p>
+      <h1>HortusFox 설정값에서 찾은 SQL Injection</h1>
+      <p>관리자 설정을 켜고 끄는 요청을 따라가다가, 요청값이 쿼리의 컬럼 이름으로 넘어가는 것을 확인했습니다. 어디서 입력되고 어떤 결과로 이어졌는지 정리했습니다.</p>
     </header>
 
     <dl class="blog-properties">
@@ -31,18 +34,18 @@
       <div><dt>심각도</dt><dd><span class="blog-high">High</span> · CVSS 8.1</dd></div>
       <div><dt>취약점</dt><dd>Identifier-position SQL Injection</dd></div>
       <div><dt>분류</dt><dd>CWE-89 · SQL Injection</dd></div>
-      <div><dt>상태</dt><dd>GitHub Advisory 공개 · CVE 발급 진행 중</dd></div>
+      <div><dt>상태</dt><dd>GitHub Advisory 공개 · CVE 발급 중</dd></div>
       <div><dt>Reporter</dt><dd>SLRHR</dd></div>
     </dl>
 
     <section class="blog-section">
-      <h2>확인한 내용</h2>
-      <p>관리자 환경설정 라우트를 확인하면서 <code>name</code> 파라미터가 어디까지 전달되는지 추적했습니다. 이 값은 설정 이름으로 사용된 뒤 <code>AppModel::updateSingle()</code>의 첫 번째 인자로 들어갑니다.</p>
-      <p>문제는 값이 들어가는 자리가 아니라 컬럼 이름 자리였습니다. 쿼리의 값은 PDO 파라미터로 바인딩되어 있었지만 컬럼 이름은 문자열로 연결되고 있었습니다.</p>
+      <h2>설정 이름을 따라가 보니</h2>
+      <p>관리자 화면에는 불리언 설정을 바꾸는 기능이 있습니다. 요청을 받는 라우트부터 컨트롤러, 모델까지 <code>name</code>이 어디로 가는지 차례대로 봤습니다. 라우트는 <code>/admin/environment/boolean/toggle</code>이고, 컨트롤러는 쿼리 문자열의 <code>name</code>을 읽어 <code>AppModel::updateSingle()</code>에 넘깁니다.</p>
+      <p>여기서 <code>name</code>은 설정의 값이 아니라 ‘어떤 설정을 바꿀지’ 지정하는 이름입니다. 일반적으로는 서버가 허용한 몇 개의 설정명 중 하나여야 합니다. 그런데 이 경로에서는 그 목록과 대조하지 않았습니다.</p>
     </section>
 
     <section class="blog-section">
-      <h2>요청값이 들어오는 부분</h2>
+      <h2>입력되는 자리</h2>
       <div class="blog-code">
         <div class="blog-code-head">app/controller/admin.php</div>
         <pre><code>public function toggle_boolean_value($request)
@@ -54,11 +57,11 @@
     AppModel::updateSingle($name, $value);
 }</code></pre>
       </div>
-      <p><code>name</code>은 요청 쿼리에서 가져온 값입니다. 이 함수 안에는 허용된 설정 이름인지 확인하는 코드가 없고 그대로 모델 함수에 전달됩니다.</p>
+      <p>실제 파일은 <code>app/controller/admin.php</code>입니다. 위 코드는 관련 줄만 추려 놓은 것입니다. <code>name</code>으로 현재 설정을 읽어 값을 뒤집는 동작 자체는 단순하지만, 그 이름을 다시 SQL에 넣는 다음 단계가 중요했습니다.</p>
     </section>
 
     <section class="blog-section">
-      <h2>SQL이 만들어지는 부분</h2>
+      <h2>값은 묶었지만, 컬럼명은 그대로였다</h2>
       <div class="blog-code">
         <div class="blog-code-head">app/models/AppModel.php</div>
         <pre><code>public static function updateSingle($name, $value)
@@ -69,12 +72,12 @@
     );
 }</code></pre>
       </div>
-      <p><code>$value</code>는 <code>?</code>에 바인딩되므로 이 부분은 직접 조작할 수 없습니다. 반면 <code>$name</code>은 SQL 문자열에 그대로 붙습니다. 식별자에 사용할 수 있는 이름을 서버에서 고정하지 않았기 때문에 SQL 표현식과 조건절이 들어갈 수 있습니다.</p>
-      <aside class="blog-callout"><strong>핵심</strong><span>값 바인딩만으로는 컬럼명처럼 SQL 구조를 만드는 부분을 보호할 수 없습니다. 이런 값은 허용 목록으로 제한해야 합니다.</span></aside>
+      <p><code>app/models/AppModel.php</code>의 <code>updateSingle()</code>을 보니 차이가 분명했습니다. 바꿀 값인 <code>$value</code>는 <code>?</code>에 바인딩됩니다. 반면 <code>$name</code>은 <code>SET</code> 뒤에 문자열로 붙습니다. 파라미터 바인딩은 데이터 값에는 적용되지만 SQL 식별자, 즉 컬럼 이름을 안전하게 고르는 일까지 해 주지는 않습니다.</p>
+      <p>허용 목록이 없으니 요청한 이름이 단순 컬럼명인지, SQL 구조를 바꾸는 표현식인지 모델에서 구별하지 못합니다. 이 부분을 보고 같은 함수를 호출하는 다른 곳도 검색했습니다. 다른 호출은 고정된 이름을 넘겼고, 요청값을 직접 넘기는 경로는 이 관리자 설정 기능이었습니다.</p>
     </section>
 
     <section class="blog-section">
-      <h2>라우트 확인</h2>
+      <h2>GET 요청도 받아들이는 라우트</h2>
       <div class="blog-code">
         <div class="blog-code-head">app/config/routes.php</div>
         <pre><code>array(
@@ -83,27 +86,30 @@
     'admin@toggle_boolean_value'
 ),</code></pre>
       </div>
-      <p>해당 기능은 <code>ANY</code>로 등록되어 GET 요청으로도 실행할 수 있었습니다. 별도로 확인한 CSRF 검증 누락과 연결하면 로그인한 관리자가 링크를 여는 동작만으로 요청이 전달될 수 있습니다.</p>
+      <p><code>app/config/routes.php</code>에는 메서드가 <code>ANY</code>로 등록돼 있었습니다. 따라서 설정 변경이 GET으로도 실행됩니다. 관리자 로그인은 필요하지만, 별도로 찾은 CSRF 검증 누락과 함께 보면 관리자가 외부 링크를 여는 상황에서 요청이 전달될 수 있었습니다. SQL Injection과 CSRF는 원인이 달라 각각 보고했습니다.</p>
     </section>
 
     <section class="blog-section">
-      <h2>어떻게 확인했는지</h2>
-      <ol class="blog-steps">
-        <li><b>입력 추적</b><span><code>name</code> 파라미터가 컨트롤러에서 모델까지 전달되는 흐름을 확인했습니다.</span></li>
-        <li><b>호출 지점 검색</b><span><code>updateSingle</code>과 유사 함수를 전부 검색했습니다. 다른 호출부는 고정된 컬럼명을 사용했고, 요청값을 넘기는 곳은 이 경로였습니다.</span></li>
-        <li><b>로컬 검증</b><span>Docker 테스트 환경에서 SQL 표현식 평가, 조건절 제어, 다른 테이블 값 조회를 각각 나눠 확인했습니다.</span></li>
-        <li><b>영향 확인</b><span>프록시 인증 관련 설정이 변경될 경우 관리자 비밀번호 없이 접근 가능한 상태까지 이어지는 것을 별도 브라우저 세션에서 확인했습니다.</span></li>
-      </ol>
-      <p class="blog-small">재현용 전체 페이로드는 이 페이지에 싣지 않았습니다. 공개 Advisory에서 원인, 검증 결과와 영향 범위를 확인할 수 있습니다.</p>
+      <h2>로컬에서 확인한 순서</h2>
+      <p>Docker로 분리한 테스트 환경에서 한 번에 큰 결과를 보려 하지 않고 동작을 나눠 확인했습니다. 먼저 컬럼명 자리에 넣은 SQL 표현식이 평가되는지, 그다음 조건절을 바꿀 수 있는지, 이어서 다른 테이블을 읽는 서브쿼리가 동작하는지 확인했습니다. 관리자 비밀번호 해시를 읽어 설정 테이블의 <code>workspace</code>에 기록하고 페이지에서 반영되는 것도 확인했습니다.</p>
+      <p>해시를 읽었다고 곧바로 해시로 로그인할 수 있다는 뜻은 아닙니다. 더 중요한 영향은 프록시 인증 설정을 바꿀 수 있다는 점이었습니다. 관련 값을 변경한 뒤 관리자 쿠키가 없는 별도 브라우저 세션에서, 선택한 프록시 헤더만으로 관리자 접근이 가능한 상태를 확인했습니다. 이는 로컬 검증 결과이며 모든 배포 환경에서 프록시 설정이 똑같다는 주장은 아닙니다.</p>
+      <div class="blog-code">
+        <div class="blog-code-head">검증을 분리한 이유 · 결과 요약</div>
+        <pre><code>요청의 name → SQL 표현식 평가 확인
+             → WHERE 조건 제어 확인
+             → 다른 테이블 값 조회 확인
+             → 프록시 인증 설정 변경 후 별도 세션 확인</code></pre>
+      </div>
+      <p class="blog-small">공격용 전체 입력 문자열은 이 기록에 싣지 않았습니다. 공개 Advisory에 검증 범위와 영향이 더 자세히 적혀 있습니다.</p>
     </section>
 
     <section class="blog-section">
-      <h2>영향</h2>
-      <p>설정 테이블의 임의 값 수정과 서브쿼리를 통한 데이터 조회가 가능합니다. 프록시 인증 설정을 함께 변경하면 비밀번호 없는 관리자 접근으로 이어질 수 있어 High, CVSS 8.1로 공개됐습니다.</p>
+      <h2>남겨 둔 결론</h2>
+      <p>문제의 시작은 <code>$value</code>를 안전하게 바인딩했는지가 아니라 <code>$name</code>을 누가 정하는가였습니다. 요청자가 SQL 구조에 들어가는 이름을 고를 수 있어 설정값 수정과 다른 데이터 조회로 이어졌고, 로컬에서는 프록시 인증 설정을 통한 비밀번호 없는 관리자 접근까지 확인했습니다. 공개 Advisory의 심각도는 High, CVSS 8.1입니다.</p>
     </section>
 
     <section class="blog-section">
-      <h2>수정 방향</h2>
+      <h2>고친다면</h2>
       <div class="blog-code">
         <div class="blog-code-head">허용 목록을 사용하는 형태</div>
         <pre><code>$allowed = [
@@ -116,7 +122,7 @@ if (!in_array($name, $allowed, true)) {
     throw new InvalidArgumentException('Invalid setting');
 }</code></pre>
       </div>
-      <p>컬럼 이름은 파라미터 바인딩으로 처리할 수 없으므로, 클라이언트가 보낸 문자열을 그대로 사용하지 않고 서버에 정의한 허용 목록과 매핑해야 합니다. 상태 변경 라우트는 POST로 제한하고 CSRF 검사도 함께 적용해야 합니다.</p>
+      <p>클라이언트가 보낸 문자열을 그대로 컬럼 이름으로 쓰지 않고, 서버에서 정해 둔 설정 키에만 매핑해야 합니다. 위 코드는 방향을 설명하는 예시이며 실제 허용 설정명 전체를 뜻하지 않습니다. 상태 변경을 GET에서 빼고 서버 측 CSRF 검사도 적용해야 이 경로의 전달 방식까지 막을 수 있습니다.</p>
     </section>
 
     <div class="blog-links">
