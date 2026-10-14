@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="icon" href="favicon.ico?v=20261014-small-head" sizes="16x16 32x32 48x48">
+  <link rel="icon" href="favicon.svg?v=20261014-small-head" type="image/svg+xml" sizes="any">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png?v=20261014-small-head">
+  <meta name="description" content="Tari Ootle 공개 유동성 풀의 LP 토큰 발행 권한 문제를 찾고 로컬에서 검증한 기록">
+  <title>Tari Ootle 유동성 풀 LP 토큰 권한 — SLHR</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="blog-page bounty-note">
+<header class="site-header">
+  <div class="wrap header-row">
+    <a class="brand" href="index.html">SLHR/<b>ARCHIVE</b></a>
+    <nav class="nav" aria-label="문서 이동"><a href="index.html#ctf">Web3 Security</a></nav>
+    <div class="header-meta">GHSA-Q7QG-FGQP-P96V</div>
+  </div>
+</header>
+
+<main class="blog-shell">
+  <a class="blog-back" href="index.html#ctf">← Web3 Security</a>
+  <article class="blog-article">
+    <header class="blog-heading">
+      <div class="blog-label">WEB3 SECURITY · TARI OOTLE · 2026.10.05</div>
+      <h1>Tari 공개 풀의 LP 토큰 발행 권한</h1>
+      <p>풀에 자산을 넣은 사람에게만 생겨야 할 LP 토큰을, 다른 템플릿에서도 발행할 수 있었습니다. 공개 사용 권한과 토큰 발행 권한이 한 규칙으로 묶인 부분을 따라간 기록입니다.</p>
+    </header>
+
+    <dl class="blog-properties">
+      <div><dt>대상</dt><dd>Tari Ootle · tari_template_builtin 0.42.0</dd></div>
+      <div><dt>분야</dt><dd>Web3 · DeFi 유동성 풀</dd></div>
+      <div><dt>심각도</dt><dd><span class="blog-high">High</span> · CVSS v4 8.7</dd></div>
+      <div><dt>분류</dt><dd>잘못된 권한 부여 · CWE-284 / CWE-863</dd></div>
+      <div><dt>상태</dt><dd>GitHub Advisory 공개 · CVE 발급 중 (번호 미정)</dd></div>
+      <div><dt>검증 기준</dt><dd>고정 커밋 392d805 · 로컬 테스트</dd></div>
+      <div><dt>Reporter</dt><dd>SLRHR</dd></div>
+    </dl>
+
+    <section class="blog-section">
+      <h2>LP 토큰은 풀의 영수증이다</h2>
+      <p>유동성 풀에 두 종류의 자산을 넣으면, 기여한 몫을 나타내는 LP 토큰을 받습니다. 나중에 이 토큰을 돌려주면 풀에 남아 있는 자산을 비율에 맞게 받을 수 있습니다. 그래서 LP 토큰은 단순한 표시가 아니라 준비금을 청구할 수 있는 영수증에 가깝습니다.</p>
+      <p>Tari Ootle의 기본 제공 <code>TwoResourceLiquidityPool</code> 코드를 보면서 먼저 이 순서를 확인했습니다. <code>contribute</code>가 자산을 받은 뒤 LP 토큰을 만들고, <code>redeem</code>이 LP 토큰을 받아 준비금을 내줍니다. 그다음 ‘LP 토큰 자체는 누가 만들 수 있나’를 봤습니다. 문제는 바로 풀 생성 시 권한을 설정하는 곳에 있었습니다.</p>
+    </section>
+
+    <section class="blog-section">
+      <h2>같은 규칙을 두 곳에 썼다</h2>
+      <p><code>crates/template_builtin/templates/liquidity_pool/src/lib.rs</code>의 <code>TwoResourceLiquidityPool::create</code>는 풀을 만든 사람이 <code>contribute_and_redeem_rule</code>을 정하게 합니다. 공개 풀이라면 누구나 기여하고 환급할 수 있도록 <code>AccessRule::AllowAll</code>을 선택할 수 있습니다. 여기까지는 풀 사용 방법에 관한 선택입니다.</p>
+      <p>그런데 같은 규칙이 LP 리소스의 발행과 소각 권한에도 들어갑니다. <code>LOCKED</code>는 규칙을 나중에 바꾸지 못하게 고정한다는 뜻이지, 규칙을 더 엄격하게 만든다는 뜻은 아닙니다. 공개 풀을 선택하면 LP 토큰의 발행 규칙도 <code>AllowAll</code>로 고정됩니다.</p>
+      <div class="blog-code">
+        <div class="blog-code-head">liquidity_pool/src/lib.rs · 권한이 이어지는 부분</div>
+        <pre><code>ResourceAccessRules::new()
+    .mintable(contribute_and_redeem_rule.clone(), LOCKED)
+    .burnable(contribute_and_redeem_rule.clone(), LOCKED)</code></pre>
+      </div>
+      <p>풀의 공개 메서드를 호출할 권한과 풀의 영수증을 새로 찍을 권한은 달라야 합니다. 코드를 읽으며 두 권한이 동일한 입력으로 연결된 것을 확인했고, 이때부터 실제로 풀이 아닌 곳에서 LP 토큰을 만들 수 있는지 살폈습니다.</p>
+    </section>
+
+    <section class="blog-section">
+      <h2>풀을 거치지 않고 발행하면</h2>
+      <p>다른 WASM 템플릿에서 공개된 <code>ResourceManager</code> API로 해당 LP 리소스를 가져와 <code>mint_fungible</code>을 호출할 수 있습니다. 엔진은 평소처럼 <code>ResourceAction::Mint</code> 권한을 검사합니다. 하지만 공개 풀에서 그 규칙이 <code>AllowAll</code>이므로 요청을 허용합니다. 풀에 준비금을 넣지 않았는데도 진짜 LP 토큰이 생기는 것입니다.</p>
+      <div class="blog-code">
+        <div class="blog-code-head">핵심 호출 · 나머지 트랜잭션 코드는 생략</div>
+        <pre><code>ResourceManager::get(lp_resource)
+    .mint_fungible(amount)
+
+// 준비금 기여 없이 만든 LP 토큰도
+// 풀의 정상 redeem 메서드에서 받아들여짐</code></pre>
+      </div>
+      <p>이 토큰은 가짜 이름을 붙인 별도 자산이 아닙니다. 대상 풀의 실제 LP 리소스에서 발행된 토큰입니다. 따라서 정상 <code>redeem</code> 메서드는 기여로 얻은 토큰과 직접 발행한 토큰을 구별하지 못하고, 토큰에 해당하는 준비금을 내줍니다. 공격자가 풀 소유자의 서명이나 검증자 권한을 얻어야 하는 경로는 아니었습니다.</p>
+    </section>
+
+    <section class="blog-section">
+      <h2>로컬 테스트에서 본 수치</h2>
+      <p>고정 커밋 <code>392d805</code>의 새 일회용 체크아웃에서, 준비금이 채워진 공개 풀을 만들고 공격자 서명으로 트랜잭션을 실행했습니다. LP 토큰 직접 발행부터 정상 환급, 공격자 계정 입금까지 로컬 엔진 경로에서 확인했습니다. 세 번의 독립된 시험에서 같은 결과가 나왔습니다.</p>
+      <div class="blog-code">
+        <div class="blog-code-head">로컬 fixture · 세 번 모두 같은 결과</div>
+        <pre><code>풀 TARI 준비금       1,000,000 → 1,413
+풀에서 줄어든 양        998,587
+공격자 순증가           994,638
+실행 수수료               3,949</code></pre>
+      </div>
+      <p>이 숫자는 로컬 테스트 fixture의 단위입니다. 실제 네트워크에서 그만큼의 자산이 빠져나갔다는 뜻이 아닙니다. 수수료를 포함하면 풀에서 줄어든 998,587과 공격자의 순증가 994,638, 수수료 3,949가 맞아떨어집니다.</p>
+    </section>
+
+    <section class="blog-section">
+      <h2>권한 하나만 바꿔 다시 실행했다</h2>
+      <p>원인이 정말 LP 발행 권한인지 보려고 대조 실험도 했습니다. 공개 <code>contribute</code>/<code>redeem</code> 규칙은 그대로 두고 LP 리소스의 mint/burn 권한만 풀 컴포넌트로 제한했습니다. 풀 생성과 정상 기여는 그대로 성공했지만, 앞서 통했던 직접 발행 트랜잭션은 세 번 모두 <code>native.resource.Mint</code>에서 거절됐고 준비금은 1,000,000으로 유지됐습니다.</p>
+      <div class="blog-code">
+        <div class="blog-code-head">원인 확인용 대조 조건 · 완성된 패치 제안은 아님</div>
+        <pre><code>LP mint/burn: rule!(component(pool_addr))
+공개 contribute/redeem 규칙: 변경 없음
+
+결과: Access Denied: native.resource.Mint (3/3)</code></pre>
+      </div>
+      <p>별도의 로컬 테스트에서는 공격자 서명으로 보조 WASM 템플릿을 게시할 수 있는 것도 확인했습니다. 다만 위의 주 테스트는 테스트 환경에 미리 로드한 템플릿 주소를 호출했습니다. 게시된 주소를 실행 중인 검증자에 보내는 전체 절차나 메인넷·공개 테스트넷 공격을 수행한 것은 아닙니다. 공개 Advisory에도 이 경계를 구분해 적었습니다.</p>
+    </section>
+
+    <section class="blog-section">
+      <h2>남겨 둔 결론</h2>
+      <p>이 문제는 공개 풀이 위험하다는 얘기가 아닙니다. 풀을 누구나 사용하게 할 수 있어도, 그 풀의 준비금을 청구하는 LP 토큰은 풀의 정상 기여 절차에서만 발행돼야 합니다. 두 권한을 한 규칙으로 묶으면서 그 경계가 사라졌습니다.</p>
+      <p>영향 범위는 공개 기여·환급 규칙을 선택한, 준비금이 있는 <code>TwoResourceLiquidityPool</code>입니다. 모든 풀 설정이 영향을 받는다거나 실제 체인에서 피해가 발생했다고 주장하지 않습니다. 보고서는 High, CVSS v4 8.7로 공개됐고 CVE 번호는 발급을 기다리고 있습니다.</p>
+    </section>
+
+    <div class="blog-links">
+      <a href="https://github.com/tari-project/tari-ootle/security/advisories/GHSA-q7qg-fgqp-p96v#event-1121604" target="_blank" rel="noopener noreferrer">GitHub Advisory 열기 ↗</a>
+      <a href="index.html#ctf">← Web3 목록으로</a>
+    </div>
+  </article>
+</main>
+
+<footer class="footer simple-project-footer"><div class="wrap"><div class="footer-links"><a href="index.html#ctf">← Web3 목록으로</a></div></div></footer>
+</body>
+</html>
